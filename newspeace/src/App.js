@@ -6,6 +6,7 @@ import React from "react";
 import Header from './components/header.js';
 import Home from './components/home.js' ;
 import Login from './components/login.js';
+import Footer from './components/footer.js';
 import styled from "styled-components"; //npm i styled-components
 
 const AllWrapper = styled.div`
@@ -33,7 +34,7 @@ function App() {
         </Router>
           
       </ContentWrapper>
-      {/* <Footer /> */}
+      <Footer />
     </AllWrapper>
   );
 }
