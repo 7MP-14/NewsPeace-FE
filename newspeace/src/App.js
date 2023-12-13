@@ -1,24 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom"; //npm install react-router-dom --save
+import React from "react";
+import Header from './components/header.js';
+import Home from './components/home.js' ;
+import Login from './components/login.js';
+import styled from "styled-components"; //npm i styled-components
 
+const AllWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const ContentWrapper = styled.div`
+  flex: 1;
+`;
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AllWrapper>
+      <ContentWrapper>
+        <Header/>
+        <Router>
+          <Routes>
+              <Route exact path="/" element={<Home/>} />
+              <Route exact path="/login" element={<Login/>} />
+
+
+          </Routes>
+        </Router>
+          
+      </ContentWrapper>
+      {/* <Footer /> */}
+    </AllWrapper>
   );
 }
 
