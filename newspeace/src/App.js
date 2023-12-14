@@ -8,6 +8,8 @@ import Home from './components/home.js' ;
 import Login from './components/login.js';
 import Footer from './components/footer.js';
 import Signup from './components/signup.js';
+import Result from './components/result.js';
+
 
 import styled from "styled-components"; //npm i styled-components
 
@@ -31,6 +33,7 @@ function App() {
               <Route exact path="/" element={<Home/>} />
               <Route exact path="/login" element={<Login/>} />
               <Route exact path="/signup" element={<Signup/>} />
+              <Route exact path="/result" element={<Result/>} />
 
 
           </Routes>
