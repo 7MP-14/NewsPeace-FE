@@ -7,10 +7,14 @@ import Header from './components/header.js';
 import Home from './components/home.js' ;
 import Login from './components/login.js';
 import Footer from './components/footer.js';
+<<<<<<< HEAD
+import Result from './components/result.js';
+=======
 import Signup from './components/signup.js';
 import Result from './components/result.js';
 
 
+>>>>>>> 277b976979dee9dc7a8e5806488d22738b8d98ad
 import styled from "styled-components"; //npm i styled-components
 
 const AllWrapper = styled.div`
@@ -32,8 +36,10 @@ function App() {
           <Routes>
               <Route exact path="/" element={<Home/>} />
               <Route exact path="/login" element={<Login/>} />
-              <Route exact path="/signup" element={<Signup/>} />
+<<<<<<< HEAD
               <Route exact path="/result" element={<Result/>} />
+=======
+              <Route exact path="/signup" element={<Signup/>} />
 
 
           </Routes>
