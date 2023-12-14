@@ -28,7 +28,7 @@ export default function Header(props) {
     // Navigation
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
-            <a class="navbar-brand" href="#!"> NewsPeace</a>
+            <a class="navbar-brand" href="/"> NewsPeace</a>
             <span className="menu">
               <a class="btn btn-primary" href="/signup">Sign Up</a>
               <a class="btn btn-primary" href="/login">LogIn</a>
