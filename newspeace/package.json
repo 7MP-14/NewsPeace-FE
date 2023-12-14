@@ -14,10 +14,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
     "react-scripts": "^5.0.1",
-<<<<<<< HEAD
-    "sass": "^1.69.5",
-=======
->>>>>>> 277b976979dee9dc7a8e5806488d22738b8d98ad
     "styled-components": "^6.1.1",
     "web-vitals": "^2.1.4"
   },
