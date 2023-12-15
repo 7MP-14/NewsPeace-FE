@@ -32,6 +32,7 @@ export default function Header(props) {
             <span className="menu">
               <a class="btn btn-primary" href="/signup">Sign Up</a>
               <a class="btn btn-primary" href="/login">LogIn</a>
+              <a class="btn btn-primary" href="/mypage">My Page</a>
             </span>
             
         </div>
