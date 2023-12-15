@@ -10946,7 +10946,7 @@ footer.footer {
   color: #000;
   border: none;
   border-radius: 10px;
-  padding: 3px 16px;
+  padding: 3px 10px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
