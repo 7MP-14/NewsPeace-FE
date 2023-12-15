@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {React, useState} from "react";
 import '../css/signup.css';
 import backimg from "../img/bg-masthead.jpg";
+import backgroundColor from'../img/z.png';
+import logo from'../img/logo.png';
 
 export default function Signin(props) {
 
@@ -40,9 +42,13 @@ export default function Signin(props) {
             <div class="signin_container__overlay">
                 <div class="overlay">
                 <div class="overlay__panel overlay--left">
+                    <img src={logo}></img>
+
                     {/* <button class="signin_btn" id="signIn" >Sign In</button> */}
                 </div>
                 <div class="overlay__panel overlay--right">
+                    <img src={logo}></img>
+
                      {/* <button class="signin_btn" id="signUp">Sign Up</button> */}
                 </div>
                 </div>

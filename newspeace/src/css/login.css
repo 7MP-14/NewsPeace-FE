@@ -109,7 +109,8 @@
   
   .overlay {
     background-color: var(--lightblue);
-    background: url("../img/bg-masthead.jpg");
+    /* background: url("../img/bg-masthead.jpg"); */
+    background: url("../img/z.png");
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
