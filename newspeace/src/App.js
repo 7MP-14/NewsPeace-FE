@@ -9,6 +9,8 @@ import Login from './components/login.js';
 import Footer from './components/footer.js';
 import Signup from './components/signup.js';
 import Mypage from './components/mypage.js';
+import Result from './components/result.js';
+
 import styled from "styled-components"; //npm i styled-components
 
 const AllWrapper = styled.div`

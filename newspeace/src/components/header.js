@@ -28,11 +28,11 @@ export default function Header(props) {
     // Navigation
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
-            <a class="navbar-brand" href="/"> NewsPeace</a>
+            <a class="navbar-brand" href="/"> <strong>NewsPeace</strong></a>
             <span className="menu">
-              <a class="btn btn-primary" href="/signup">Sign Up</a>
-              <a class="btn btn-primary" href="/login">LogIn</a>
-              <a class="btn btn-primary" href="/mypage">My Page</a>
+              <a class="btn btn-primary" href="/signup">회원가입</a>
+              <a class="btn btn-primary" href="/login">로그인</a>
+              <a class="btn btn-primary" href="/mypage">마이페이지</a>
             </span>
             
         </div>
