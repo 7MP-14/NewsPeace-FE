@@ -1,9 +1,10 @@
 /* result.css */
 
 .result_container {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
     border-radius: 8px; /* 모서리 둥글게 */
     padding: 20px; /* 내부 패딩 */
+    margin-top: 30px;
+    width: 85%;
 }
 
 .text-center {
@@ -11,7 +12,8 @@
 }
 
 .text-2xl {
-    font-size: 1.5rem; /* 큰 텍스트 사이즈 */
+    font-size: 4rem; /* 큰 텍스트 사이즈 */
+    padding: 30px;
 }
 
 .font-bold {
@@ -43,22 +45,7 @@
     width: 70%; /* 부정 바의 너비 */
     animation: 2s ease-out 0s 1 slideInFromRight; /* 애니메이션 적용 */
 }
-.article-list {
-    overflow-y: auto; /* 세로 스크롤 */
-    max-height: 150px; /* 리스트 최대 높이 설정 */
-    padding-right: 10px; /* 스크롤바와의 간격 */
-}
 
-.article-link {
-    display: block; /* 링크를 블록 요소로 설정 */
-    color: #007bff; /* 링크 색상 */
-    margin-bottom: 0.5rem; /* 링크 간 여백 */
-    text-decoration: none; /* 밑줄 제거 */
-}
-
-.article-link:hover {
-    text-decoration: underline; /* 마우스 오버 시 밑줄 표시 */
-}
 @keyframes slideInFromLeft {
     from {
         transform: translateX(-100%);
@@ -81,23 +68,64 @@
     display: flex; /* 리스트 컨테이너를 flex로 설정 */
     width: 100%; /* 전체 너비 */
     gap: 10px; /* 각 리스트 박스 사이의 간격 */
-    margin-top: 20px; /* 상단 여백 */
+    margin-top: 40px; /* 상단 여백 */
 }
 
-.list-box {
-    border: 1px solid #7f8c8d; /* 테두리 */
+.list-box, .list-box_ng {
     border-radius: 0.5rem; /* 모서리 둥글게 */
     padding: 1rem; /* 내부 패딩 */
     display: flex; /* flex 레이아웃 */
     flex-direction: column; /* 세로 정렬 */
+    height: 600px;
 }
 
 .list-title {
-    font-size: 1.25rem; /* 제목 크기 */
-    margin-bottom: 1rem; /* 제목과 리스트 사이의 여백 */
+    text-align: center;
+    font-size: 2rem; /* 제목 크기 */
+    margin-bottom: 3rem; /* 제목과 리스트 사이의 여백 */
 }
 
 .list-disc {
     list-style-type: none; /* 리스트 앞의 점 제거 */
     padding-left: 0; /* 기본 패딩 제거 */
+}
+
+.article-list {
+    overflow-y: auto; /* 세로 스크롤 */
+    max-height: 600px; /* 리스트 최대 높이 설정 */
+    padding-right: 10px; /* 스크롤바와의 간격 */
+}
+
+.article-link {
+    display: block; /* 링크를 블록 요소로 설정 */
+    /* color: #007bff; 링크 색상 */
+    color: black;
+    margin-bottom: 1rem; /* 링크 간 여백 */
+    text-decoration: none; /* 밑줄 제거 */
+    border-bottom: 1px solid #e1e1e1; /* 하단 경계선 추가 */
+    border-bottom-style:groove;
+    padding-bottom: 1rem; /* 경계선과 텍스트 사이 여백 */
+    width:100%;
+}
+
+.article-link:hover {
+    text-decoration: underline; /* 마우스 오버 시 밑줄 표시 */
+}
+
+.article-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.scrap-button {
+    background-color: transparent; /* 버튼 배경색 */
+    margin-top: -35px;
+    border: none;
+    cursor: pointer; /* 마우스 포인터 */
+    padding: 5px 10px;
+}
+
+.scrap-button:hover {
+    background-color: transparent; /* 호버 시 배경색 변경 */
 }

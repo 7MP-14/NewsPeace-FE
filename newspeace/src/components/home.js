@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import icon1 from '../img/흰돋보기.png';
 import icon2 from '../img/의사결정.png';
 import icon3 from '../img/효율성.png';
-import icon4 from '../img/전략.png';
+import icon4 from '../img/전략2.png';
 import icon5 from '../img/정장.jpg';
 import icon6 from '../img/의사소통.jpg';
 import icon7 from '../img/업무.jpg';
@@ -28,9 +28,11 @@ const Home=()=>{
                                             <button>정치</button>
                                             <button>경제</button>
                                             <button>사회</button>
-                                            <button>생활/문화</button>
-                                            <button>IT/과학</button>
-                                            <button>세계</button>
+                                            <button>문화</button>
+                                            <button>국제</button>
+                                            <button>IT</button>
+                                            <button>연예</button>
+                                            <button>스포츠</button>
                                         </div>
                                         <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:required">Email Address is required.</div>
                                         <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:email">Email Address Email is not valid.</div>
