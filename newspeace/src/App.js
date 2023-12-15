@@ -10,7 +10,7 @@ import Footer from './components/footer.js';
 import Signup from './components/signup.js';
 import Mypage from './components/mypage.js';
 import Result from './components/result.js';
-
+import Notice from './components/notice.js';
 import styled from "styled-components"; //npm i styled-components
 
 const AllWrapper = styled.div`
@@ -35,6 +35,7 @@ function App() {
               <Route exact path="/result" element={<Result/>} />
               <Route exact path="/signup" element={<Signup/>} />
               <Route exact path="/mypage" element={<Mypage/>} />
+              <Route exact path="/notice" element={<Notice/>} />
 
           </Routes>
         </Router>
