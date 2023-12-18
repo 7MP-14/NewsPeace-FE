@@ -30,10 +30,24 @@ export default function Header(props) {
         <div class="container">
             <a class="navbar-brand" href="/"> <strong>NewsPeace</strong></a>
             <span className="menu">
-              <a class="btn btn-primary" href="/signup">회원가입</a>
-              <a class="btn btn-primary" href="/login">로그인</a>
+            {
+            props.login
+            ?
+            (
+              <span>
               <a class="btn btn-primary" href="/mypage">마이페이지</a>
-              <a class="btn btn-primary" href="/notice">공지사항</a>
+              <a class="btn btn-primary" href="/logout">로그아웃</a>
+              </span>
+            )
+            :
+            (
+              <span>
+                <a class="btn btn-primary" href="/signup">회원가입</a>
+                <a class="btn btn-primary" href="/login">로그인</a>
+                <a class="btn btn-primary" href="/notice">공지사항</a>
+              </span>
+            )
+            }
             </span>
             
         </div>

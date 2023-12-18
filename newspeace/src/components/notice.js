@@ -15,7 +15,22 @@ export default function Notice() {
     
     ■ 업데이트 일정: 2023년 12월 15일(목) 오전 중
     
-    작업 시간 중에도 네이버웍스 서비스를 이용할 수 있으나 서비스 접속이 일시적으로 불안정할 수 있으며, 앱 노출 시간은 앱 스토어 사정에 따라 상이할 수 있습니다.
+    작업 시간 중에도 네이버웍스 서비스를 이용할 수 있으나 서비스 접속이 일시적으로 불안정할 수 있으며, 앱 노출 시간은 앱 스토어 사정에 따라 상이할 수 있습니다.    
+    
+    
+    ■ 배포 대상
+    
+    ① NAVER WORKS
+    Windows 버전/macOS 버전/Android/iOS 버전
+    
+     
+    
+    ■ 배포 대상
+    
+    ① NAVER WORKS
+    Windows 버전/macOS 버전/Android/iOS 버전
+    
+     
     
      
     
@@ -43,7 +58,7 @@ export default function Notice() {
       {/* 페이지 타이틀 */}
       <div className="page-title">
         <div className="notice_container">
-          <h3>공지사항</h3>
+          <h3><strong>공지사항</strong></h3>
         </div>
       </div>
 
