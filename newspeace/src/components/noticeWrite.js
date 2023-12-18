@@ -31,24 +31,27 @@ export default function CreateNotice() {
     <div className="create-notice">
       <h3>공지사항 작성</h3>
       <form>
-        <div>
-          <label htmlFor="title">제목</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+        <div className="td-container">
+            <div>
+            <label htmlFor="title">제목</label>
+            <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+            />
+            </div>
+            <div>
+            <label htmlFor="date">날짜</label>
+            <input
+                type="date" // date picker를 사용하도록 변경
+                id="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+            />
+            </div>
         </div>
-        <div>
-          <label htmlFor="date">날짜</label>
-          <input
-            type="text" // 형식에 맞게 변경하거나 date picker를 사용하세요.
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
+       
         <div>
           <label htmlFor="content">내용</label>
           <textarea
