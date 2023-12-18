@@ -1,0 +1,54 @@
+.create-notice {
+    width: 80%;
+    max-width: 600px;
+    margin: 50px auto;
+  }
+  
+  .create-notice h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .create-notice form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-notice form div {
+    margin-bottom: 20px;
+  }
+  
+  .create-notice form label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  .create-notice form input,
+  .create-notice form textarea {
+    height: 40px;
+    font-size: 14px;
+    padding: 7px 14px;
+    border: 1px solid #ccc;
+  }
+  
+  .create-notice form textarea {
+    resize: vertical; /* 세로 크기 조절 허용 */
+  }
+  
+  .create-notice form button {
+    background-color: #555;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .create-notice form button:hover {
+    background-color: #373737;
+  }
+  
