@@ -13,7 +13,8 @@ import icon7 from '../img/업무.jpg';
 
 const Home=()=>{
     const [checkedItems, setCheckedItems] = useState([]);
-
+    const [keyword, setKeyword] = useState();
+    
     const checkedItemHandler = (category) => {
       // Toggle the selection state for the clicked category
       setCheckedItems((prevSelected) => {
@@ -25,6 +26,12 @@ const Home=()=>{
       });
     };
 
+    const handleKeywordChange = (event) => {
+        // Update the searchWord state when the input value changes
+        setKeyword(event.target.value);
+      };
+
+
   const submit=(code,isChecked)=>{
     fetch('http://ec2-13-124-237-120.ap-northeast-2.compute.amazonaws.com:8000/survey/surveypage/',{
       method:'POST',
@@ -32,7 +39,8 @@ const Home=()=>{
         'Content-Type':'application/json; charset=utf-8'
       },
       body:JSON.stringify({
-        survey:checkedItems
+        survey:checkedItems,
+        keyword:keyword, // Include the searchWord in the request body
       }),
     })
     .then(res=>res.json())
@@ -56,7 +64,7 @@ const Home=()=>{
                             <div className="form-subscribe" id="contactForm" >
                                 <div className="row">
                                     <div className="col">
-                                        <input className="form-control form-control-lg" id="keyword" type="keyword" placeholder="검색어를 입력하세요."  />
+                                        <input className="form-control form-control-lg" id="keyword" type="text" value={keyword} onChange={handleKeywordChange} placeholder="검색어를 입력하세요."  />
                                         <div className='categorybtn'>
                                             <button className={`checkbtn ${checkedItems.includes('정치') ? 'selected' : ''}`} onClick={() => checkedItemHandler('정치')}>정치</button>
                                             <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
@@ -74,15 +82,6 @@ const Home=()=>{
                                     {/* <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit"><img src={icon1} style={{width:'40px', height:'37px'}}></img></button></div> */}
                                     <div className="col-auto"><img src={icon1} style={{width:'40px', height:'37px'}} onClick={submit}></img></div>
                                 </div>
-
-                                <div className="d-none" id="submitSuccessMessage">
-                                    <div className="text-center mb-3">
-                                        <div className="fw-bolder">Form submission successful!</div>
-                                        <p>To activate this form, sign up at</p>
-                                        <a className="text-white" href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                    </div>
-                                </div>
-                                <div className="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
                             </div>
                         </div>
                     </div>

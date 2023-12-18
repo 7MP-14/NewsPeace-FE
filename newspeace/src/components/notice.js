@@ -43,7 +43,7 @@ export default function Notice() {
       {/* 페이지 타이틀 */}
       <div className="page-title">
         <div className="notice_container">
-          <h3>공지사항</h3>
+          <h3><strong>공지사항</strong></h3>
         </div>
       </div>
 
