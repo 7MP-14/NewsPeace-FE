@@ -6,7 +6,10 @@
     border-radius: 8px;
     padding: 20px;
     margin-top: 30px;
+    margin-bottom: 30px;
     width: 85%;
+    background-color: rgb(227, 227, 227);
+    
 }
 
 .text-center {
@@ -15,10 +18,10 @@
 
 .text-2xl {
     /* font-family: 'Gowun Dodum', sans-serif; */
-
-    font-size: 4rem;
-    padding: 30px;
-    text-align: center;
+    font-size: 3rem;
+    padding: 10px;
+    text-align: left;
+    margin-top: 2%;
 }
 /* .Test {
     font-size: 3rem;
@@ -26,10 +29,11 @@
     text-align: left;
 } */
 .Test1 {
-    
-    font-size: 1rem;
+    font-size: 1.3rem;
     text-align: left;
     padding-left: 0px;
+    display: flex; 
+    justify-content: space-between;
 }
 .font-bold {
     font-weight: bold;
@@ -43,14 +47,16 @@
     display: flex;
     max-width: 100%;
     overflow: hidden;
+    font-weight: bold;
+    
 }
 
 .positive-bar,
 .negative-bar {
-    height: 2.7rem;
+    height: 2.5rem;
     border-radius: 0.25rem;
     text-align: center;
-    padding-top: 10px;
+    padding-top: 7px;
 }
 
 .positive-bar {
@@ -88,6 +94,7 @@
     width: 100%;
     gap: 10px;
     margin-top: 40px;
+    
 }
 
 .list-box,
@@ -98,12 +105,20 @@
     display: flex;
     flex-direction: column;
     height: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+}
+
+/*긍,부정도 따라 색 변화 */
+.green-shadow {
+    box-shadow: 0 0 10px rgba(41, 194, 117, 1.0); /* 초록색 그림자 */
+}
+.red-shadow {
+    box-shadow: 0 0 10px rgba(255, 78, 78, 1.0); /* 빨간색 그림자 */
 }
 
 .list-title {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 1.5rem;
 }
 
 .article-list {
@@ -137,6 +152,7 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    margin-bottom: px;
     padding: 5px 10px;
 }
 
