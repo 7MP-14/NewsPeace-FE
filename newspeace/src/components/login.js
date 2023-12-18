@@ -39,6 +39,7 @@ export default function Login(props) {
             return response.json();
             }
             throw new Error("에러 발생!");
+            //로그인 시 백에서 넘겨주는 정보 localstorage에 저장코드 짜기!!
         })
         .catch((error) => {
             alert(error);
