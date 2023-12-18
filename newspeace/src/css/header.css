@@ -2808,7 +2808,7 @@ textarea.form-control-lg {
   /* background-color: #7895CB; */
   background-color: #F8F9FA;
   color:#7895CB;
-  padding:4px 14px;
+  padding:4px 10px;
   font-size: 13px;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -10956,6 +10956,7 @@ footer.footer {
     background-color: rgba(135, 206, 235, 0.9); /* Increase opacity on hover and click */
 }
 
+
 .hottopic {
   display: flex;
   margin-top:50px;
@@ -11035,4 +11036,18 @@ footer.footer {
 .navbar_overlay.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.checkbtn {
+  background-color: rgba(256, 256, 256, 0.7); /* Sky blue color with 0.7 opacity */
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.checkbtn.selected {
+  background-color: rgba(135, 206, 235, 0.9); /* Increase opacity on hover and click */
 }

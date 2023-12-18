@@ -3,6 +3,8 @@ import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
 import icon1 from '../img/z.png';
 import icon2 from '../img/user.png'
+
+
 export default function Mypage(props) {
   // 스크랩된 기사 예시 데이터
   const scrappedArticles = [

@@ -26,7 +26,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     display: grid;
-    height: 100vh;
+    height: 120vh;
     place-items: center;
   }
   
@@ -50,7 +50,7 @@
       0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
     /* height: var(--max-height);
      */
-     height: 600px;
+     height: 700px;
      /* width:800px; */
     max-width: var(--max-width);
     overflow: hidden;
@@ -215,4 +215,20 @@
       opacity: 1;
       z-index: 5;
     }
+  }
+
+  .checkbox-container {
+    display: flex;
+    /* align-items: center; */
+    align-items: flex-start;
+    line-height: 7px;
+  }
+
+  .checkbox-container label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; 
+  }
+  .checkbox-container p {
+    margin-top:15px;
   }
