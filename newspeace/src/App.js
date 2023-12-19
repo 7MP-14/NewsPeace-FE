@@ -12,6 +12,7 @@ import Mypage from './components/mypage.js';
 import Result from './components/result.js';
 import Notice from './components/notice.js';
 import Logout from './components/logout.js';
+import Editpage from './components/editPage.js';
 import styled from "styled-components"; //npm i styled-components
 
 const AllWrapper = styled.div`
@@ -38,6 +39,7 @@ function App() {
               <Route exact path="/mypage" element={<Mypage/>} />
               <Route exact path="/notice" element={<Notice/>} />
               <Route exact path="/logout" element={<Logout/>} />
+              <Route exact path="/editPage" element={<Editpage/>} />
           </Routes>
         </Router>
           
