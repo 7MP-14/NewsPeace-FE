@@ -1,12 +1,44 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
-import icon1 from '../img/z.png';
 import icon2 from '../img/user.png'
 import { Link } from "react-router-dom";
 
 
 export default function Mypage(props) {
+
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [keywords, setKeywords] = useState();
+  const [chkNotify, setChkNotify] = useState();
+  const [scrap, setScrap] = useState();
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile=(code,isChecked)=>{
+    fetch("http://3.38.153.81/api/profile/",{
+      method:'GET',
+      hearders:{
+        'Content-Type':'application/json; charset=utf-8'
+      },
+      body:JSON.stringify({
+        access_token:window.localStorage.getItem('token')
+      }),
+    })
+    .then(res=>res.json())
+    .then(res=>{
+      console.log(res)
+      setName(res.data.user_name);
+      setEmail(res.data.reading_level);
+      setPhoneNumber(res.data.gender)
+      setChkNotify(res.data.reading_num);
+      setKeywords(res.data.need_num);
+    })
+  }
+
   // 스크랩된 기사 예시 데이터
   const scrappedArticles = [
     { id: 1, title: "기사 제목 1", description: "기사 내용 요약 1", image: "image_url_1" },
@@ -21,20 +53,20 @@ export default function Mypage(props) {
                     <div className="profile_info">
                         <img src={icon2} className="profile_photo" alt="Profile"/>
 
-                        <h2 className="profile_name">정솔 님, 안녕하세요!</h2>
+                        <h2 className="profile_name">{name} 님, 안녕하세요!</h2>
                     </div>
                 </div>
                 <div className="userinfo_section">
                     <h3 className="section_title">개인정보</h3>
-                        <p>전화번호 : 010-0000-0000</p>
-                        <p>이메일 : bohomi1995j@gmail.com</p>
+                        <p>전화번호 : {phoneNumber}</p>
+                        <p>이메일 :{email}</p>
                         {/* 기타 관심 키워드 */}
                     
                 </div>
                 <div className="keyword_section">
                     <h3 className="section_title">관심 키워드</h3>
                     <div className="keywords">
-                        <p>정치, 경제</p>
+                        <p>{keywords}</p>
                         {/* <span className="keyword">정치</span>
                         <span className="keyword">경제</span> */}
                         {/* 기타 관심 키워드 */}
