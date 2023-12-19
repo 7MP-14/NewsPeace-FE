@@ -5,24 +5,37 @@ import backimg from "../img/bg-masthead.jpg";
 import logo from'../img/logo.png';
 
 
-
+const ErrorMsg = styled.div`
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+`;
 export default function Login(props) {
     const [Email, setEmail]=useState();
     const [Password, setPassword]=useState();
+    const [error, setError] = useState({
+        email: "",
+        password: "",
+      });
 
-    const handleEmail = (event) => {
-        event.preventDefault();
+      const handleEmail = (event) => {
         setEmail(event.target.value);
-      };
-      const handlePassword = (event) => {
-        event.preventDefault();
-        setPassword(event.target.value);
+        setError({ ...error, email: "" }); // 입력 시 에러 초기화
       };
     
+      const handlePassword = (event) => {
+        setPassword(event.target.value);
+        setError({ ...error, password: "" }); // 입력 시 에러 초기화
+      };
+
 
     // 로그인 버튼의 onClick이벤트
     const checkSignIn = (e) => {
         e.preventDefault();
+        // 입력값 유효성 검사
+        if (!validateInputs()) {
+            return;
+        }
         const formData = new FormData();
         formData.append("email", Email);
         formData.append("password", Password);
@@ -49,6 +62,33 @@ export default function Login(props) {
         });
   };
 
+
+  const validateInputs = () => {
+    let isValid = true;
+    const newError = {
+      email: "",
+      password: "",
+    };
+
+
+    if (!Email) {
+      newError.email = "이메일을 입력하세요.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(Email)) {
+      newError.email = "올바른 이메일 형식이 아닙니다.";
+      isValid = false;
+    }
+
+    if (!Password) {
+      newError.password = "비밀번호를 입력하세요.";
+      isValid = false;
+    }
+
+    setError(newError);
+    return isValid;
+  };
+
+
   return (
     <div className="login_body">
         <div className='login_container'>
@@ -67,8 +107,10 @@ export default function Login(props) {
             <div class="login_container__form login_container--signin">
                 <form action="#" class="form" id="form2">
                     <h2 class="form__title">Login</h2>
-                    <input type="email" placeholder="Email" class="input" onChange={handleEmail}/>
-                    <input type="password" placeholder="Password" class="input" onChange={handlePassword}/>
+                    <input type="email" placeholder="Email" className="input" onChange={handleEmail} />
+                    <ErrorMsg>{error.email}</ErrorMsg>
+                    <input type="password" placeholder="Password" className="input" onChange={handlePassword} />
+                    <ErrorMsg>{error.password}</ErrorMsg>
                     {/* <a href="#" class="link">Forgot your password?</a> */}
                     <button class="login_btn" onClick={checkSignIn}>Sign In</button>
                 </form>

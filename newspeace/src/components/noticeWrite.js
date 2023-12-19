@@ -7,6 +7,11 @@ export default function CreateNotice() {
   const [content, setContent] = useState("");
 
   const handleSubmit = () => {
+
+    if (!date) {
+        alert("날짜를 선택해주세요.");
+        return;
+    }
     // 여기에서 작성한 title, date, content를 서버로 전송(fetch)하는 로직을 추가하세요.
     // 백엔드 URL을 적절히 변경해주세요.
     fetch('http://example.com/api/createNotice', {
@@ -20,6 +25,7 @@ export default function CreateNotice() {
       .then(data => {
         console.log('Success:', data);
         // 성공적으로 전송되면 필요한 처리를 추가하세요.
+        window.location.replace('/notice');
       })
       .catch((error) => {
         console.error('Error:', error);

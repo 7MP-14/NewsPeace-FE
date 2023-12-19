@@ -64,7 +64,7 @@ const Home=()=>{
                             <div className="form-subscribe" id="contactForm" >
                                 <div className="row">
                                     <div className="col">
-                                        <input className="form-control form-control-lg" id="keyword" type="text" value={keyword} onChange={handleKeywordChange} placeholder="검색어를 입력하세요."  />
+                                        <input className="form-control form-control-lg" id="keyword" type="text" value={keyword} onChange={handleKeywordChange} placeholder="관심 있는 키워드를 입력하세요."  />
                                         <div className='categorybtn'>
                                             <button className={`checkbtn ${checkedItems.includes('정치') ? 'selected' : ''}`} onClick={() => checkedItemHandler('정치')}>정치</button>
                                             <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
