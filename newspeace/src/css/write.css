@@ -1,0 +1,81 @@
+.create-notice {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 2%;
+  }
+  
+  .create-notice h3 {
+    font-size: 24px;
+    color: #333;
+    margin:0 auto;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 제목과 날짜 입력 부분 스타일 */
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+  
+  .input-group label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+    margin-right: 20px;
+  }
+  
+  .input-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* 내용 입력 부분 스타일 */
+  textarea {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 250px; /* 최소 높이 설정 */
+    width:100%;
+  }
+  
+  button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+ 
+.td-container {
+    display: flex;
+    gap: 20px; /* 요소 사이의 간격을 조절합니다. */
+    margin-bottom: 20px;
+  }
+  
+  .td-container div {
+    flex: 1; /* 각각의 div가 동일한 너비를 가지도록 설정합니다. */
+  }
+  label{
+    margin-right: 10px;
+  }
+  #title{
+    width: 300px;
+  }

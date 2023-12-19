@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import NoticeModal from './noticeModal'; // 모달 컴포넌트 import
 import '../css/notice.css';
+import { Link } from "react-router-dom";
 
 export default function Notice() {
   const [selectedNotice, setSelectedNotice] = useState(null);
@@ -65,6 +66,10 @@ export default function Notice() {
       {/* 공지사항 목록 */}
       <div id="board-list">
         <div className="container">
+          <div className="addNoticeContainer">
+            {/* Use Link instead of a regular button to enable navigation */}
+            <Link to="/write" className="addNotice">글쓰기</Link>
+          </div>
           <table className="board-table">
             <thead>
               <tr>

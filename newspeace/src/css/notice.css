@@ -51,9 +51,10 @@ section.notice {
 
 .board-table {
   font-size: 13px;
-  width: 100%;
+  width: 85%;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  margin:0 auto;
 }
 
 .board-table a {
@@ -256,4 +257,39 @@ section.notice {
   max-height: 60%; /* 최대 높이 설정 */
   overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
 }
+/* .board-list .container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+} */
 
+.notice .addNotice {
+  background-color: #7895CB;
+  color: #fff;
+  padding: 6px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.notice .addNotice:hover {
+  background-color: rgb(34, 103, 150);
+}
+
+.addNoticeContainer {
+  margin-left: auto;
+  margin-bottom: 1%;
+
+}
+.addNotice{
+  margin-left: 83%;
+  margin-bottom: 50%;
+
+}
+
+a {
+  text-decoration: none;
+}
