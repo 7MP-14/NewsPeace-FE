@@ -3,7 +3,7 @@ import {React, useState,  useCallback} from "react";
 import '../css/signup.css';
 import backimg from "../img/bg-masthead.jpg";
 import backgroundColor from'../img/z.png';
-import logo from'../img/logo.png';
+import logo from'../img/logo2.png';
 
 const ErrorMsg = styled.div`
   color: red;
@@ -65,29 +65,35 @@ export default function Signin(props) {
         if (!validateInputs()) {
             return;
         }
-        if (
-            checkedInputs.includes('usingListCheck') &&
-            checkedInputs.includes('personalInfoCheck')
-            ) 
-            {
+        if (checkedInputs.includes('usingListCheck') &&checkedInputs.includes('personalInfoCheck')) {
             setNextSignupState(true);
             e.preventDefault();
-            const formData = new FormData();
-            formData.append("email", Email);
-            formData.append("name", Name);
-            formData.append("phone", PhoneNumber);
-            formData.append("Password", Password);
+            // const formData = new FormData();
+            // formData.append("email", Email);
+            // formData.append("name", Name);
+            // formData.append("phone_number", PhoneNumber);
+            // formData.append("password", Password);
+            // formData.append("password2", checkPassword);
         
-            fetch("API 주소", {
-            method: "POST",
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            body: formData,
+            fetch("http://3.38.153.81/api/register/", {
+                method: "POST",
+                headers: {
+                    'Content-Type':'application/json; charset=utf-8'
+                },
+                body: JSON.stringify({
+                    email:Email,
+                    name:Name,
+                    phone_number:PhoneNumber,
+                    password:Password,
+                    password2:checkPassword,
+                    credentials: 'include',
+
+                }),
             })
             .then((response) => {
                 if (response.ok === true) {
-                return response.json();
+                    console.log( response.json());
+                    window.location.replace('/login');
                 }
                 throw new Error("에러 발생!");
             })

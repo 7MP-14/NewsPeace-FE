@@ -27,14 +27,26 @@ const ContentWrapper = styled.div`
   flex: 1;
 `;
 function App() {
+  
+  const [login, setLoginState]=useState(false);
+  const storedUserLoggedIninfo=localStorage.getItem('token');
+  useEffect(()=>{
+    if(storedUserLoggedIninfo===null){
+      console.log('로그인 실패')
+    }
+    else{
+      setLoginState(true)
+      console.log('로그인 성공')
+    }
+  })
 
   return (
     <AllWrapper>
       <ContentWrapper>
-        <Header/>
+        <Header login={login}/>
         <Router>
           <Routes>
-              <Route exact path="/" element={<Home/>} />
+              <Route exact path="/" element={<Home login={login}/>} />
               <Route exact path="/login" element={<Login/>} />
               <Route exact path="/result" element={<Result/>} />
               <Route exact path="/signup" element={<Signup/>} />

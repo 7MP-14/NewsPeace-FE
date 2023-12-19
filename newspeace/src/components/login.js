@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {React, useState} from "react";
 import '../css/login.css';
 import backimg from "../img/bg-masthead.jpg";
-import logo from'../img/logo.png';
+import logo from'../img/logo2.png';
 
 
 const ErrorMsg = styled.div`
@@ -41,16 +41,23 @@ export default function Login(props) {
         formData.append("email", Email);
         formData.append("password", Password);
     
-        fetch("API 주소", {
-        method: "POST",
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-        body: formData,
+        fetch("http://3.38.153.81/api/login/", {
+            method: "POST",
+            headers: {
+                'Content-Type':'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({
+                email:Email,
+                password:Password,
+                credentials: 'include',
+
+            }),
         })
         .then((response) => {
             if (response.ok === true) {
-            return response.json();
+                window.localStorage.setItem('token',response.token);
+                window.location.replace('/');
+                return response.json();
             }
             throw new Error("에러 발생!");
             //로그인 시 백에서 넘겨주는 정보 localstorage에 저장코드 짜기!!
