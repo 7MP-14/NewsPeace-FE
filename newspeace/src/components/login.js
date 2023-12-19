@@ -121,11 +121,11 @@ export default function Login(props) {
             <div class="login_container__overlay">
                 <div class="overlay">
                 <div class="overlay__panel overlay--left">
-                    <img src={logo}></img>
+                    <img src={logo} style={{width:'320px', height:'180px'}}></img>
                     {/* <button class="login_btn" id="signIn" >Sign In</button> */}
                 </div>
                 <div class="overlay__panel overlay--right">
-                    <img src={logo}></img>
+                    <img src={logo} style={{width:'320px', height:'180px'}}></img>
 
                      {/* <button class="login_btn" id="signUp">Sign Up</button> */}
                 </div>
