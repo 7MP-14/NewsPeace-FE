@@ -8,6 +8,7 @@ export default function Editpage(props) {
         phone: "",
         email: "",
         keywords: "",
+        NotifyTF:false,
         emailNotify: false,
         textNotify: false
     });
@@ -28,7 +29,6 @@ export default function Editpage(props) {
     return (
         <div className="editpage-body" style={{ backgroundImage: `url(${backimg})` }}>
             <div className="mypage-edit">
-                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <div className="label-group">
                             <label htmlFor="name">이름:</label>
@@ -84,27 +84,36 @@ export default function Editpage(props) {
                     <div className="form-group notify-group">
                         <input 
                             type="checkbox" 
-                            id="emailNotify" 
-                            name="emailNotify" 
-                            checked={userData.emailNotify} 
+                            id="NotifyTF" 
+                            name="NotifyTF" 
+                            checked={userData.NotifyTF} 
                             onChange={handleInputChange} 
                         />
-                        <label htmlFor="emailNotify" className="notify-label">부정적 기자 탐지 시 이메일로 알림을 받겠습니다.</label>
+                        <label htmlFor="NotifyTF" className="notify-label">관심 키워드에 대한 부정적 기자 탐지 시 알림을 받겠습니다.</label>
                     </div>
-                    <div className="form-group notify-group">
-                        <input 
-                            type="checkbox" 
-                            id="textNotify" 
-                            name="textNotify" 
-                            checked={userData.textNotify} 
-                            onChange={handleInputChange} 
-                        />
-                        <label htmlFor="textNotify" className="notify-label">부정적 기자 탐지 시 문자로 알림을 받겠습니다.</label>
-                    </div>
+                    {userData.NotifyTF && (
+                        <div className="form-group notify-group2">
+                            <input 
+                                type="checkbox" 
+                                id="textNotify" 
+                                name="textNotify" 
+                                checked={userData.textNotify} 
+                                onChange={handleInputChange} 
+                            />
+                            <label htmlFor="textNotify" className="notify-label">문자</label>
+                            <input 
+                                type="checkbox" 
+                                id="emailNotify" 
+                                name="emailNotify" 
+                                checked={userData.emailNotify} 
+                                onChange={handleInputChange} 
+                            />
+                            <label htmlFor="emailNotify" className="notify-label">이메일</label>
+                        </div>
+                    )}
                     <div className="form-group button-group">
                         <button type="submit" className="submit-btn">수정완료</button>
                     </div>
-                </form>
             </div>
         </div>
     );

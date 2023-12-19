@@ -3,6 +3,7 @@ import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
 import icon1 from '../img/z.png';
 import icon2 from '../img/user.png'
+import { Link } from "react-router-dom";
 
 
 export default function Mypage(props) {
@@ -43,7 +44,8 @@ export default function Mypage(props) {
                     </div>
                 </div>
                 <div className="survey_section">
-                    <button>수정</button>
+                    {/* <button>수정</button> */}
+                    <Link to='/editPage' className="linkbutton">수정</Link>
                     <button>회원탈퇴</button>
                 </div>
             </div>

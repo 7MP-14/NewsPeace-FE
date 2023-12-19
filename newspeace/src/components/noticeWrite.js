@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../css/write.css';
 
 export default function CreateNotice() {
@@ -6,12 +6,18 @@ export default function CreateNotice() {
   const [date, setDate] = useState("");
   const [content, setContent] = useState("");
 
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    setDate(formattedDate);
+  }, []); // Empty dependency array to run the effect only once
+
   const handleSubmit = () => {
 
-    if (!date) {
-        alert("날짜를 선택해주세요.");
+      if (!title || !content) {
+        alert("제목과 내용을 작성해주세요.");
         return;
-    }
+      }
     // 여기에서 작성한 title, date, content를 서버로 전송(fetch)하는 로직을 추가하세요.
     // 백엔드 URL을 적절히 변경해주세요.
     fetch('http://example.com/api/createNotice', {

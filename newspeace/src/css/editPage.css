@@ -16,11 +16,12 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    /* justify-content: center;  */
+    align-items: flex-start;
 }
 
 .label-group {
-    width: 75px; /* Adjust this width as needed */
+    width: 100px; /* Adjust this width as needed */
     text-align: right; /* Right-align the text to make it closer to the input fields */
     margin-right: 10px; /* Space between label and input */
 }
@@ -29,9 +30,10 @@
     display: flex;
     align-items: center; /* Aligns items vertically in the center */
     margin-bottom: 20px;
+    width: 100%;
 }
 
-.form-group input[type="text"],
+.form-group input[type="text"], 
 .form-group input[type="email"] {
     padding: 8px;
     border: 1px solid #ccc;
@@ -45,13 +47,19 @@
 
 .notify-group {
     display: flex;
-    justify-content: center; /* Centers the checkbox and label horizontally */
-    align-items: center; /* Aligns the checkbox and label vertically */
-    
+    /* justify-content: center; Centers the checkbox and label horizontally */
+    align-items: flex-start; /* Aligns the checkbox and label vertically */
+    margin-left: 5%;
 }
-
+.notify-group2 {
+    display: flex;
+    /* justify-content: center; Centers the checkbox and label horizontally */
+    align-items: flex-start; /* Aligns the checkbox and label vertically */
+    margin-left: 5%;
+}
 .notify-label {
     margin-left: 10px;
+    margin-top:5px;
 }
 
 .button-group {
@@ -62,9 +70,9 @@
 }
 
 .submit-btn {
-    background-color: #0367a6;
+    background-color: #7895CB;
     color: white;
-    padding: 10px 20px;
+    padding: 6px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
