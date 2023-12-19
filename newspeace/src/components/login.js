@@ -9,6 +9,7 @@ const ErrorMsg = styled.div`
   color: red;
   font-size: 12px;
   margin-top: 3px;
+  text-align: left; /* 왼쪽 정렬 스타일 추가 */
 `;
 export default function Login(props) {
     const [Email, setEmail]=useState();

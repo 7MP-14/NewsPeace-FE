@@ -9,6 +9,7 @@ const ErrorMsg = styled.div`
   color: red;
   font-size: 12px;
   margin-top: 3px;
+  text-align: left; /* 왼쪽 정렬 스타일 추가 */
 `;
 
 export default function Signin(props) {
@@ -173,7 +174,7 @@ export default function Signin(props) {
 
             {/* Sign In */}
             <div className="signin_container__form signin_container--signin">
-            <div action="#" className="form" id="form1">
+            <div  className="form">
                 <h2 className="form__title">Sign Up</h2>
                 <input type="text" placeholder="User Name" className="input" onChange={handleName} />
                 <ErrorMsg>{error.name}</ErrorMsg>
