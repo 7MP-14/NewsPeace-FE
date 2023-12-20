@@ -14,6 +14,7 @@ export default function Header(props) {
             ?
             (
               <span>
+              <a class="btn btn-primary" href="/notice">공지사항</a>
               <a class="btn btn-primary" href="/mypage">마이페이지</a>
               <a class="btn btn-primary" href="/logout">로그아웃</a>
               </span>

@@ -14,6 +14,8 @@ import Notice from './components/notice.js';
 import Logout from './components/logout.js';
 import Editpage from './components/editPage.js';
 import Write from './components/noticeWrite.js';
+import SendEmail from './components/sendEmail.js';
+
 import styled from "styled-components"; //npm i styled-components
 
 
@@ -27,7 +29,7 @@ const ContentWrapper = styled.div`
   flex: 1;
 `;
 function App() {
-  
+
   const [login, setLoginState]=useState(false);
   const storedUserLoggedIninfo=localStorage.getItem('token');
   useEffect(()=>{
@@ -55,6 +57,7 @@ function App() {
               <Route exact path="/logout" element={<Logout/>} />
               <Route exact path="/editPage" element={<Editpage/>} />
               <Route exact path="/write" element={<Write/>} />
+              <Route exact path="/sendemail" element={<SendEmail/>} />
 
           </Routes>
         </Router>

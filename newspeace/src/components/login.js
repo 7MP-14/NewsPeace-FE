@@ -37,11 +37,8 @@ export default function Login(props) {
         if (!validateInputs()) {
             return;
         }
-        const formData = new FormData();
-        formData.append("email", Email);
-        formData.append("password", Password);
     
-        fetch("http://3.38.153.81/api/login/", {
+        fetch("http://3.34.92.70/api/login/", {
             method: "POST",
             headers: {
                 'Content-Type':'application/json; charset=utf-8'
@@ -54,19 +51,23 @@ export default function Login(props) {
             }),
         })
         .then((response) => {
-            if (response.ok === true) {
-                window.localStorage.setItem('token',response.token);
-                window.location.replace('/');
-                return response.json();
+            if (!response.ok) {
+                throw new Error('Login failed');
             }
-            throw new Error("에러 발생!");
-            //로그인 시 백에서 넘겨주는 정보 localstorage에 저장코드 짜기!!
-        })
-        .catch((error) => {
-            alert(error);
+            return response.json();
         })
         .then((data) => {
-            console.log(data);
+            // data에서 토큰 추출
+            const token = data.token;
+            // console.log(data.token);
+            // 추출한 토큰을 localStorage에 저장
+            window.localStorage.setItem('token', token);
+    
+            // 로그인 성공 후 다른 동작 수행
+            window.location.replace('/');
+        })
+        .catch((error) => {
+            alert(error.message);
         });
   };
 

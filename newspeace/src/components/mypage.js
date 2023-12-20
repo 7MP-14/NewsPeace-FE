@@ -3,6 +3,7 @@ import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
 import icon2 from '../img/user.png'
 import { Link } from "react-router-dom";
+import Emailbutton from './sendEmail.js';
 
 
 export default function Mypage(props) {
@@ -11,33 +12,43 @@ export default function Mypage(props) {
   const [email, setEmail] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [keywords, setKeywords] = useState();
-  const [chkNotify, setChkNotify] = useState();
+  const [emailNotice, setEmailNotice] = useState();
+  const [smsNotice, setSmsNotice] = useState();
+
   const [scrap, setScrap] = useState();
 
   useEffect(() => {
+    console.log(window.localStorage.getItem('token'))
+
     getProfile();
   }, []);
 
-  const getProfile=(code,isChecked)=>{
-    fetch("http://3.38.153.81/api/profile/",{
+  const getProfile=()=>{
+    const token = `${window.localStorage.getItem('token')}`;
+    console.log(token);
+    fetch("http://3.34.92.70/api/profile/",{
       method:'GET',
-      hearders:{
-        'Content-Type':'application/json; charset=utf-8'
+      headers:{
+        'Content-Type':'application/json; charset=utf-8',
+        'Authorization': `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
+
       },
-      body:JSON.stringify({
-        access_token:window.localStorage.getItem('token')
-      }),
     })
     .then(res=>res.json())
     .then(res=>{
       console.log(res)
-      setName(res.data.user_name);
-      setEmail(res.data.reading_level);
-      setPhoneNumber(res.data.gender)
-      setChkNotify(res.data.reading_num);
-      setKeywords(res.data.need_num);
+      setName(res.name);
+      setEmail(res.email);
+      setPhoneNumber(res.phone_number);
+      setEmailNotice(res.emailNotice);
+      setSmsNotice(res.smsNotice);
+      setKeywords(res.keywords);
     })
   }
+
+//   const onEmailChange = (email) => {
+//     setEmail(email);
+//   };
 
   // 스크랩된 기사 예시 데이터
   const scrappedArticles = [
@@ -67,12 +78,25 @@ export default function Mypage(props) {
                     <h3 className="section_title">관심 키워드</h3>
                     <div className="keywords">
                         <p>{keywords}</p>
-                        {/* <span className="keyword">정치</span>
-                        <span className="keyword">경제</span> */}
-                        {/* 기타 관심 키워드 */}
+                        {emailNotice && smsNotice && (
+                            <p>💕 이메일과 문자로 알림을 받겠습니다. ❤️</p>
+                        )}
 
-                        <p>💕 관심 키워드에 대한 알림을 받겠습니다.❤️</p>
- 
+                        {emailNotice && !smsNotice && (
+                            <span>
+                                <p>💕 이메일로 알림을 받겠습니다. ❤️</p>
+                                <Emailbutton email={email}></Emailbutton>
+                            </span>
+                            
+                        )}
+
+                        {!emailNotice && smsNotice && (
+                            <p>💕 문자로 알림을 받겠습니다. ❤️</p>
+                        )}
+
+                        {!emailNotice && !smsNotice && (
+                            <p>알림을 받지 않습니다. 😢</p>
+                        )}
                     </div>
                 </div>
                 <div className="survey_section">
