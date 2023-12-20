@@ -22,9 +22,9 @@ export default function Header(props) {
             :
             (
               <span>
-                <a class="btn btn-primary" href="/signup">회원가입</a>
-                <a class="btn btn-primary" href="/login">로그인</a>
                 <a class="btn btn-primary" href="/notice">공지사항</a>
+                <a class="btn btn-primary" href="/login">로그인</a>
+                <a class="btn btn-primary" href="/signup">회원가입</a>
               </span>
             )
             }
