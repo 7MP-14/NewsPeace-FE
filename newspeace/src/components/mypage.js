@@ -25,12 +25,13 @@ export default function Mypage(props) {
 
   const getProfile=()=>{
     const token = `${window.localStorage.getItem('token')}`;
+    const userId = `${window.localStorage.getItem('user_id')}`
     console.log(token);
-    fetch("http://3.34.92.70/api/profile/",{
+    fetch(`http://3.34.92.70/api/profile/${userId}/`,{
       method:'GET',
       headers:{
-        'Content-Type':'application/json; charset=utf-8',
-        'Authorization': `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
+        "Content-Type": 'application/json',
+        // "Authorization": `Bearer ${window.localStorage.getItem("token")}`
 
       },
     })

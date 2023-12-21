@@ -31,25 +31,53 @@ const Home=()=>{
         setKeyword(event.target.value);
       };
 
-
-  const submit=(code,isChecked)=>{
-    fetch('http://ec2-13-124-237-120.ap-northeast-2.compute.amazonaws.com:8000/survey/surveypage/',{
-      method:'POST',
-      hearders:{
-        'Content-Type':'application/json; charset=utf-8'
-      },
-      body:JSON.stringify({
-        survey:checkedItems,
-        keyword:keyword, // Include the searchWord in the request body
-      }),
-    })
-    .then(res=>res.json())
-    .then(res=>{
-      console.log('성공')
-    })
-    console.log(checkedItems);
-    window.location.replace('/result')
-  }
+      const submit = () => {
+        // 쿼리 문자열 매개변수 생성
+        const queryParams = new URLSearchParams({
+          keyword: keyword,
+          category: checkedItems.join(','), // checkedItems가 배열이라면 콤마로 구분된 문자열로 변환
+        });
+      
+        // 쿼리 문자열 매개변수를 포함한 URL 생성
+        const apiUrl = `http://3.34.92.70/news/search/?${queryParams}`;
+      
+        // GET 요청 수행
+        fetch(apiUrl, {
+          method: 'GET',
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log('성공');
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error('에러:', error);
+          });
+      
+        console.log(checkedItems);
+        console.log(keyword);
+        // window.location.replace('/result')
+      };
+//   const submit=()=>{
+//     fetch("http://3.34.92.70/news/search/",{
+//       method:'POST',
+//       hearders:{
+//         'Content-Type':'application/json; charset=utf-8'
+//       },
+//       body:JSON.stringify({
+//         category:checkedItems,
+//         keyword:keyword, // Include the searchWord in the request body
+//       }),
+//     })
+//     .then(res=>res.json())
+//     .then(res=>{
+//       console.log('성공');
+//       console.log(res);
+//     })
+//     console.log(checkedItems);
+//     console.log(keyword);
+//     // window.location.replace('/result')
+//   }
 
 
 

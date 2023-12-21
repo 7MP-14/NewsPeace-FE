@@ -14,6 +14,7 @@ const ErrorMsg = styled.div`
 export default function Login(props) {
     const [Email, setEmail]=useState();
     const [Password, setPassword]=useState();
+
     const [error, setError] = useState({
         email: "",
         password: "",
@@ -59,9 +60,11 @@ export default function Login(props) {
         .then((data) => {
             // data에서 토큰 추출
             const token = data.token;
+            const userId = data.user_id;
             // console.log(data.token);
             // 추출한 토큰을 localStorage에 저장
             window.localStorage.setItem('token', token);
+            window.localStorage.setItem('user_id', userId);
     
             // 로그인 성공 후 다른 동작 수행
             window.location.replace('/');
