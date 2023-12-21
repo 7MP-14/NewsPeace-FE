@@ -78,7 +78,7 @@ export default function Editpage(props) {
     return (
         <div className="editpage-body" style={{ backgroundImage: `url(${backimg})` }}>
             <div className="mypage-edit">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="edit-form">
                     {/* ... 나머지 입력 필드는 동일하게 유지 */}
                     <div className="form-group">
                         <div className="label-group">
@@ -144,7 +144,7 @@ export default function Editpage(props) {
                             {/* <p>키워드를 설정하지 않음</p> */}
                         {/* )} */}
                     </div>
-                    <div className="form-group notify-group">
+                    <div className="form-group notify-group3">
                         {/* <input
                             type="checkbox"
                             id="NotifyTF"
