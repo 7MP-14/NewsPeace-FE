@@ -65,8 +65,13 @@ export default function Mypage(props) {
             ) : (
                 <p>키워드 없음</p>
             )}
-                        {emailNotice && smsNotice && (
-                <p>💕 이메일과 문자로 알림을 받겠습니다. ❤️</p>
+                {emailNotice && smsNotice && (
+                <span>
+                  <p>💕 이메일과 문자로 알림을 받겠습니다. ❤️</p>
+                  <Emailbutton email={email}></Emailbutton>
+                </span>
+
+
               )}
 
               {emailNotice && !smsNotice && (

@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 // import '../css/home.css';
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
@@ -12,110 +12,132 @@ import icon7 from '../img/업무.jpg';
 
 
 const Home=()=>{
-    const [checkedItems, setCheckedItems] = useState([]);
-    const [keyword, setKeyword] = useState();
-    
-    const checkedItemHandler = (category) => {
-      // Toggle the selection state for the clicked category
-      setCheckedItems((prevSelected) => {
-        if (prevSelected.includes(category)) {
-          return prevSelected.filter((one) => one !== category);
-        } else {
-          return [...prevSelected, category];
-        }
+
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [inputkeyword, setinputKeyword] = useState('');
+  const [hotKeywords, setHotKeywords] = useState([]);
+  const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
+  const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
+
+  const navigate = useNavigate();
+
+  const checkedItemHandler = (category) => {
+    setCheckedItems((prevSelected) => {
+      if (prevSelected.includes(category)) {
+        return prevSelected.filter((one) => one !== category);
+      } else {
+        return [...prevSelected, category];
+      }
+    });
+  };
+
+  const handleKeywordChange = (event) => {
+    setinputKeyword(event.target.value);
+  };
+
+  const submit = () => {
+    const queryParams = new URLSearchParams({
+      keyword: inputkeyword,
+      category: checkedItems.join(','),
+    });
+
+    const apiUrl = `http://3.34.92.70/news/search/?${queryParams}`;
+
+    fetch(apiUrl, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('성공');
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error('에러:', error);
       });
-    };
 
-    const handleKeywordChange = (event) => {
-        // Update the searchWord state when the input value changes
-        setKeyword(event.target.value);
-      };
+    console.log(checkedItems);
+    console.log(inputkeyword);
+  };
 
-      const submit = () => {
-        // 쿼리 문자열 매개변수 생성
-        const queryParams = new URLSearchParams({
-          keyword: keyword,
-          category: checkedItems.join(','), // checkedItems가 배열이라면 콤마로 구분된 문자열로 변환
-        });
-      
-        // 쿼리 문자열 매개변수를 포함한 URL 생성
-        const apiUrl = `http://3.34.92.70/news/search/?${queryParams}`;
-      
-        // GET 요청 수행
-        fetch(apiUrl, {
-          method: 'GET',
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log('성공');
-            console.log(res);
-          })
-          .catch((error) => {
-            console.error('에러:', error);
-          });
-      
-        console.log(checkedItems);
-        console.log(keyword);
-        // window.location.replace('/result')
-      };
-//   const submit=()=>{
-//     fetch("http://3.34.92.70/news/search/",{
-//       method:'POST',
-//       hearders:{
-//         'Content-Type':'application/json; charset=utf-8'
-//       },
-//       body:JSON.stringify({
-//         category:checkedItems,
-//         keyword:keyword, // Include the searchWord in the request body
-//       }),
-//     })
-//     .then(res=>res.json())
-//     .then(res=>{
-//       console.log('성공');
-//       console.log(res);
-//     })
-//     console.log(checkedItems);
-//     console.log(keyword);
-//     // window.location.replace('/result')
-//   }
+  useEffect(() => {
+    fetch('http://3.34.92.70/hot/', {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('성공');
+        console.log(res.hot_keyword);
+        setHotKeywords(res.hot_keyword);
+      })
+      .catch((error) => {
+        console.error('에러:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // 먼저 애니메이션 클래스를 제거
+      setAnimationClass('');
+
+      // 약간의 지연 후에 애니메이션 클래스를 다시 적용
+      setTimeout(() => {
+        setAnimationClass('keyword-animation-enter');
+        setCurrentHotKeywordIndex(prevIndex => (prevIndex + 1) % hotKeywords.length);
+      }, 100);
+    }, 2000); // 4초마다 키워드 업데이트
+
+    return () => clearInterval(intervalId);
+  }, [hotKeywords.length, currentHotKeywordIndex]);
+
 
 
 
     return (  
     <>
         <header className="masthead">
-            <div className="container position-relative">
-                <div className="row justify-content-center">
-                    <div className="col-xl-6">
-                        <div className="text-center text-white">
-                            {/* <h1 className="mb-5"></h1> */}
-                            <div className="form-subscribe" id="contactForm" >
-                                <div className="row">
-                                    <div className="col">
-                                        <input className="form-control form-control-lg" id="keyword" type="text" value={keyword} onChange={handleKeywordChange} placeholder="관심 있는 키워드를 입력하세요."  />
-                                        <div className='categorybtn'>
-                                            <button className={`checkbtn ${checkedItems.includes('정치') ? 'selected' : ''}`} onClick={() => checkedItemHandler('정치')}>정치</button>
-                                            <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
-                                            <button className={`checkbtn ${checkedItems.includes('사회') ? 'selected' : ''}`} onClick={() => checkedItemHandler('사회')}>사회</button>
-                                            <button className={`checkbtn ${checkedItems.includes('문화') ? 'selected' : ''}`} onClick={() => checkedItemHandler('문화')}>문화</button>
-                                            <button className={`checkbtn ${checkedItems.includes('국제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('국제')}>국제</button>
-                                            <button className={`checkbtn ${checkedItems.includes('IT') ? 'selected' : ''}`} onClick={() => checkedItemHandler('IT')}>IT</button>
-                                            <button className={`checkbtn ${checkedItems.includes('연예') ? 'selected' : ''}`} onClick={() => checkedItemHandler('연예')}>연예</button>
-                                            <button className={`checkbtn ${checkedItems.includes('스포츠') ? 'selected' : ''}`} onClick={() => checkedItemHandler('스포츠')}>스포츠</button>
-                                        </div>
-                                        <div className='hottopic'>
-                                            <p>인기 검색어  :  </p> <p className='keyword'>정솔</p>
-                                        </div>
-                                    </div>
-                                    {/* <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit"><img src={icon1} style={{width:'40px', height:'37px'}}></img></button></div> */}
-                                    <div className="col-auto"><img src={icon1} style={{width:'40px', height:'37px'}} onClick={submit}></img></div>
-                                </div>
-                            </div>
-                        </div>
+        <div className="container position-relative">
+          <div className="row justify-content-center">
+            <div className="col-xl-6">
+              <div className="text-center text-white">
+                <div className="form-subscribe" id="contactForm">
+                  <div className="row">
+                    <div className="col">
+                      <input
+                        className="form-control form-control-lg"
+                        id="keyword"
+                        type="text"
+                        value={inputkeyword}
+                        onChange={handleKeywordChange}
+                        placeholder="관심 있는 키워드를 입력하세요."
+                      />
+                      <div className="categorybtn">
+                        {/* ... (이하 생략) */}
+                      </div>
+                      <div className="hottopic">
+  <div className="label-container">
+    <p className="label">인기 검색어:</p>
+  </div>
+  <div className="keyword-container">
+    {hotKeywords.length > 0 &&
+      <p className={`keyword ${animationClass}`}>{hotKeywords[currentHotKeywordIndex]}</p>
+    }
+  </div>
+</div>
+
+
+
+
                     </div>
+                    <div className="col-auto">
+                      <img src={icon1} style={{ width: '40px', height: '37px' }} onClick={submit} alt="search icon" />
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </header>
+          </div>
+        </div>
+      </header>
 
         <section className="features-icons bg-light text-center">
             <div className="container">

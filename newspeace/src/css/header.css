@@ -11058,3 +11058,34 @@ footer.footer {
 .checkbtn.selected {
   background-color: rgba(135, 206, 235, 0.9); /* Increase opacity on hover and click */
 }
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.keyword-animation-enter {
+  animation: slideDown 0.5s ease-in;
+}
+.hottopic {
+  position: relative;
+}
+
+.label-container {
+  display: inline-block;
+  margin-right: 10px; /* 라벨과 키워드 사이의 간격 조절 */
+}
+
+.keyword-container {
+  display: inline-block;
+  position: absolute;
+  top: 30%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
