@@ -15,6 +15,7 @@ import Logout from './components/logout.js';
 import Editpage from './components/editPage.js';
 import Write from './components/noticeWrite.js';
 import SendEmail from './components/sendEmail.js';
+import ScrapPage from './components/scrap.js';
 
 import styled from "styled-components"; //npm i styled-components
 
@@ -58,6 +59,7 @@ function App() {
               <Route exact path="/editPage" element={<Editpage/>} />
               <Route exact path="/write" element={<Write/>} />
               <Route exact path="/sendemail" element={<SendEmail/>} />
+              <Route exact path="/scrap" element={<ScrapPage/>} />
 
           </Routes>
         </Router>
