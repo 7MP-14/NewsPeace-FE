@@ -18,7 +18,7 @@ import SendEmail from './components/sendEmail.js';
 import ScrapPage from './components/scrap.js';
 
 import styled from "styled-components"; //npm i styled-components
-
+//npm install emailjs-com
 
 const AllWrapper = styled.div`
   display: flex;
