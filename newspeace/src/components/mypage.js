@@ -22,7 +22,7 @@ export default function Mypage(props) {
 
   const getProfile = () => {
     const userId = `${window.localStorage.getItem('user_id')}`
-    fetch(`http://3.34.92.70/api/profile/${userId}/`, {
+    fetch(`http://newspeace.co.kr/api/profile/${userId}/`, {
       method: 'GET',
       headers: {
         "Content-Type": 'application/json',

@@ -41,7 +41,7 @@ const Home=()=>{
       category: checkedItems.join(','),
     });
 
-    const apiUrl = `http://3.34.92.70/news/search/?${queryParams}`;
+    const apiUrl = `http://newspeace.co.kr/news/search/?${queryParams}`;
 
     fetch(apiUrl, {
       method: 'GET',
@@ -50,6 +50,8 @@ const Home=()=>{
       .then((res) => {
         console.log('성공');
         console.log(res);
+        // 여기서 res 데이터를 다음 페이지로 전달
+        navigate('/result', { state: { responseData: res } });
       })
       .catch((error) => {
         console.error('에러:', error);
@@ -59,20 +61,20 @@ const Home=()=>{
     console.log(inputkeyword);
   };
 
-  useEffect(() => {
-    fetch('http://3.34.92.70/hot/', {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log('성공');
-        console.log(res.hot_keyword);
-        setHotKeywords(res.hot_keyword);
-      })
-      .catch((error) => {
-        console.error('에러:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://3.34.92.70/hot/', {
+  //     method: 'GET',
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log('성공');
+  //       console.log(res.hot_keyword);
+  //       setHotKeywords(res.hot_keyword);
+  //     })
+  //     .catch((error) => {
+  //       console.error('에러:', error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -111,22 +113,26 @@ const Home=()=>{
                         placeholder="관심 있는 키워드를 입력하세요."
                       />
                       <div className="categorybtn">
-                        {/* ... (이하 생략) */}
+                          <button className={`checkbtn ${checkedItems.includes('정치') ? 'selected' : ''}`} onClick={() => checkedItemHandler('정치')}>정치</button>
+                          <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
+                          <button className={`checkbtn ${checkedItems.includes('사회') ? 'selected' : ''}`} onClick={() => checkedItemHandler('사회')}>사회</button>
+                          <button className={`checkbtn ${checkedItems.includes('문화') ? 'selected' : ''}`} onClick={() => checkedItemHandler('문화')}>문화</button>
+                          <button className={`checkbtn ${checkedItems.includes('국제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('국제')}>국제</button>
+                          <button className={`checkbtn ${checkedItems.includes('IT') ? 'selected' : ''}`} onClick={() => checkedItemHandler('IT')}>IT</button>
+                          <button className={`checkbtn ${checkedItems.includes('연예') ? 'selected' : ''}`} onClick={() => checkedItemHandler('연예')}>연예</button>
+                          <button className={`checkbtn ${checkedItems.includes('스포츠') ? 'selected' : ''}`} onClick={() => checkedItemHandler('스포츠')}>스포츠</button>
+
                       </div>
                       <div className="hottopic">
-  <div className="label-container">
-    <p className="label">인기 검색어:</p>
-  </div>
-  <div className="keyword-container">
-    {hotKeywords.length > 0 &&
-      <p className={`keyword ${animationClass}`}>{hotKeywords[currentHotKeywordIndex]}</p>
-    }
-  </div>
-</div>
-
-
-
-
+                        <div className="label-container">
+                          <p className="label">인기 검색어:</p>
+                        </div>
+                        <div className="keyword-container">
+                          {hotKeywords.length > 0 &&
+                            <p className={`keyword ${animationClass}`}>{hotKeywords[currentHotKeywordIndex]}</p>
+                          }
+                        </div>
+                      </div>
                     </div>
                     <div className="col-auto">
                       <img src={icon1} style={{ width: '40px', height: '37px' }} onClick={submit} alt="search icon" />

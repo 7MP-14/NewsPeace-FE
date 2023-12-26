@@ -39,7 +39,7 @@ export default function Login(props) {
             return;
         }
     
-        fetch("http://3.34.92.70/api/login/", {
+        fetch("http:///newspeace.co.kr/api/login/", {
             method: "POST",
             headers: {
                 'Content-Type':'application/json; charset=utf-8'

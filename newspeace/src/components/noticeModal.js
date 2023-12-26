@@ -6,7 +6,7 @@ function NoticeModal({ isOpen, onClose, notice }) {
   // Function to handle the delete action
   const handleDelete = () => {
     // Make a fetch request to delete the notice by its ID
-    fetch(`http://3.34.92.70/notice/${notice.id}/delete/`, {
+    fetch(`http://newspeace.co.kr/notice/${notice.id}/delete/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

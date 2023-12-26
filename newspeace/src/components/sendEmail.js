@@ -5,7 +5,7 @@ function EmailButton({ email }) {
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [verificationCode, setVerificationCode] = useState("");
     const [isCodeVerified, setIsCodeVerified] = useState(false);
-    const [userInputCode, setUserInputCode] = useState(""); // Add state for user input
+    const [userInputCode, setUserInputCode] = useState(); // Add state for user input
 
     useEffect(() => {
         setVerificationCode(generateRandomCode());
@@ -16,9 +16,8 @@ function EmailButton({ email }) {
         return Math.floor(100000 + Math.random() * 900000).toString(); // Generates a random 6-digit number
     };
 
-
     //1단계 인증 코드 메일로 보내고, 백엔드한테도 보내기
-    const sendVerificationEmail = (code) => {
+    const  handleCodeVerification= (code) => {
         const templateParams = {
             to_email: email, // Use the provided email prop
             from_name: 'newspeace',
@@ -40,7 +39,7 @@ function EmailButton({ email }) {
                 console.error('Failed to send email:', error);
             });
 
-        fetch('http://3.34.92.70/api/verify-email/', {
+        fetch('http://newspeace.co.kr/api/send-verify-email/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,11 +47,14 @@ function EmailButton({ email }) {
             body: JSON.stringify({
                 user_id: window.localStorage.getItem('user_id'),
                 verification_code: verificationCode,
+
             }),
         })
             .then((response) => response.json())
             .then((data) => {
-                setIsCodeVerified(data.isVerified);
+                console.log("처음 메세지",data);
+                
+                setIsCodeVerified(data.status);
             })
             .catch((error) => {
                 console.error('Code verification error:', error);
@@ -61,15 +63,15 @@ function EmailButton({ email }) {
     };
 
     const handleVerification = () => {
-        sendVerificationEmail(verificationCode);
+        handleCodeVerification(verificationCode);
     };
 
-
-    const handleCodeVerification = () => {
+    //코드 비교하는 함수
+    const sendVerificationEmail= () => {
         // Here, you can make a backend request to verify the code
         // and set setIsCodeVerified accordingly.
         // Example:
-        fetch('http://3.34.92.70/api/send-verification-email/', {
+        fetch('http://newspeace.co.kr/api/verify-email/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +83,8 @@ function EmailButton({ email }) {
         })
             .then((response) => response.json())
             .then((data) => {
-                setIsCodeVerified(data.isVerified);
+                console.log(data);
+                setIsCodeVerified(data.verify_email);
             })
             .catch((error) => {
                 console.error('Code verification error:', error);
@@ -104,9 +107,13 @@ function EmailButton({ email }) {
                                 type="text"
                                 placeholder="인증 코드 입력"
                                 value={userInputCode}
-                                onChange={(e) => setUserInputCode(e.target.value)} // Update user input code
+                                onChange={(e) => setUserInputCode(e.target.value)}
                             />
-                            <button onClick={handleCodeVerification}>인증하기</button>
+                            <button onClick={sendVerificationEmail}>인증하기</button>
+                            {/* Add this block to show a message if verification fails */}
+                            {userInputCode && isCodeVerified === false && (
+                                <p>코드를 다시 입력해주세요.</p>
+                            )}
                         </>
                     ) : (
                         <p>확인되었습니다.</p>
