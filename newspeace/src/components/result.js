@@ -57,7 +57,7 @@ function Dashboard() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userId: 1,
+                userId: 15,
                 newsId: newsId,
             }),
         })
