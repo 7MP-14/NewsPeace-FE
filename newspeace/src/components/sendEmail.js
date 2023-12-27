@@ -6,7 +6,7 @@ function EmailButton({ email }) {
     const [verificationCode, setVerificationCode] = useState("");
     const [isCodeVerified, setIsCodeVerified] = useState(false);
     const [userInputCode, setUserInputCode] = useState(); // Add state for user input
-
+    const [key, setKey]=useState();
     useEffect(() => {
         setVerificationCode(generateRandomCode());
         setIsCodeVerified(false);
@@ -53,8 +53,8 @@ function EmailButton({ email }) {
             .then((response) => response.json())
             .then((data) => {
                 console.log("처음 메세지",data);
-                
                 setIsCodeVerified(data.status);
+                setKey(data.key);
             })
             .catch((error) => {
                 console.error('Code verification error:', error);
@@ -79,6 +79,8 @@ function EmailButton({ email }) {
             body: JSON.stringify({
                 user_id: window.localStorage.getItem('user_id'),
                 verification_code: userInputCode, // Use the user input code
+                key:key,
+
             }),
         })
             .then((response) => response.json())

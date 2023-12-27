@@ -3,7 +3,7 @@ import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
 import icon2 from '../img/user.png'
 import { Link } from "react-router-dom";
-import Emailbutton from './sendEmail.js';
+import EmailButton from './sendEmail.js';
 
 export default function Mypage(props) {
 
@@ -13,8 +13,8 @@ export default function Mypage(props) {
   const [keywords, setKeywords] = useState([]);
   const [emailNotice, setEmailNotice] = useState();
   const [smsNotice, setSmsNotice] = useState();
-
-  const [scrap, setScrap] = useState();
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isSmsVerified, setIsSmsVerified] = useState(false);
 
   useEffect(() => {
     getProfile();
@@ -37,6 +37,7 @@ export default function Mypage(props) {
         setEmailNotice(res.emailNotice);
         setSmsNotice(res.smsNotice);
         setKeywords(res.keywords);
+        setIsEmailVerified(res.is_email_verified);
       })
   }
 
@@ -52,64 +53,102 @@ export default function Mypage(props) {
           </div>
           <div className="userinfo_section">
             <h3 className="section_title">개인정보</h3>
-            <p>전화번호 : {phoneNumber}</p>
-            <p>이메일 : {email}</p>
+            <p><strong>Phone : </strong>{phoneNumber}</p>
+            <p><strong>Email : </strong>{email}</p>
+            {emailNotice && smsNotice && !isEmailVerified && isSmsVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> email & sms</p>
+                {/* 이메일 인증 버튼 표시 */}
+                <EmailButton email={email}></EmailButton>
+                {/* 이메일 인증이 필요하면 이곳에 문자 인증 버튼을 추가하세요 */}
+              </span>
+            )}
+
+            {emailNotice && smsNotice && isEmailVerified && !isSmsVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> email & sms</p>
+                {/* 문자 인증 버튼 표시 */}
+                <EmailButton email={email}></EmailButton>
+                {/* 문자 인증이 필요하면 이곳에 이메일 인증 버튼을 추가하세요 */}
+              </span>
+            )}
+
+            {emailNotice && smsNotice && !isEmailVerified && !isSmsVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> email & sms</p>
+                {/* 이메일 인증 버튼 표시 */}
+                <EmailButton email={email}></EmailButton>
+                {/* 문자 인증 버튼 표시 */}
+                <EmailButton email={email}></EmailButton>
+              </span>
+            )}
+
+            {emailNotice && !smsNotice && !isEmailVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> email</p>
+                {/* 이메일 인증 버튼 표시 */}
+                <EmailButton email={email}></EmailButton>
+              </span>
+            )}
+
+            {emailNotice && !smsNotice && isEmailVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> email</p>
+                {/* 이메일 인증 버튼 표시 */}
+                <p className="noticealert2">이메일 인증이 완료됐습니다.</p>
+              </span>
+            )}
+
+            {!emailNotice && smsNotice && !isSmsVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> sms</p>
+                {/* 문자 인증 버튼 표시 */}
+                <EmailButton email={email}></EmailButton>
+              </span>
+            )}
+
+            {!emailNotice && smsNotice && isSmsVerified && (
+              <span>
+                <p className="noticealert"><strong>알림 서비스 :</strong> sms</p>
+                {/* 문자 인증 버튼 표시 */}
+                <p className="noticealert2">문자 인증이 완료됐습니다.</p>
+              </span>
+            )}
+
+            {!emailNotice && !smsNotice && (
+              <p className="noticealert"><strong>알림 서비스 :</strong> 사용하지 않음</p>
+            )}
+    
           </div>
           <div className="keyword_section">
             <h3 className="section_title">관심 키워드</h3>
             <div className="keywords">
-            {keywords && keywords.length > 0 ? (
+              {keywords && keywords.length > 0 ? (
                 keywords.map(keyword => (
-                <p key={keyword.id}>{keyword.keyword_text}</p>
+                  <Link
+                    key={keyword.id}
+                    to={{ pathname: `/keyword/${keyword.keyword_text}`, state: { keywordText: keyword.keyword_text } }}
+                  >
+                    <p>
+                      <strong>{keyword.keyword_text}</strong>
+                    </p>
+                  </Link>
                 ))
-            ) : (
-                <p>키워드 없음</p>
-            )}
-                {emailNotice && smsNotice && (
-                <span>
-                  <p>💕 이메일과 문자로 알림을 받겠습니다. ❤️</p>
-                  <Emailbutton email={email}></Emailbutton>
-                </span>
-
-
-              )}
-
-              {emailNotice && !smsNotice && (
-                <span>
-                  <p>💕 이메일로 알림을 받겠습니다. ❤️</p>
-                  <Emailbutton email={email}></Emailbutton>
-                </span>
-              )}
-
-              {!emailNotice && smsNotice && (
-                <p>💕 문자로 알림을 받겠습니다. ❤️</p>
-              )}
-
-              {!emailNotice && !smsNotice && (
-                <p>알림을 받지 않습니다. 😢</p>
+              ) : (
+                <p><strong>키워드 없음</strong></p>
               )}
             </div>
           </div>
           <div className="survey_section">
-            {/* Edit 페이지로 데이터 전달하는 Link */}
-            {/* <Link to={`/editPage?name=${name}&email=${email}&phoneNumber=${phoneNumber}&keywords=${keywords}&emailNotice=${emailNotice}&smsNotice=${smsNotice}`} className="linkbutton">수정</Link> */}
             <Link
                 to={`/editPage?name=${name}&email=${email}&phoneNumber=${phoneNumber}&keywords=${keywords.map(keyword => keyword.keyword_text).join(',')}&emailNotice=${emailNotice}&smsNotice=${smsNotice}`}
                 className="linkbutton"
-                >
+            >
                 수정
-                </Link>
+            </Link>
             <button>회원탈퇴</button>
           </div>
         </div>
-        {/* <div className="rightbox">
-          <div className="scrap_section">
-            <h3 className="section_title_scrap">스크랩 기사</h3>
-            <div className="scrap_articles">
-              scrappedArticles map 동일
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );
