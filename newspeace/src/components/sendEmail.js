@@ -21,13 +21,13 @@ function EmailButton({ email }) {
         const templateParams = {
             to_email: email, // Use the provided email prop
             from_name: 'newspeace',
-            message: `Your verification code is ${code}. Please use this code for verification.`,
+            message: `${code}`,
         };
 
         emailjs
             .send(
-                'newspeace', // Service ID
-                'newspeace-template', // Template ID
+                'newspeace-gmail', // Service ID
+                'template_2kvvca7', // Template ID
                 templateParams,
                 'FxRfQG7F39ix0CjV-', // Your public-key
             )

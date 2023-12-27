@@ -46,6 +46,31 @@ export default function ScrapSection() {
     })
   }
 
+  const handleDelete = (articleId) => {
+    // Make a fetch request to delete the notice by its ID
+    // fetch(`http://newspeace.co.kr/news//delete/${window.localStorage.getItem('user_id')}/${articleId}/`, {
+    fetch(`http://newspeace.co.kr/news/delete/1/1/`, {
+
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Scrap deleted successfully');
+          // window.location.replace('/scrap');
+
+          // Optionally, you can perform additional actions, such as updating the UI
+        } else {
+          console.error('Failed to delete scrap');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
   return (
     <div className="scrap-section-body" style={{ backgroundImage: `url(${backimg})` }}>
       <div className="scrap-section">
@@ -55,10 +80,13 @@ export default function ScrapSection() {
         </div>
         <div className="articles-container">
         {currentArticles.map((article, index) => (
-          <Link to={article.link} key={index} className="article-card">
-            <img src={article.img} className="article-image" alt={`News ${article.id}`} />
-            <div className="article-title-overlay">{article.title}</div>
-          </Link>
+          <div key={index} className="article-card">
+            <Link to={article.link}>
+              <img src={article.img} className="article-image" alt={`News ${article.id}`} />
+              <div className="article-title-overlay">{article.title}</div>
+            </Link>
+            <button onClick={() => handleDelete(article.id)} className="delete-button"> X</button>
+          </div>
         ))}
         </div>
         <div className="pagination">
