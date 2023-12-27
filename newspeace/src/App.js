@@ -17,9 +17,10 @@ import Write from './components/noticeWrite.js';
 import SendEmail from './components/sendEmail.js';
 import ScrapPage from './components/scrap.js';
 import MyChart from './components/myChart.js';
+import Loading from './components/Loading.js';
 import styled from "styled-components"; //npm i styled-components
 //npm install emailjs-com
-
+//npm install react-loader-spinner --save
 const AllWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,6 +62,9 @@ function App() {
               <Route exact path="/sendemail" element={<SendEmail/>} />
               <Route exact path="/scrap" element={<ScrapPage/>} />
               <Route exact path="/myChart" element={<MyChart/>} />
+              <Route exact path="/loading" element={<Loading/>} />
+            
+
           </Routes>
         </Router>
           

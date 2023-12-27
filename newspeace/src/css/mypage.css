@@ -21,9 +21,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   /* display: grid; */
-  height: 100vh;
+  /* height: 120vh; */
+  height: auto;
   place-items: center;
   padding-top: 5%;
+  padding-bottom: 5%;
+  height: 100%;
   width: 100%;
 
 }
@@ -36,7 +39,9 @@
   /* height: auto; 높이 자동 조정 */
   /* max-width: var(--max-width); */
   overflow: hidden;
-  height: 80vh;
+  /* height: 88vh; */
+  /* height: calc(95% - 20px); */
+  height: 100%;
 
   /* position: relative; */
   width: 50%;
@@ -45,6 +50,8 @@
   display: flex; /* Flex 컨테이너 설정 */
   justify-content: space-between; /* 아이템 사이의 공간 균등 분배 */
   position: relative; 
+  /* margin-bottom: 5%; */
+
 }
 .rightbox {
   flex: 1; /* 두 박스가 유연하게 공간을 차지 */
@@ -69,6 +76,7 @@
   margin-bottom: 20px; /* 하단 여백 추가 */
   justify-content: center;
   flex-direction: column; /* 요소들을 세로 방향으로 정렬 */
+
 }
 
 .profile_photo {
@@ -83,6 +91,7 @@
 .profile_info {
   flex-grow: 1;
   text-align: center; /* 텍스트 가운데 정렬 */
+
 }
 
 .profile_name {
@@ -95,10 +104,14 @@
 
 .userinfo_section, .keyword_section {
   padding: 0 20px;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
   border-bottom: #e6e4e4 solid 2px;
   line-height: 0.5; /* 원하는 비율로 조절 (1보다 작은 값으로 줄이기) */
+  padding-bottom: 16px;
 
+}
+.userinfo_section{
+  line-height: 10px;
 }
 .scrap_section{
   margin-top: 30px;
@@ -147,7 +160,13 @@
   font-weight: bold;
   
 }
+.keywords{
+  display: flex;
 
+}
+.keywords p{
+  margin-right: 10px; /* 원하는 간격으로 조절하세요 */
+}
 .keywords .keyword {
   background-color: var(--white);
   border-radius: 10px;
@@ -202,4 +221,22 @@
   margin-bottom: 15px;
   font-weight: bold;
   text-align: center;
+}
+.noticealert{
+  padding-bottom: 5px;
+}
+.noticealert2{
+  /* padding-bottom: 5px; */
+  font-size: 10px;
+}
+
+.keywords a {
+  text-decoration: none;
+  color:black;
+  /* border-bottom: 1px solid #000; */
+  display: inline-block; /* 맨 뒤의 공백 포함 */
+}
+
+.keywords a:hover {
+  border-bottom: 2px solid #000; /* 호버 효과 */
 }

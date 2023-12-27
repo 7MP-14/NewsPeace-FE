@@ -14,7 +14,7 @@ export default function Notice() {
   }, []);
 
   const getNotice=()=>{
-    fetch("http://3.34.92.70/notice/",{
+    fetch("http://newspeace.co.kr/notice/",{
       method:'GET',
       headers:{
         'Content-Type':'application/json; charset=utf-8',

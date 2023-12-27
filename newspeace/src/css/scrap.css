@@ -33,7 +33,7 @@
   }
   
   .section-title-scrap-container {
-    margin-bottom: 20px; /* 제목 아래 여백 */
+    /* margin-bottom: 10px; 제목 아래 여백 */
     text-align: center;
     width: 100%;
 
@@ -41,9 +41,11 @@
   
   .section-title-scrap {
     text-align: center; /* 제목 중앙 정렬 */
-    font-size: 24px; /* 제목 크기 */
+    font-size: 35px; /* 제목 크기 */
     color: #333; /* 제목 색상 */
     width: 100%;
+    margin-top: 20px;
+    margin-bottom: -6%;
 
   }
   
@@ -53,6 +55,13 @@
     /*justify-content: flex-start; /* Align items to the left */
     flex-wrap: wrap; /* 반응형으로 줄 바꿈 */
     gap: 20px;
+    display: flex;
+    justify-content: flex-start; /* 기사들을 왼쪽으로 정렬 */
+    flex-wrap: wrap; /* 반응형으로 줄 바꿈 */
+    gap: 20px;
+    /* max-width: 1000px; 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 margin 설정 */
+    margin-left:6%;
     
   }
   
@@ -133,4 +142,24 @@
   
   .page-number:hover {
     background-color: #f8f9fa; /* 호버 상태의 배경 색상 */
+  }
+
+
+  .delete-button{
+    position: absolute;
+    top: 10px; /* Adjust the distance from the top */
+    width: 30px;
+    height: 30px;
+    background-color: rgba(91, 89, 89, 0.7); /* Adjust the transparency as needed */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 17px; /* Adjust the font size as needed */
+    text-align: center;
+    line-height: 30px; /*Should match the height of the button*/
   }

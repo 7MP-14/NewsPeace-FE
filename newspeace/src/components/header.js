@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import React from "react";
 import '../css/header.css';
-
+import logo from '../img/logo3.png';
 export default function Header(props) {
   return (
     // Navigation
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
             <a class="navbar-brand" href="/"> <strong>NewsPeace</strong></a>
+            {/* <img src={logo} style={{width:'120px', height:'60px'}}></img> */}
             <span className="menu">
             {
             props.login
@@ -15,6 +16,7 @@ export default function Header(props) {
             (
               <span>
               <a class="btn btn-primary" href="/notice">공지사항</a>
+              <a class="btn btn-primary" href="/scrap">즐겨찾기</a>
               <a class="btn btn-primary" href="/mypage">마이페이지</a>
               <a class="btn btn-primary" href="/logout">로그아웃</a>
               </span>
