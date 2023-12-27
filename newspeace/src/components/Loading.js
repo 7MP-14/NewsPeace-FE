@@ -19,13 +19,13 @@ const Background = styled.div`
 `;
 
 const LoadingText = styled.div`
-    font:4rem 'Noto Sans KR';
+    font:3rem 'Gowun Dodum';
     text-align:center;
     margin-bottom:1rem;
 `;
 
 const LoadingImage = styled.img`
-    width:20%;
+    width:15%;
 `;
 
 const Loading = () => {

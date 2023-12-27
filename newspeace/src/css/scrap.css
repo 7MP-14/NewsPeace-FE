@@ -33,7 +33,7 @@
   }
   
   .section-title-scrap-container {
-    margin-bottom: 20px; /* 제목 아래 여백 */
+    /* margin-bottom: 10px; 제목 아래 여백 */
     text-align: center;
     width: 100%;
 
@@ -41,7 +41,7 @@
   
   .section-title-scrap {
     text-align: center; /* 제목 중앙 정렬 */
-    font-size: 24px; /* 제목 크기 */
+    font-size: 35px; /* 제목 크기 */
     color: #333; /* 제목 색상 */
     width: 100%;
 
