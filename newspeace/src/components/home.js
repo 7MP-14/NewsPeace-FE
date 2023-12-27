@@ -57,33 +57,8 @@ const Home=()=>{
       navigate('/result', { state: { responseData: res } });
     })
     console.log(checkedItems);
-    // window.location.replace('/result')
   }
-  // const submit = () => {
-  //   const queryParams = new URLSearchParams({
-  //     keyword: inputkeyword,
-  //     category: checkedItems.join(','),
-  //   });
 
-  //   const apiUrl = `http://newspeace.co.kr/news/search/?${queryParams}`;
-
-  //   fetch(apiUrl, {
-  //     method: 'GET',
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log('성공');
-  //       console.log(res);
-  //       // 여기서 res 데이터를 다음 페이지로 전달
-  //       navigate('/result', { state: { responseData: res } });
-  //     })
-  //     .catch((error) => {
-  //       console.error('에러:', error);
-  //     });
-
-  //   console.log(checkedItems);
-  //   console.log(inputkeyword);
-  // };
 
   useEffect(() => {
     fetch('http://newspeace.co.kr/hot/', {
@@ -115,6 +90,30 @@ const Home=()=>{
     return () => clearInterval(intervalId);
   }, [hotKeywords.length, currentHotKeywordIndex]);
 
+  const hotkeywordsubmit=()=>{
+    setLoading(true);
+
+    fetch('http://newspeace.co.kr/news/search/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({
+        keyword: hotKeywords[currentHotKeywordIndex], // 선택된 핫 키워드 사용
+        // category: checkedItems,
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log('성공');
+        console.log(res);
+        setLoading(false);
+        navigate('/result', { state: { responseData: res } });
+      })
+      .catch(error => {
+        console.error('에러:', error);
+      });
+  }
 
 
 
@@ -162,7 +161,7 @@ const Home=()=>{
                           </div>
                          <div className="keyword-container">
                           {hotKeywords.length > 0 &&
-                            <p className={`keyword ${animationClass}`}>{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
+                            <p className={`keyword ${animationClass}`} onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])} >{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
                           }
                         </div>
                         </div>
