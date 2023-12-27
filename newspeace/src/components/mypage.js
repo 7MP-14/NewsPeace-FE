@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
 import icon2 from '../img/user.png'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EmailButton from './sendEmail.js';
 
 export default function Mypage(props) {
@@ -40,6 +40,14 @@ export default function Mypage(props) {
         setIsEmailVerified(res.is_email_verified);
       })
   }
+
+  const navigate = useNavigate();
+
+  const handleKeywordClick = (keywordText) => {
+    // 다른 페이지로 이동하고자 하는 경우 navigate 사용
+    navigate(`/myChart`, { state: { keywordText } });
+    // navigate('/result', { state: { responseData: res } });
+  };
 
   return (
     <div className="mypage_body" style={{ backgroundImage: `url(${backimg})` }}>
@@ -123,20 +131,17 @@ export default function Mypage(props) {
           <div className="keyword_section">
             <h3 className="section_title">관심 키워드</h3>
             <div className="keywords">
-              {keywords && keywords.length > 0 ? (
-                keywords.map(keyword => (
-                  <Link
-                    key={keyword.id}
-                    to={{ pathname: `/keyword/${keyword.keyword_text}`, state: { keywordText: keyword.keyword_text } }}
-                  >
-                    <p>
-                      <strong>{keyword.keyword_text}</strong>
-                    </p>
-                  </Link>
-                ))
-              ) : (
-                <p><strong>키워드 없음</strong></p>
-              )}
+            {keywords && keywords.length > 0 ? (
+              keywords.map((keyword) => (
+                <p key={keyword.id} onClick={() => handleKeywordClick(keyword.keyword_text)}>
+                  <strong>{keyword.keyword_text}</strong>
+                </p>
+              ))
+            ) : (
+              <p>
+                <strong>키워드 없음</strong>
+              </p>
+            )}
             </div>
           </div>
           <div className="survey_section">

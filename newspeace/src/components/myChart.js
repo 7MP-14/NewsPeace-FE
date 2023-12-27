@@ -26,7 +26,7 @@ const LineChart = () => {
   const keywordText = location.state.keywordText;
 
   const fetchData = async () => {
-    const response = await fetch('http://newspeace.co.kr/api/mykeyword/', {
+    const response = await fetch('http://newspeace.co.kr/mykeyword/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -37,6 +37,7 @@ const LineChart = () => {
     });
     const data = await response.json();
     setChartData(data); // 서버로부터 받은 데이터로 상태 업데이트
+    console.log(data);
   };
 
   useEffect(() => {
