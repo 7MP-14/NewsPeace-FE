@@ -153,7 +153,7 @@ export default function Editpage(props) {
                             onChange={handleInputChange}
                         />
                         <label htmlFor="NotifyTF" className="notify-label">관심 키워드에 대한 부정적 기자 탐지 시 알림을 받겠습니다.</label> */}
-                        <p>관심 키워드에 대한 부정적 기자 탐지 시 알림을 받겠습니다.</p>
+                        <p>관심 키워드에 대한 부정적 기사 탐지 시 알림을 받겠습니다.</p>
                     </div>
 
                     <div className="form-group notify-group2">
