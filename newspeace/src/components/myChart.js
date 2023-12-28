@@ -12,7 +12,7 @@ import {
     Tooltip,
     Legend,
   } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 import '../css/myChart.css';
 import backimg from "../img/bg-masthead.jpg";
@@ -21,11 +21,43 @@ import { useLocation } from 'react-router-dom';
 const LineChart = () => {
   const chartRefBig = useRef(null);
   const chartRefSmall = useRef(null);
-  const [chartData, setChartData] = useState({}); // 차트 데이터 상태 관리
   const location = useLocation();
-  const keywordText = location.state.keywordText;
+  const keywordText = location.state.keywordText; // ?. 연산자를 사용하여 state가 정의되지 않은 경우를 처리
+  const [chartData, setChartData] = useState({  // 차트 데이터 상태 관리
+    labels: [],
+    datasets: [
+      {
+        label: '부정도 %',
+        data: [],
+        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        pointRadius: 5,
+        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+        pointBorderColor: '#fff',
+        pointHoverRadius: 7,
+        pointHoverBackgroundColor: 'rgba(54, 162, 235, 1)',
+        pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
+        fill: false,
+      },
+    ],
+  }); 
+  
+   // 현재 날짜를 YYYY-MM-DD 형식으로 포맷하는 함수
+   const formatDate = (date) => {
+    const d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+};
+
+  // 현재 날짜 상태
+  const [currentDate, setCurrentDate] = useState(formatDate(new Date()));
+
 
   const fetchData = async () => {
+    try {
     const response = await fetch('http://newspeace.co.kr/mykeyword/', {
       method: 'POST',
       headers: {
@@ -36,13 +68,30 @@ const LineChart = () => {
       }),
     });
     const data = await response.json();
-    setChartData(data); // 서버로부터 받은 데이터로 상태 업데이트
-    console.log(data);
+    const negatives = data.result_negative;
+    const times = data.result_time.map(time => {
+        // 'T'로 분리하여 시간 부분만 추출하고, ':'로 분리한 후 시와 분만을 결합합니다.
+        const timeParts = time.split('T')[1].split(':');
+        return `${timeParts[0]}:${timeParts[1]}`; // 시:분 형태로 반환
+      });
+      
+
+    setChartData(prevChartData => ({
+        ...prevChartData,
+        labels: times,
+        datasets: [{
+          ...prevChartData.datasets[0],
+          data: negatives
+        }]
+      }));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [keywordText]);
 
   // 차트 생성 관련 useEffect 코드
   useEffect(() => {
@@ -57,104 +106,45 @@ const LineChart = () => {
         BarElement,
         Title,
         Tooltip,
-        // Legend
+        Legend
       );
     
-    
-      // 라인 차트 데이터
-    const lineChartData = {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
-        datasets: [
-          {
-            label: '삼성전자',
-            data: [0, 20, 30, 40, 50, 60, 20, 10, 2, 9, 58, 42, 90, 13, 77, 65, 40, 86, 12, 33, 55, 46, 70, 25, 31],
-            borderColor: 'rgba(54, 162, 235, 1)',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            pointRadius: 5,
-            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-            pointBorderColor: '#fff',
-            pointHoverRadius: 7,
-            pointHoverBackgroundColor: 'rgba(54, 162, 235, 1)',
-            pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
-            fill: false,
-          },
-        ],
-      };
-  
-      const lineChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            display: true,
-          },
-          y: {
-            beginAtZero: true,
-            max: 100,
-          },
-        },
-      };
-  
-      // 막대 차트 데이터
-    const barChartData = {
-        labels: ['09/11', '09/25', '10/16', '10/30', '11/13', '11/27', '12/11', '12/25'],
-        datasets: [{
-          label: 'Volume',
-          data: [200000, 180000, 210000, 250000, 300000, 280000, 320000, 350000],
-          backgroundColor: (context) => {
-            const value = context.dataset.data[context.dataIndex];
-            // 이곳에서 값을 기준으로 상승/하락 색상을 결정합니다.
-            return value > 250000 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(54, 162, 235, 0.5)';
-          },
-          borderColor: (context) => {
-            const value = context.dataset.data[context.dataIndex];
-            // 이곳에서 값을 기준으로 상승/하락 색상을 결정합니다.
-            return value > 250000 ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)';
-          },
-          borderWidth: 1
-        }]
-       }
-       
-      
-      const barChartOptions = {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      };
-  
       // 라인 차트 생성
       const bigChartInstance = new ChartJS(chartRefBig.current.getContext('2d'), {
         type: 'line',
-        data: lineChartData,
-        options: lineChartOptions,
+        data: chartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              display: true,
+            },
+            y: {
+              beginAtZero: true,
+              max: 100,
+              
+            },
+          },
+        },
       });
-  
-      // 바 차트 생성
-      const smallChartInstance = new ChartJS(chartRefSmall.current.getContext('2d'), {
-        type: 'bar',
-        data: barChartData,
-        options: barChartOptions,
-      });
+
   
       return () => {
         bigChartInstance.destroy();
-        smallChartInstance.destroy();
+        
       };
-    }, []);
+    }, [chartData]);
   
+
     return (
         <div className="chart-background" style={{ backgroundImage: `url(${backimg})` }}>
           <div className="chart-container">
-            <div className="chart-title">시간별 키워드 부정률(%)</div>
+            <div className="chart-title">{currentDate} 시간별 키워드 부정률(%)</div>
               <div className="chart-box-big">
                 <canvas ref={chartRefBig} />
               </div>
-              <div className="chart-box-small">
-                <canvas ref={chartRefSmall} />
-              </div>
+
             </div>
         </div>
       );
