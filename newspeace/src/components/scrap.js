@@ -2,73 +2,72 @@ import React, { useState, useEffect } from "react";
 import '../css/scrap.css';
 import backimg from "../img/bg-masthead.jpg";
 import { Link } from 'react-router-dom';
-
+import people6 from '../img/null.png';
 
 export default function ScrapSection() {
-  const articlesPerRow = 4; // 한 줄에 보여줄 기사의 수
-  const rowsPerPage = 3; // 한 페이지에 보여줄 줄의 수
+  const articlesPerRow = 4;
+  const rowsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
-  const [originalArticles, setOriginalArticles]=useState([]);
+  const [originalArticles, setOriginalArticles] = useState([]);
 
-  // 페이지네이션을 위한 총 기사 수 설정
-  const totalArticles = originalArticles.length; // 실제 앱에서는 이 값을 서버로부터 받아와야 합니다.
+  const totalArticles = originalArticles.length;
   const totalPage = Math.ceil(totalArticles / (articlesPerRow * rowsPerPage));
   const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
 
-  // 현재 페이지에 맞는 기사 목록을 가져옵니다.
   const currentArticles = originalArticles.slice(
     (currentPage - 1) * articlesPerRow * rowsPerPage,
     currentPage * articlesPerRow * rowsPerPage
   );
 
-  // 페이지 번호를 클릭하면 현재 페이지를 업데이트합니다.
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    getscrap();
+    getScrap();
   }, []);
 
-  const getscrap=()=>{
-    fetch(`http://newspeace.co.kr/news/mynewsscript/${window.localStorage.getItem('user_id')}/`,{
-    // fetch(`http://newspeace.co.kr/news/mynewsscript/1/`,{
-
-      method:'GET',
-      headers:{
-        'Content-Type':'application/json; charset=utf-8',
-
-      },
-    })
-    .then(res=>res.json())
-    .then(res=>{
-      console.log(res.myNews_script)
-      setOriginalArticles(res.myNews_script);
-
-    })
-  }
-
-  const handleDelete = (articleId) => {
-    // Make a fetch request to delete the notice by its ID
-    fetch(`http://newspeace.co.kr/news/delete/${window.localStorage.getItem('user_id')}/${articleId}/`, {
-    // fetch(`http://newspeace.co.kr/news/delete/1/1/`, {
-
-      method: 'DELETE',
+  const getScrap = () => {
+    fetch(`http://newspeace.co.kr/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
     })
-      .then(response => {
-        if (response.ok) {
-          console.log('Scrap deleted successfully');
-          window.location.replace('/scrap');
-
-          // Optionally, you can perform additional actions, such as updating the UI
-        } else {
-          console.error('Failed to delete scrap');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
+      .then(res => res.json())
+      .then(res => {
+        console.log(res.myNews_script);
+        // Replace empty image URLs with people6 image
+        const articlesWithImages = res.myNews_script.map(article => ({
+          ...article,
+          img: article.img || people6,
+        }));
+        setOriginalArticles(articlesWithImages);
       });
+  };
+
+  const handleDelete = (articleId) => {
+    // Confirm before deleting
+    const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
+
+    if (isConfirmed) {
+      // Make a fetch request to delete the article by its ID
+      fetch(`http://newspeace.co.kr/news/delete/${articleId}/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Scrap deleted successfully');
+            window.location.replace('/scrap');
+          } else {
+            console.error('Failed to delete scrap');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   };
 
   return (
@@ -79,15 +78,15 @@ export default function ScrapSection() {
           <div className="title-underline"></div>
         </div>
         <div className="articles-container">
-        {currentArticles.map((article, index) => (
-          <div key={index} className="article-card">
-            <Link to={article.link}>
-              <img src={article.img} className="article-image" alt={`News ${article.id}`} />
-              <div className="article-title-overlay">{article.title}</div>
-            </Link>
-            <button onClick={() => handleDelete(article.id)} className="delete-button"> X</button>
-          </div>
-        ))}
+          {currentArticles.map((article, index) => (
+            <div key={index} className="article-card">
+              <Link to={article.link}>
+                <img src={article.img} className="article-image" alt={`News ${article.id}`} />
+                <div className="article-title-overlay">{article.title}</div>
+              </Link>
+              <button onClick={() => handleDelete(article.id)} className="delete-button">X</button>
+            </div>
+          ))}
         </div>
         <div className="pagination">
           {pages.map(number => (
@@ -100,20 +99,3 @@ export default function ScrapSection() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

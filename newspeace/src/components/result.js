@@ -68,10 +68,15 @@ function Dashboard() {
             })
             .then((data) => {
                 // 필요한 경우 백엔드에서 받은 데이터를 처리합니다.
-                console.log('성공:', data);
-                // 알림 표시
-                window.alert('스크랩에 성공했습니다.');
-                
+                console.log(data.return);
+            
+                if (data.return === "스크립트 한 뉴스입니다.") {
+                    // 알림 표시
+                    window.alert('이미 스크랩한 뉴스입니다.');
+                } else {
+                    // 스크립트 성공 알림 표시
+                    window.alert('스크랩에 성공했습니다.');
+                }
             })
             .catch((error) => {
                 // 여기에서 에러를 처리합니다.
