@@ -65,7 +65,8 @@ export default function Login(props) {
             // 추출한 토큰을 localStorage에 저장
             window.localStorage.setItem('token', token);
             window.localStorage.setItem('user_id', userId);
-    
+            window.localStorage.setItem('is_admin',data.is_admin);
+            console.log(data);
             // 로그인 성공 후 다른 동작 수행
             window.location.replace('/');
         })

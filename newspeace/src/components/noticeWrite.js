@@ -5,7 +5,7 @@ export default function CreateNotice() {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     const today = new Date();
@@ -25,10 +25,11 @@ export default function CreateNotice() {
     }
 
     const formData = new FormData();
+    const userId = window.localStorage.getItem("user_id")
     formData.append("title", title);
     formData.append("body", content);
     formData.append("image", image);
-    formData.append("author", 1);
+    formData.append("author", userId);
 
     fetch("http://newspeace.co.kr/notice/create/", {
       method: 'POST',

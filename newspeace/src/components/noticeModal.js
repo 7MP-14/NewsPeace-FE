@@ -1,6 +1,8 @@
 import React from "react";
 
 function NoticeModal({ isOpen, onClose, notice }) {
+  const isadmin = window.localStorage.getItem("is_admin");
+
   if (!isOpen || !notice) return null;
 
   // Function to handle the delete action
@@ -16,7 +18,6 @@ function NoticeModal({ isOpen, onClose, notice }) {
         if (response.ok) {
           console.log('Notice deleted successfully');
           window.location.replace('/notice');
-
           // Optionally, you can perform additional actions, such as updating the UI
         } else {
           console.error('Failed to delete notice');
@@ -33,9 +34,11 @@ function NoticeModal({ isOpen, onClose, notice }) {
         <h2 className="notice-title">{notice.title}</h2>
         <div className="deletediv">
           <p className="notice-date">작성일: {notice.created}</p>
-          <button className="delete-button" onClick={handleDelete}>
-            삭제
-          </button>
+          {isadmin && (
+            <button className="delete-button2" onClick={handleDelete}>
+              삭제
+            </button>
+          )}
         </div>
         <p className="notice-content">{notice.body}</p>
         {notice.image && (
