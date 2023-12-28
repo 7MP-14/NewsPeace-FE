@@ -10,6 +10,15 @@ import icon5 from '../img/정장.jpg';
 import icon6 from '../img/의사소통.jpg';
 import icon7 from '../img/업무.jpg';
 import Loading from './Loading.js';
+import anno from '../img/user.png'
+import people1 from '../img/people1.png';
+import people2 from '../img/people2.jpg';
+import people3 from '../img/people3.jpg';
+import people4 from '../img/people4.png';
+import people5 from '../img/people5.jpg';
+import people6 from '../img/people6.png';
+import people7 from '../img/people7.jpg';
+import people8 from '../img/people8.png';
 
 const Home=()=>{
 
@@ -149,7 +158,7 @@ const Home=()=>{
                             <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
                             <button className={`checkbtn ${checkedItems.includes('사회') ? 'selected' : ''}`} onClick={() => checkedItemHandler('사회')}>사회</button>
                             <button className={`checkbtn ${checkedItems.includes('문화') ? 'selected' : ''}`} onClick={() => checkedItemHandler('문화')}>문화</button>
-                            <button className={`checkbtn ${checkedItems.includes('국제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('국제')}>국제</button>
+                            {/* <button className={`checkbtn ${checkedItems.includes('국제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('국제')}>국제</button> */}
                             <button className={`checkbtn ${checkedItems.includes('IT') ? 'selected' : ''}`} onClick={() => checkedItemHandler('IT')}>IT</button>
                             <button className={`checkbtn ${checkedItems.includes('연예') ? 'selected' : ''}`} onClick={() => checkedItemHandler('연예')}>연예</button>
                             <button className={`checkbtn ${checkedItems.includes('스포츠') ? 'selected' : ''}`} onClick={() => checkedItemHandler('스포츠')}>스포츠</button>
@@ -241,33 +250,70 @@ const Home=()=>{
           </section>
 
           <section className="testimonials text-center bg-light">
-              <div className="container">
-                  <h2 className="mb-5">What people are saying...</h2>
-                  <div className="row">
-                      <div className="col-lg-4">
-                          <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                              <img className="img-fluid rounded-circle mb-3" src="assets/img/testimonials-1.jpg" alt="..." />
-                              <h5>Margaret E.</h5>
-                              <p className="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
-                          </div>
-                      </div>
-                      <div className="col-lg-4">
-                          <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                              <img className="img-fluid rounded-circle mb-3" src="assets/img/testimonials-2.jpg" alt="..." />
-                              <h5>Fred S.</h5>
-                              <p className="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
-                          </div>
-                      </div>
-                      <div className="col-lg-4">
-                          <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                              <img className="img-fluid rounded-circle mb-3" src="assets/img/testimonials-3.jpg" alt="..." />
-                              <h5>Sarah W.</h5>
-                              <p className="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
+            <div className="container" ><hr></hr>
+                {/* <h2 className="mb-5">십사조</h2> */}
+                <div className="row">
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people1} alt="..." />
+                            <h5>고동연</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 1"</p> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people2} alt="..." />
+                            <h5>나창준</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 2"</p> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people3} alt="..." />
+                            <h5>심승헌</h5>
+                            {/* <p className="font-weight-light mb-0">"팀장"</p> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people4} alt="..." />
+                            <h5>온동헌</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 4"</p> */}
+                        </div>
+                    </div>
+                </div><br></br>
+                <div className="row">
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people5} alt="..." />
+                            <h5>정솔</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 5"</p> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people6} alt="..." />
+                            <h5>정유진</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 6"</p> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people7} alt="..." />
+                            <h5>최자윤</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 7"</p> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
+                            <img src={people8} alt="..." />
+                            <h5>현지연</h5>
+                            {/* <p className="font-weight-light mb-0">"멤버 8"</p> */}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
           </div>
         </>
        )};
