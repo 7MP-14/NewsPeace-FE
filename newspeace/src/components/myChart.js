@@ -7,7 +7,6 @@ import backimg from "../img/bg-masthead.jpg";
 const LineChart = () => {
   const location = useLocation();
   const keywordText = location.state?.keywordText || '키워드'; // state가 정의되지 않은 경우 기본값 사용
-  
   const [sentimentSeries, setSentimentSeries] = useState([]);
   const [stockSeries, setStockSeries] = useState([]);
   const [options, setOptions] = useState({
@@ -99,12 +98,10 @@ const LineChart = () => {
         const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
         
         // 주식 데이터
-        const stockData = data.result_present.map(present => {
-            return {
-              x: new Date(present.date).getTime(), 
-              y: present.value
-            };
-          });
+        const stockData = times.map((time, index) => ({
+          x: time,
+          y: data.result_present[index]
+        }));
         // console.log(stockData);
         setSentimentSeries([{ name: '부정도 %', data: negatives }]);
         setStockSeries([{ name: '주식 가격', data: stockData }]);
