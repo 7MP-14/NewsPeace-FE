@@ -29,8 +29,8 @@ export default function ScrapSection() {
   }, []);
 
   const getscrap=()=>{
-    // fetch(`http://newspeace.co.kr/news/mynewsscript/${window.localStorage.getItem('user_id')}/`,{
-    fetch(`http://newspeace.co.kr/news/mynewsscript/1/`,{
+    fetch(`http://newspeace.co.kr/news/mynewsscript/${window.localStorage.getItem('user_id')}/`,{
+    // fetch(`http://newspeace.co.kr/news/mynewsscript/1/`,{
 
       method:'GET',
       headers:{
@@ -48,8 +48,8 @@ export default function ScrapSection() {
 
   const handleDelete = (articleId) => {
     // Make a fetch request to delete the notice by its ID
-    // fetch(`http://newspeace.co.kr/news//delete/${window.localStorage.getItem('user_id')}/${articleId}/`, {
-    fetch(`http://newspeace.co.kr/news/delete/1/1/`, {
+    fetch(`http://newspeace.co.kr/news/delete/${window.localStorage.getItem('user_id')}/${articleId}/`, {
+    // fetch(`http://newspeace.co.kr/news/delete/1/1/`, {
 
       method: 'DELETE',
       headers: {
@@ -59,7 +59,7 @@ export default function ScrapSection() {
       .then(response => {
         if (response.ok) {
           console.log('Scrap deleted successfully');
-          // window.location.replace('/scrap');
+          window.location.replace('/scrap');
 
           // Optionally, you can perform additional actions, such as updating the UI
         } else {
