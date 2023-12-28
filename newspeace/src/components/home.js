@@ -251,7 +251,7 @@ const Home=()=>{
 
           <section className="testimonials text-center bg-light">
             <div className="container" ><hr></hr>
-                {/* <h2 className="mb-5">십사조</h2> */}
+                <h2 className="mb-5">KT Aivle 4기 ❤️14조❤️</h2>
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="testimonial-item mx-auto mb-5 mb-lg-0">
