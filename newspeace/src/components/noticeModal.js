@@ -30,6 +30,7 @@ function NoticeModal({ isOpen, onClose, notice }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
+      <button className="overlay-close-button" onClick={onClose}>X</button>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <h2 className="notice-title">{notice.title}</h2>
         <div className="deletediv">
