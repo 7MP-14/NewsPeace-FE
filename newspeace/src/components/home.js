@@ -60,18 +60,25 @@ const Home=()=>{
         'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
-        keyword: inputkeyword, // Include the searchWord in the request body
+        keyword: inputkeyword,
         category: checkedItems,
       }),
     })
       .then(res => res.json())
       .then(res => {
-        console.log('성공');
-        console.log(res);
         setLoading(false);
-        navigate('/result', { state: { responseData: res , category: checkedItems} });
+  
+        if (res.reply === false) {
+          // 결과가 없는 경우
+          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+          setinputKeyword("");
+        } else {
+          // 결과가 있는 경우 페이지 이동
+          navigate('/result', { state: { responseData: res, category: checkedItems } });
+        }
       })
       .catch(error => {
+        setLoading(false);
         console.error('에러:', error);
       });
   }
