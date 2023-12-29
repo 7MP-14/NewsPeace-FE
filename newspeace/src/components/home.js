@@ -28,8 +28,16 @@ const Home=()=>{
   const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
   const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
   const [loading, setLoading] = useState(false);
+  // const [writetime, setWritetime]=useState();
 
   const navigate = useNavigate();
+
+  // Enter로 검색
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      submit(); 
+    }
+  };
 
   const checkedItemHandler = (category) => {
     setCheckedItems((prevSelected) => {
@@ -59,18 +67,25 @@ const Home=()=>{
         'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
-        keyword: inputkeyword, // Include the searchWord in the request body
+        keyword: inputkeyword,
         category: checkedItems,
       }),
     })
       .then(res => res.json())
       .then(res => {
-        console.log('성공');
-        console.log(res);
         setLoading(false);
-        navigate('/result', { state: { responseData: res } });
+  
+        if (res.reply === false) {
+          // 결과가 없는 경우
+          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+          setinputKeyword("");
+        } else {
+          // 결과가 있는 경우 페이지 이동
+          navigate('/result', { state: { responseData: res, category: checkedItems } });
+        }
       })
       .catch(error => {
+        setLoading(false);
         console.error('에러:', error);
       });
   }
@@ -158,6 +173,7 @@ const Home=()=>{
                           type="text"
                           value={inputkeyword}
                           onChange={handleKeywordChange}
+                          onKeyDown={handleKeyPress}
                           placeholder="관심 있는 키워드를 입력하세요."
                         />
                         <div className="categorybtn">
@@ -177,13 +193,13 @@ const Home=()=>{
                           </div>
                          <div className="keyword-container">
                           {hotKeywords.length > 0 &&
-                            <p className={`keyword ${animationClass}`} onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])} >{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
+                            <p className={`keyword ${animationClass}`} style={{cursor: 'pointer'}} onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])} >{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
                           }
                         </div>
                         </div>
                       </div>
                       <div className="col-auto">
-                        <img src={icon1} style={{ width: '40px', height: '37px' }} onClick={submit} alt="search icon" />
+                        <img src={icon1} style={{ width: '40px', height: '37px', cursor: 'pointer'}} onClick={submit} alt="search icon" />
                       </div>
                     </div>
                   </div>
