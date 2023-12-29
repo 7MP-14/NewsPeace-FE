@@ -6,11 +6,14 @@ import scrapcomp from'../img/찬책갈피.png';
 import news_1 from '../img/신문배경.png';
 import article from '../img/기사배경.png';
 import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
+import people6 from '../img/null.png';
 
 function Dashboard() {
 
     const location = useLocation();
     const responseData = location.state?.responseData;
+    const category = location.state?.category;
+    const categoryString = Array.isArray(category) ? category.join(', ') : category;
 
     const content = '키워드입력'
     const positiveWidth = `${responseData.긍정도}%`; // 긍정 비율
@@ -83,6 +86,13 @@ function Dashboard() {
                 console.error('에러:', error);
             });
     };
+    const MAX_TITLE_LENGTH=34;
+    function truncateTitle(title) {
+        if (title.length > MAX_TITLE_LENGTH) {
+          return title.substring(0, MAX_TITLE_LENGTH) + '...';
+        }
+        return title;
+      }
 
     return (
         <div className="result_container mx-auto p-4" style={{height:'100%',backgroundImage: `url(${news_1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -90,7 +100,7 @@ function Dashboard() {
                 {/* <h1 className='Test'> 키워드 : </h1> */}
                 <h2 className="text-2xl font-bold mb-4">{responseData.keyword}</h2><hr></hr>
                 <div className="introduction-text">
-                    <b>{responseData.keyword}</b> 에 대한 기사의 긍정, 부정 의견 분석 결과입니다 
+                    카테고리 <b>{categoryString}</b>에서의 <b>'{responseData.keyword}'</b> 분석 결과입니다. 
                 </div>
                 <h1 className='Test1'>
                     <span>긍정 의견 (%)</span>
@@ -104,32 +114,47 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="list-container md:flex" style={{ width: '100%' }}>
-                <div className={`list-box ${positiveBoxShadowClass}`} style={{ width: '100%', backgroundImage: `url(${article})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        <h3 className="list-title">positive</h3><hr></hr>
-                        <div className="article-list">
-                            {responseData.article.긍정.map((articleData) => (
-                                <div className="article-item" key={articleData.id}>
-                                <a href={articleData.link} className="article-link">{articleData.title}</a>
+                <div className={`list-box ${positiveBoxShadowClass}`} style={{ width: '100%', backgroundImage: `url(${article})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                    <h3 className="list-title">positive</h3>
+                    <p className="article-count">{responseData.article.긍정.length}개</p>
+                    <hr />
+                    <div className="article-list">
+                        {responseData.article.긍정.map((articleData) => (
+                            <div className="article-item" key={articleData.id}>
+                                <img src={articleData.img || people6} className='article-img' alt="Article" />
+                                <div className="article-content">
+                                    <a href={articleData.link} className="article-link">{articleData.title}</a>
+                                    <p className="write-dt">
+                                    <p className="write-dt">
+                                        {articleData.write_dt.split('T')[0]} {((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[0]}:{((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[1]}</p>
+                                    </p>
+                                </div>
                                 <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
                                     <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
                                 </button>
-                                </div>
-                            ))}
-
-                        </div>
+                            </div>
+                        ))}
                     </div>
+                </div>
+
                     <div className={`list-box_ng ${negativeBoxShadowClass}`} style={{ width: '100%', backgroundImage: `url(${article})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        <h3 className="list-title">negative</h3><hr></hr>
+                        <h3 className="list-title">negative</h3>
+                        <p className="article-count">{responseData.article.부정.length}개</p>
+                        <hr></hr>
                         <div className="article-list">
                             {responseData.article.부정.map((articleData) => (
                                 <div className="article-item" key={articleData.id}>
-                                <a href={articleData.link} className="article-link">{articleData.title}</a>
+                                <img src={articleData.img || people6} className='article-img' alt="Article"/>
+                                <div className="article-content">
+                                    <a href={articleData.link} className="article-link">{articleData.title}</a>
+                                    <p className="write-dt">{articleData.write_dt.split('T')[0]} {((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[0]}:{((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[1]}</p>
+                                </div>
                                 <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
                                     <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
                                 </button>
                                 </div>
                             ))}
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>

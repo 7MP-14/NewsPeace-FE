@@ -28,6 +28,7 @@ const Home=()=>{
   const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
   const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
   const [loading, setLoading] = useState(false);
+  // const [writetime, setWritetime]=useState();
 
   const navigate = useNavigate();
 
@@ -68,7 +69,7 @@ const Home=()=>{
         console.log('성공');
         console.log(res);
         setLoading(false);
-        navigate('/result', { state: { responseData: res } });
+        navigate('/result', { state: { responseData: res , category: checkedItems} });
       })
       .catch(error => {
         console.error('에러:', error);

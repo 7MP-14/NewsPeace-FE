@@ -132,6 +132,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
+    border-bottom: 1px solid #e1e1e1;
+    /* margin-bottom: 10px;  */
 }
 
 .article-link {
@@ -139,9 +141,13 @@
     color: black;
     margin-bottom: 0.5rem;
     text-decoration: none;
-    border-bottom: 1px solid #e1e1e1;
     padding-bottom: 0.5rem;
     width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1; /* 표시할 최대 줄 수 */
 }
 
 .article-link:hover {
@@ -159,3 +165,30 @@
 .scrap-button:hover {
     background-color: transparent;
 }
+
+.article-img{
+    margin-right: 10px;
+    width:80px;
+    height:60px;
+    border-radius: 5px;
+}
+.article-content {
+    flex: 1;
+    /* line-height: 10px; */
+    /* margin-top: 10px; */
+    align-items: center;
+    /* max-width: 200px; Adjust the maximum width as needed */
+
+  }
+.article-content a{
+    margin-top: 10px;
+    height: 28px;
+  }
+
+  .write-dt {
+    margin-top: -10px; /* 날짜와 링크 사이 간격 조절 */
+  }
+  .article-count {
+    text-align: right;
+    margin-bottom: -3%;
+  }
