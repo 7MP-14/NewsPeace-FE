@@ -46,26 +46,33 @@ const Home=()=>{
   };
 
   const submit=()=>{
-    setLoading(true); // api 호출 전에 true로 변경하여 로딩화면 띄우기
-
-    fetch('http://newspeace.co.kr/news/search/',{
-      method:'POST',
-      hearders:{
-        'Content-Type':'application/json; charset=utf-8'
+    if (!inputkeyword.trim()) {
+      window.alert('검색어를 입력해주세요.');
+      return;
+    }
+  
+    setLoading(true);
+  
+    fetch('http://newspeace.co.kr/news/search/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
       },
-      body:JSON.stringify({
-        keyword:inputkeyword, // Include the searchWord in the request body
-        category:checkedItems,
+      body: JSON.stringify({
+        keyword: inputkeyword, // Include the searchWord in the request body
+        category: checkedItems,
       }),
     })
-    .then(res=>res.json())
-    .then(res=>{
-      console.log('성공');
-      console.log(res);
-      setLoading(false); // api 호출 완료 됐을 때 false로 변경하려 로딩화면 숨김처리
-      navigate('/result', { state: { responseData: res } });
-    })
-    console.log(checkedItems);
+      .then(res => res.json())
+      .then(res => {
+        console.log('성공');
+        console.log(res);
+        setLoading(false);
+        navigate('/result', { state: { responseData: res } });
+      })
+      .catch(error => {
+        console.error('에러:', error);
+      });
   }
 
 
