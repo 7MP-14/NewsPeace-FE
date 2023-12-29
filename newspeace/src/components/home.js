@@ -32,6 +32,13 @@ const Home=()=>{
 
   const navigate = useNavigate();
 
+  // Enter로 검색
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      submit(); 
+    }
+  };
+
   const checkedItemHandler = (category) => {
     setCheckedItems((prevSelected) => {
       if (prevSelected.includes(category)) {
@@ -159,6 +166,7 @@ const Home=()=>{
                           type="text"
                           value={inputkeyword}
                           onChange={handleKeywordChange}
+                          onKeyDown={handleKeyPress}
                           placeholder="관심 있는 키워드를 입력하세요."
                         />
                         <div className="categorybtn">
@@ -178,13 +186,13 @@ const Home=()=>{
                           </div>
                          <div className="keyword-container">
                           {hotKeywords.length > 0 &&
-                            <p className={`keyword ${animationClass}`} onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])} >{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
+                            <p className={`keyword ${animationClass}`} style={{cursor: 'pointer'}} onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])} >{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
                           }
                         </div>
                         </div>
                       </div>
                       <div className="col-auto">
-                        <img src={icon1} style={{ width: '40px', height: '37px' }} onClick={submit} alt="search icon" />
+                        <img src={icon1} style={{ width: '40px', height: '37px', cursor: 'pointer'}} onClick={submit} alt="search icon" />
                       </div>
                     </div>
                   </div>
