@@ -16,6 +16,10 @@ export default function Mypage(props) {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isSmsVerified, setIsSmsVerified] = useState(false);
 
+  // const [keywords, setKeywords] = useState([]);
+  const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
+  const [selectedKeywords, setSelectedKeywords] = useState([]); // 선택된 키워드를 관리하는 상태 추가
+
   useEffect(() => {
     getProfile();
   }, []);
@@ -47,6 +51,59 @@ export default function Mypage(props) {
     // 다른 페이지로 이동하고자 하는 경우 navigate 사용
     navigate(`/myChart`, { state: { keywordText } });
     // navigate('/result', { state: { responseData: res } });
+  };
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+    // 수정 모드 전환 시 선택된 키워드 초기화
+    setSelectedKeywords([]);
+  };
+
+  const handleCheckboxChange = (keywordId, isChecked) => {
+    if (isChecked) {
+      // 체크된 경우 선택된 키워드에 추가
+      setSelectedKeywords((prevSelected) => [...prevSelected, keywordId]);
+    } else {
+      // 체크 해제된 경우 선택된 키워드에서 제거
+      setSelectedKeywords((prevSelected) =>
+        prevSelected.filter((id) => id !== keywordId)
+      );
+    }
+  };
+
+  const handleDeleteSelectedKeywords = () => {
+    // 선택된 키워드를 삭제하는 로직을 추가
+    // 여기에 실제 삭제 로직을 추가하면 됩니다.
+    console.log('삭제할 키워드 ID 목록:', selectedKeywords);
+    // 예시: 선택된 키워드 삭제 후 프로필 정보 다시 가져오기
+    getProfile();
+    // 또는, 직접 API 호출 등을 통해 삭제 로직을 추가해야 합니다.
+    // ...
+    // Function to handle the delete action
+  fetch(`http://newspeace.co.kr/api/profile/${window.localStorage.getItem("user_id")}/keywords/`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body:JSON.stringify({
+      keyword_ids:selectedKeywords
+    }),
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log('Notice deleted successfully');
+        window.location.replace('/mypage');
+        // Optionally, you can perform additional actions, such as updating the UI
+      } else {
+        console.error('Failed to delete notice');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  
+    // 수정 모드 종료 및 선택된 키워드 초기화
+    setIsEditing(false);
+    setSelectedKeywords([]);
   };
 
   return (
@@ -128,7 +185,7 @@ export default function Mypage(props) {
             )}
     
           </div>
-          <div className="keyword_section">
+          {/* <div className="keyword_section">
             <h3 className="section_title">관심 키워드</h3>
             <div className="keywords">
             {keywords && keywords.length > 0 ? (
@@ -143,7 +200,42 @@ export default function Mypage(props) {
               </p>
             )}
             </div>
-          </div>
+          </div> */}
+           <div className="keyword_section">
+        <div className="section_header">
+          <h3 className="section_title">관심 키워드</h3>
+          {/* 수정된 부분: 편집 모드 여부에 따라 버튼 텍스트 변경 */}
+          <button className="deletebutton4" onClick={isEditing ? handleDeleteSelectedKeywords : handleEditToggle} >
+            {isEditing ? '삭제' : '수정'}
+          </button>
+        </div>
+        <div className="keywords">
+          {keywords && keywords.length > 0 ? (
+            keywords.map((keyword) => (
+              <div key={keyword.id} className="keyword-item">
+                {/* 수정된 부분: 편집 모드일 때만 체크박스 표시 */}
+                {isEditing && (
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      handleCheckboxChange(keyword.id, e.target.checked)
+                    }
+                    checked={selectedKeywords.includes(keyword.id)}
+                  />
+                )}
+                <p onClick={() => handleKeywordClick(keyword.keyword_text)}>
+                  <strong>{keyword.keyword_text}</strong>
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>
+              <strong>키워드 없음</strong>
+            </p>
+          )}
+ 
+        </div>
+      </div>
           <div className="survey_section">
             <Link
                 to={`/editPage?name=${name}&email=${email}&phoneNumber=${phoneNumber}&keywords=${keywords.map(keyword => keyword.keyword_text).join(',')}&emailNotice=${emailNotice}&smsNotice=${smsNotice}`}

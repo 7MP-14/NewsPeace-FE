@@ -241,31 +241,28 @@
 .keywords p:hover {
   border-bottom: 2px solid #000; /* 호버 효과 */
 }
-.keyword-div {
-  position: relative;
-  display: inline-block;
-  margin: 0 5px;
-  padding: 5px 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+
+
+
+.section_header {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.delete-button3 {
-  position: absolute;
-  bottom: 0;
-  /* left: 50%; */
-  transform: translateX(-50%);
-  background-color: #ff6464;
-  color: #fff;
-  border: none;
-  padding: 2px 5px;
-  border-radius: 3px;
-  cursor: pointer;
+.deletebutton4{
   font-size: 12px;
-  display: none; /* 기본적으로 숨겨둠 */
+  background-color: #f9f9f9;
+  color: #008997;
+  margin-left: 3%;
+  border-bottom: 1px solid #008997;
+  margin-top: -3%;
+  border-radius: 0;
+  /* padding: 3px 5px; */
+
 }
 
-.keyword-div:hover .delete-button {
-  display: inline-block; /* 호버 시 버튼 보이기 */
+.keywords input{
+  margin-right: 10px;
 }
