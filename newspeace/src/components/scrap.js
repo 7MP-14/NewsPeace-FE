@@ -32,15 +32,16 @@ export default function ScrapSection() {
         'Content-Type': 'application/json; charset=utf-8',
       },
     })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res.myNews_script);
-        // Replace empty image URLs with people6 image
-        const articlesWithImages = res.myNews_script.map(article => ({
+    .then(res => res.json())
+    .then(res => {
+      const sortedArticles = res.myNews_script
+        .map(article => ({
           ...article,
           img: article.img || people6,
-        }));
-        setOriginalArticles(articlesWithImages);
+          time: article.time 
+        }))
+        .sort((a, b) => new Date(b.time) - new Date(a.time)); 
+      setOriginalArticles(sortedArticles);
       });
   };
 
