@@ -78,7 +78,7 @@ export default function Signin(props) {
       setNextSignupState(true);
       e.preventDefault();
 
-      fetch("http://newspeace.co.kr/api/register/", {
+      fetch("/api/register/", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json; charset=utf-8'

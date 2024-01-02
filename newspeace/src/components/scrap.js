@@ -26,7 +26,7 @@ export default function ScrapSection() {
   }, []);
 
   const getScrap = () => {
-    fetch(`http://newspeace.co.kr/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
+    fetch(`/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -51,7 +51,7 @@ export default function ScrapSection() {
 
     if (isConfirmed) {
       // Make a fetch request to delete the article by its ID
-      fetch(`http://newspeace.co.kr/news/delete/${articleId}/`, {
+      fetch(`/news/delete/${articleId}/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

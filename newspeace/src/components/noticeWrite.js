@@ -31,7 +31,7 @@ export default function CreateNotice() {
     formData.append("image", image);
     formData.append("author", userId);
 
-    fetch("http://newspeace.co.kr/notice/create/", {
+    fetch("/notice/create/", {
       method: 'POST',
       body: formData,
       credentials: 'include',

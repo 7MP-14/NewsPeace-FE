@@ -61,7 +61,7 @@ const Home=()=>{
   
     setLoading(true);
   
-    fetch('http://newspeace.co.kr/news/search/', {
+    fetch('/news/search/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -92,7 +92,7 @@ const Home=()=>{
 
 
   useEffect(() => {
-    fetch('http://newspeace.co.kr/hot/', {
+    fetch('/hot/', {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -124,7 +124,7 @@ const Home=()=>{
   const hotkeywordsubmit=()=>{
     setLoading(true);
 
-    fetch('http://newspeace.co.kr/news/search/', {
+    fetch('/news/search/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'

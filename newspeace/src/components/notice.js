@@ -15,7 +15,7 @@ export default function Notice() {
   }, []);
 
   const getNotice = () => {
-    fetch("http://newspeace.co.kr/notice/", {
+    fetch("/notice/", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

@@ -51,7 +51,7 @@ export default function Editpage(props) {
         try {
             // 필터링된 데이터가 비어있지 않을 때만 fetch 요청 보내기
             if (Object.keys(filteredData).length > 0) {
-                const response = await fetch(`http://newspeace.co.kr/api/profile/${window.localStorage.getItem("user_id")}/`, {
+                const response = await fetch(`/api/profile/${window.localStorage.getItem("user_id")}/`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8',

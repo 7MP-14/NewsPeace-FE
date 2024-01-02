@@ -39,7 +39,7 @@ function EmailButton({ email }) {
                 console.error('Failed to send email:', error);
             });
 
-        fetch('http://newspeace.co.kr/api/send-verify-email/', {
+        fetch('/api/send-verify-email/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ function EmailButton({ email }) {
         // Here, you can make a backend request to verify the code
         // and set setIsCodeVerified accordingly.
         // Example:
-        fetch('http://newspeace.co.kr/api/verify-email/', {
+        fetch('/api/verify-email/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

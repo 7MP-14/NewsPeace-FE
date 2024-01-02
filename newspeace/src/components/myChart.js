@@ -78,7 +78,7 @@ const LineChart = () => {
     
     const fetchData = async () => {
       try {
-        const response = await fetch('http://newspeace.co.kr/mykeyword/', {
+        const response = await fetch('/mykeyword/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
