@@ -17,18 +17,18 @@
   background-color: var(--white);
   background: url("../img/bg-masthead.jpg");
   background-attachment: fixed;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  /* display: grid; */
+  display: flex;
   /* height: 120vh; */
-  height: auto;
+  height: 100%;
   place-items: center;
   padding-top: 5%;
   padding-bottom: 5%;
-  height: 100%;
+  height: auto;
   width: 100%;
-
+  min-height: 100vh;
 }
 
 .mypage_container {
@@ -41,8 +41,7 @@
   overflow: hidden;
   /* height: 88vh; */
   /* height: calc(95% - 20px); */
-  height: 100%;
-
+  height: auto;
   /* position: relative; */
   width: 50%;
   margin: 0 auto;
@@ -52,6 +51,7 @@
   position: relative; 
   /* margin-bottom: 5%; */
   margin-top: 0;
+  min-height: 650px; 
 }
 .rightbox {
   flex: 1; /* 두 박스가 유연하게 공간을 차지 */
@@ -103,7 +103,7 @@
 }
 
 
-.userinfo_section, .keyword_section {
+.userinfo_section {
   padding: 0 20px;
   margin-bottom: 18px;
   border-bottom: #e6e4e4 solid 2px;
@@ -111,6 +111,15 @@
   padding-bottom: 16px;
 
 }
+.keyword_section {
+  padding: 0 20px;
+  margin-bottom: 18px;
+  border-bottom: #e6e4e4 solid 2px;
+  line-height: 0.5; /* 원하는 비율로 조절 (1보다 작은 값으로 줄이기) */
+  padding-bottom: 16px;
+
+}
+
 .userinfo_section{
   line-height: 10px;
 }
@@ -124,7 +133,6 @@
   justify-content: center;
   position: absolute;
   /* 추가적인 스타일링 */
-
   bottom: 2%; /* 원하는 위치로 조절 (하단으로부터의 거리를 조절할 수 있습니다) */
   left: 0; /* 왼쪽에 고정 (원하는 위치로 조절 가능) */
   width: 100%;
@@ -136,23 +144,23 @@
   background-color: transparent;
   margin-top: 2%;
   font-size: 12px; 
-
   margin: 0 10px;
-  padding: 10px 20px;
+  padding: 0px 20px;
   border-radius: 5px;
   cursor: pointer;
 }
-.survey_section .linkbutton{
-  border:none;
-  color:#0367a6;
-  background-color: transparent;
-  margin-top: 2%;
-  font-size: 12px; 
-
-  margin: 0 10px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+.linkbutton{
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #008997;
+  padding: 8px 16px; /* 버튼 크기를 조절 */
+  margin-left: 3%;
+  border-bottom: 1px solid #008997;
+  margin-top: -3%;
+  border-radius: 0;
+  text-decoration: none; /* 기본 링크 밑줄 제거 */
+  display: inline-block; /* 링크를 인라인 블록 요소로 만들어 주어서 버튼처럼*/
+  text-align: center; /* 텍스트를 중앙으로 정렬 */
 }
 .section_title {
   font-size: 1.3rem;
@@ -263,7 +271,6 @@
 
 .section_header {
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   margin-bottom: 10px;
 }

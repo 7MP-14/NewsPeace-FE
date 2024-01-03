@@ -171,7 +171,14 @@ export default function Mypage(props) {
             </div>
           </div>
           <div className="userinfo_section">
+          <div className="section_header">
             <h3 className="section_title">개인정보</h3>
+            <Link
+              to={`/editPage?name=${name}&email=${email}&phoneNumber=${phoneNumber}&keywords=${keywords.map(keyword => keyword.keyword_text).join(',')}&emailNotice=${emailNotice}&smsNotice=${smsNotice}`}
+              className="linkbutton">
+              수정
+            </Link>
+          </div>
             <p><strong>Phone : </strong>{phoneNumber}</p>
             <p><strong>Email : </strong>{email}</p>
             {emailNotice && smsNotice && !isEmailVerified && isSmsVerified && (
@@ -310,12 +317,6 @@ export default function Mypage(props) {
             )}
       </div>
           <div className="survey_section">
-            <Link
-                to={`/editPage?name=${name}&email=${email}&phoneNumber=${phoneNumber}&keywords=${keywords.map(keyword => keyword.keyword_text).join(',')}&emailNotice=${emailNotice}&smsNotice=${smsNotice}`}
-                className="linkbutton"
-            >
-                수정
-            </Link>
             <button>회원탈퇴</button>
           </div>
         </div>
