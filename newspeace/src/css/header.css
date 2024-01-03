@@ -85,6 +85,8 @@
   box-sizing: border-box;
 }
 
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
@@ -92,7 +94,7 @@
 }
 
 body {
-  font-family: 'Gowun Dodum', sans-serif;
+  font-family: 'nanumsquare', sans-serif;
 
   margin: 0;
   /* font-family: var(--bs-body-font-family); */
