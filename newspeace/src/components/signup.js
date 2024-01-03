@@ -13,6 +13,7 @@ const ErrorMsg = styled.div`
 `;
 
 export default function Signin(props) {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -78,7 +79,7 @@ export default function Signin(props) {
       setNextSignupState(true);
       e.preventDefault();
 
-      fetch("/api/register/", {
+      fetch(`${apiUrl}/api/register/`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json; charset=utf-8'

@@ -2,6 +2,7 @@ import emailjs from 'emailjs-com';
 import { useState, useEffect } from 'react';
 
 function EmailButton({ email }) {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [verificationCode, setVerificationCode] = useState("");
     const [isCodeVerified, setIsCodeVerified] = useState(false);
@@ -39,7 +40,7 @@ function EmailButton({ email }) {
                 console.error('Failed to send email:', error);
             });
 
-        fetch('/api/send-verify-email/', {
+        fetch(`${apiUrl}/api/send-verify-email/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ function EmailButton({ email }) {
         // Here, you can make a backend request to verify the code
         // and set setIsCodeVerified accordingly.
         // Example:
-        fetch('/api/verify-email/', {
+        fetch(`${apiUrl}/api/verify-email/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

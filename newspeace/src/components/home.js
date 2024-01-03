@@ -30,6 +30,8 @@ const Home=()=>{
   const [loading, setLoading] = useState(false);
   // const [writetime, setWritetime]=useState();
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
 
   // Enter로 검색
@@ -61,7 +63,7 @@ const Home=()=>{
   
     setLoading(true);
   
-    fetch('/news/search/', {
+    fetch(`${apiUrl}/news/search/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -92,7 +94,9 @@ const Home=()=>{
 
 
   useEffect(() => {
-    fetch('/hot/', {
+    console.log('API URL:', process.env.REACT_APP_API_URL);
+    console.log('API URL:', process.env.REACT_APP_API_URL);
+    fetch(`${apiUrl}/hot/`, {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -124,7 +128,7 @@ const Home=()=>{
   const hotkeywordsubmit=()=>{
     setLoading(true);
 
-    fetch('/news/search/', {
+    fetch(`${apiUrl}/news/search/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'

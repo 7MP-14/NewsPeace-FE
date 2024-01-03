@@ -1,6 +1,7 @@
 import React from "react";
 
 function NoticeModal({ isOpen, onClose, notice }) {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const isadmin = window.localStorage.getItem("is_admin");
 
   if (!isOpen || !notice) return null;
@@ -8,7 +9,7 @@ function NoticeModal({ isOpen, onClose, notice }) {
   // Function to handle the delete action
   const handleDelete = () => {
     // Make a fetch request to delete the notice by its ID
-    fetch(`/notice/${notice.id}/delete/`, {
+    fetch(`${apiUrl}/notice/${notice.id}/delete/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

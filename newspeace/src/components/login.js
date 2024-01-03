@@ -12,6 +12,7 @@ const ErrorMsg = styled.div`
   text-align: left; /* 왼쪽 정렬 스타일 추가 */
 `;
 export default function Login(props) {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [Email, setEmail]=useState();
     const [Password, setPassword]=useState();
 
@@ -39,7 +40,7 @@ export default function Login(props) {
             return;
         }
     
-        fetch("/api/login/", {
+        fetch(`${apiUrl}/api/login/`, {
             method: "POST",
             headers: {
                 'Content-Type':'application/json; charset=utf-8'

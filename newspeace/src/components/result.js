@@ -9,7 +9,7 @@ import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
 import people6 from '../img/null.png';
 
 function Dashboard() {
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const location = useLocation();
     const responseData = location.state?.responseData;
     const category = location.state?.category;
@@ -52,7 +52,7 @@ function Dashboard() {
 
         // 백엔드로 fetch 요청을 보냅니다.
         // 'your-backend-api-endpoint'를 실제 엔드포인트로 교체하세요.
-        fetch('/news/newsscript/', {
+        fetch(`${apiUrl}/news/newsscript/`, {
             method: 'POST', // 백엔드 API 요구 사항에 따라 메서드를 조정하세요.
             headers: {
                 'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import '../css/editPage.css';
 import backimg from "../img/bg-masthead.jpg";
 
 export default function Editpage(props) {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const [userData, setUserData] = useState({
@@ -51,7 +52,7 @@ export default function Editpage(props) {
         try {
             // 필터링된 데이터가 비어있지 않을 때만 fetch 요청 보내기
             if (Object.keys(filteredData).length > 0) {
-                const response = await fetch(`/api/profile/${window.localStorage.getItem("user_id")}/`, {
+                const response = await fetch(`${apiUrl}/api/profile/${window.localStorage.getItem("user_id")}/`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8',

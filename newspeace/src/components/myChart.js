@@ -5,6 +5,7 @@ import '../css/myChart.css';
 import backimg from "../img/bg-masthead.jpg";
 
 const LineChart = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const location = useLocation();
   const keywordText = location.state?.keywordText || '키워드'; // state가 정의되지 않은 경우 기본값 사용
   const [sentimentSeries, setSentimentSeries] = useState([]);
@@ -85,7 +86,7 @@ const LineChart = () => {
     
     const fetchData = async () => {
       try {
-        const response = await fetch('/mykeyword/', {
+        const response = await fetch(`${apiUrl}/mykeyword/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
