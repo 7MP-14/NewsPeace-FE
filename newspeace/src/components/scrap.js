@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import people6 from '../img/null.png';
 
 export default function ScrapSection() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const articlesPerRow = 4;
   const rowsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +31,7 @@ export default function ScrapSection() {
   }, []);
 
   const getScrap = () => {
-    fetch(`/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
+    fetch(`${apiUrl}/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -55,7 +56,7 @@ export default function ScrapSection() {
 
     if (isConfirmed) {
       // Make a fetch request to delete the article by its ID
-      fetch(`/news/delete/${articleId}/`, {
+      fetch(`${apiUrl}/news/delete/${articleId}/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

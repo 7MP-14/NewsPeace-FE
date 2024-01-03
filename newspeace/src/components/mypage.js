@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import EmailButton from './sendEmail.js';
 
 export default function Mypage(props) {
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
@@ -27,7 +27,7 @@ export default function Mypage(props) {
 
   const getProfile = () => {
     const userId = `${window.localStorage.getItem('user_id')}`
-    fetch(`/api/profile/${userId}/`, {
+    fetch(`${apiUrl}/api/profile/${userId}/`, {
       method: 'GET',
       headers: {
         "Content-Type": 'application/json',
@@ -96,7 +96,7 @@ export default function Mypage(props) {
   
     const formattedKeywords = updatedKeywords.map(keyword => ({ keyword_text: keyword.keyword_text }));
   
-    fetch(`/api/profile/${userId}/`, {
+    fetch(`${apiUrl}/api/profile/${userId}/`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -133,7 +133,7 @@ export default function Mypage(props) {
     // 또는, 직접 API 호출 등을 통해 삭제 로직을 추가해야 합니다.
     // ...
     // Function to handle the delete action
-  fetch(`/api/profile/${window.localStorage.getItem("user_id")}/keywords/`, {
+  fetch(`${apiUrl}/api/profile/${window.localStorage.getItem("user_id")}/keywords/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',

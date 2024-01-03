@@ -4,6 +4,7 @@ import '../css/notice.css';
 import { Link } from "react-router-dom";
 
 export default function Notice() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notices, setNotices] = useState([]);
@@ -15,7 +16,7 @@ export default function Notice() {
   }, []);
 
   const getNotice = () => {
-    fetch("/notice/", {
+    fetch(`${apiUrl}/notice/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

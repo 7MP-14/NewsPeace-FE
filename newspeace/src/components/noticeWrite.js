@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import '../css/write.css';
 
 export default function CreateNotice() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [content, setContent] = useState("");
@@ -31,7 +32,7 @@ export default function CreateNotice() {
     formData.append("image", image);
     formData.append("author", userId);
 
-    fetch("/notice/create/", {
+    fetch(`${apiUrl}/notice/create/`, {
       method: 'POST',
       body: formData,
       credentials: 'include',
