@@ -51,10 +51,11 @@
   justify-content: space-between; /* 아이템 사이의 공간 균등 분배 */
   position: relative; 
   /* margin-bottom: 5%; */
-
+  margin-top: 0;
 }
 .rightbox {
   flex: 1; /* 두 박스가 유연하게 공간을 차지 */
+  
 }
 .leftbox{
   background-color: #f9f9f9;
@@ -62,7 +63,7 @@
   flex: 1; /* 두 박스가 유연하게 공간을 차지 */
   margin: 10px; /* 여백 설정 */
   position: relative;
-
+  
 }
 
 /* 프로필 섹션 스타일 */
@@ -167,6 +168,22 @@
 .keywords p{
   margin-right: 10px; /* 원하는 간격으로 조절하세요 */
 }
+
+.keyword-add {
+  display: flex;
+  margin-top: 10px;
+}
+
+.keyword-add input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.keyword-add button {
+  padding: 5px 15px;
+}
+
 .keywords .keyword {
   background-color: var(--white);
   border-radius: 10px;
@@ -261,6 +278,16 @@
   border-radius: 0;
   /* padding: 3px 5px; */
 
+}
+
+.savebutton {
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #008997;
+  margin-left: 3%;
+  border-bottom: 1px solid #008997;
+  margin-top: -3%;
+  border-radius: 0;
 }
 
 .keywords input{

@@ -98,6 +98,7 @@ const LineChart = () => {
         const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
         
         // 주식 데이터
+        
         const stockData = times.map((time, index) => ({
           x: time,
           y: data.result_present[index]
@@ -133,13 +134,25 @@ const LineChart = () => {
   }, [keywordText]);
 
   return (
-    <div className='chart-background' style={{ backgroundImage: `url(${backimg})` }}>
+    <div className='chart-background'>
       <div className='chart-container'>
-        <div className='chart-title'><strong>{keywordText}</strong> 시간별 부정률(%)</div>
+        <div className='chart-title'><h2><strong>{keywordText}</strong> 시간별 부정률(%)</h2></div>
         <div className='chart-box'>
           <ReactApexChart options={options.sentimentOptions} series={sentimentSeries} type='line' height={350} />
         </div>
-        <div className='chart-title'>주식 가격 추이</div>
+        
+        <div className='chart-info'>
+          <div className='chart-title'><h2>시세 정보</h2></div>
+        </div>
+          <div className='price-info-box'>
+          <div className='stock-price'>현재가: <strong>53,300</strong></div>
+          <div className='price-change'>전일대비: <span className='down'>-800</span></div>
+          <div className='stock-info'>등락률: <span className='rate'>-1.48%</span></div>
+          <div className='stock-info'>시가: <span className='open-price'>53,000</span></div>
+          <div className='stock-info'>고가: <span className='high-price'>53,800</span></div>
+          <div className='stock-info'>저가: <span className='low-price'>52,800</span></div>
+          <div className='stock-info'>거래량: <span className='volume'>129,612</span></div>
+          </div>
         <div className='chart-box'>
           <ReactApexChart options={options.stockOptions} series={stockSeries} type='area' height={350} />
         </div>

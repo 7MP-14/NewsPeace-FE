@@ -19,6 +19,10 @@ export default function ScrapSection() {
     currentPage * articlesPerRow * rowsPerPage
   );
 
+  const goToFirstPage = () => setCurrentPage(1);
+  const goToLastPage = () => setCurrentPage(totalPage);
+  const goToPrevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
+  const goToNextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPage));
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
@@ -90,13 +94,22 @@ export default function ScrapSection() {
           ))}
         </div>
         <div className="pagination">
+          <button onClick={goToFirstPage} disabled={currentPage === 1}>&laquo;</button>
+          <button onClick={goToPrevPage} disabled={currentPage === 1}>&lt;</button>
           {pages.map(number => (
-            <button key={number} onClick={() => paginate(number)} className={`page-number ${currentPage === number ? 'active' : ''}`}>
+            <button
+              key={number}
+              onClick={() => paginate(number)}
+              className={`page-number ${currentPage === number ? 'active' : ''}`}
+            >
               {number}
             </button>
           ))}
+          <button onClick={goToNextPage} disabled={currentPage === totalPage}>&gt;</button>
+          <button onClick={goToLastPage} disabled={currentPage === totalPage}>&raquo;</button>
         </div>
       </div>
     </div>
   );
+
 }

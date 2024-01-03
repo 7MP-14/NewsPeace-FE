@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import '../css/mypage.css';
 import backimg from "../img/bg-masthead.jpg";
 import icon2 from '../img/user.png'
@@ -15,6 +15,7 @@ export default function Mypage(props) {
   const [smsNotice, setSmsNotice] = useState();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isSmsVerified, setIsSmsVerified] = useState(false);
+  const [newKeyword, setNewKeyword] = useState('');
 
   // const [keywords, setKeywords] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
@@ -69,6 +70,50 @@ export default function Mypage(props) {
       );
     }
   };
+  
+  // 새로운 키워드를 추가하는 함수
+  const handleAddKeyword = () => {
+    if (newKeyword) {
+      // 새 키워드를 keywords 배열에 추가
+      const newKeywords = [...keywords, { id: Date.now(), keyword_text: newKeyword }];
+      setKeywords(newKeywords);
+      // setNewKeyword(newKeywords);
+      setNewKeyword(''); // 텍스트 필드를 비우기
+      // 서버에 새 키워드를 저장하는 API 호출이 필요한 경우 여기에 추가합니다.
+    }
+  };
+
+  // 키워드 목록을 저장하는 함수
+  const handleSaveKeywords = () => {
+    // 서버에 keywords 배열을 저장하는 API 요청을 보냅니다.
+    
+    const userId = window.localStorage.getItem("user_id");
+
+    fetch(`/api/profile/${userId}/`, {
+      method: 'PATCH', // API의 요구사항에 따라 메소드를 변경할 수 있습니다.
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({keyword_text:keywords}),
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Keywords saved successfully');
+        return response.json();
+      } else {
+        console.error('Failed to save keywords');
+      }
+    })
+    .then(updatedKeywords => {
+      setKeywords(updatedKeywords); // 상태를 업데이트하여 UI에 반영
+      navigate('/mypage'); // 마이페이지로 이동
+    })
+
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
 
   const handleDeleteSelectedKeywords = () => {
     // 선택된 키워드를 삭제하는 로직을 추가
@@ -208,7 +253,13 @@ export default function Mypage(props) {
           <button className="deletebutton4" onClick={isEditing ? handleDeleteSelectedKeywords : handleEditToggle} >
             {isEditing ? '삭제' : '수정'}
           </button>
+          {isEditing && (
+              <button className="savebutton" onClick={handleSaveKeywords}>
+                저장
+              </button>
+            )}
         </div>
+
         <div className="keywords">
           {keywords && keywords.length > 0 ? (
             keywords.map((keyword) => (
@@ -233,8 +284,21 @@ export default function Mypage(props) {
               <strong>키워드 없음</strong>
             </p>
           )}
- 
+        
         </div>
+        {isEditing && (
+              <>
+                <div className="keyword-add">
+                  <input
+                    type="text"
+                    value={newKeyword}
+                    onChange={(e) => setNewKeyword(e.target.value)}
+                    placeholder="새 키워드 입력"
+                  />
+                  <button onClick={handleAddKeyword}>추가</button>
+                </div>
+              </>
+            )}
       </div>
           <div className="survey_section">
             <Link
@@ -248,5 +312,6 @@ export default function Mypage(props) {
         </div>
       </div>
     </div>
+    
   );
 }
