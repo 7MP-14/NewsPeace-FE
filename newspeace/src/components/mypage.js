@@ -88,13 +88,20 @@ export default function Mypage(props) {
     // 서버에 keywords 배열을 저장하는 API 요청을 보냅니다.
     
     const userId = window.localStorage.getItem("user_id");
-
+  
+    // 기존 키워드와 새로운 키워드를 합쳐서 API에 전송합니다.
+    const updatedKeywords = isEditing
+      ? [...keywords, ...selectedKeywords.map(keywordId => ({ id: keywordId, keyword_text: newKeyword }))]
+      : keywords;
+  
+    const formattedKeywords = updatedKeywords.map(keyword => ({ keyword_text: keyword.keyword_text }));
+  
     fetch(`/api/profile/${userId}/`, {
-      method: 'PATCH', // API의 요구사항에 따라 메소드를 변경할 수 있습니다.
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-      body: JSON.stringify({keyword_text:keywords}),
+      body: JSON.stringify({ keywords: formattedKeywords }),
     })
     .then(response => {
       if (response.ok) {
@@ -104,15 +111,17 @@ export default function Mypage(props) {
         console.error('Failed to save keywords');
       }
     })
-    .then(updatedKeywords => {
+    .then(res => {
       setKeywords(updatedKeywords); // 상태를 업데이트하여 UI에 반영
-      navigate('/mypage'); // 마이페이지로 이동
+      //navigate('/mypage'); // 마이페이지로 이동 (선택적)
+      window.location.reload();
     })
-
     .catch(error => {
       console.error('Error:', error);
     });
   };
+  
+  
 
 
   const handleDeleteSelectedKeywords = () => {
