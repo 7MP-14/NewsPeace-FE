@@ -36,7 +36,7 @@ function NoticeModal({ isOpen, onClose, notice }) {
         <h2 className="notice-title">{notice.title}</h2>
         <div className="deletediv">
           <p className="notice-date">작성일: {notice.created}</p>
-          {isadmin && (
+          {isadmin === "true" && (
             <button className="delete-button2" onClick={handleDelete}>
               삭제
             </button>
