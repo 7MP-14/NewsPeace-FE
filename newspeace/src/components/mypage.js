@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../css/mypage.css';
-import backimg from "../img/bg-masthead.jpg";
+// import backimg from "../img/bg-masthead.jpg";
 import icon2 from '../img/user.png'
 import { Link, useNavigate } from "react-router-dom";
 import EmailButton from './sendEmail.js';
@@ -161,7 +161,7 @@ export default function Mypage(props) {
   };
 
   return (
-    <div className="mypage_body" style={{ backgroundImage: `url(${backimg})` }}>
+    <div className="mypage_body" style={{ backgroundImage: `white` }}>
       <div className="mypage_container">
         <div className="leftbox">
           <div className="profile_section">
@@ -275,7 +275,7 @@ export default function Mypage(props) {
               </button>
             )}
         </div>
-
+        <div className="">
         <div className="keywords">
           {keywords && keywords.length > 0 ? (
             keywords.map((keyword) => (
@@ -300,7 +300,7 @@ export default function Mypage(props) {
               <strong>키워드 없음</strong>
             </p>
           )}
-        
+        </div>
         </div>
         {isEditing && (
               <>

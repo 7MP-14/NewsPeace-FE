@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../css/scrap.css';
-import backimg from "../img/bg-masthead.jpg";
+// import backimg from "../img/bg-masthead.jpg";
 import { Link } from 'react-router-dom';
 import people6 from '../img/null.png';
 
@@ -77,7 +77,7 @@ export default function ScrapSection() {
   };
 
   return (
-    <div className="scrap-section-body" style={{ backgroundImage: `url(${backimg})` }}>
+    <div className="scrap-section-body">
       <div className="scrap-section">
         <div className="section-title-scrap-container">
           <h3 className="section-title-scrap">스크랩 기사</h3>

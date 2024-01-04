@@ -21,6 +21,10 @@
   text-align: left;
 }
 
+.keyword-text {
+  color: var(--blue);
+}
+
 /* 차트 박스 스타일 */
 .chart-box {
   margin-bottom: 24px; /* 아래쪽 여백 */
@@ -58,11 +62,11 @@
   color: #000;
 }
 
-.price-change .up {
+.price-change .down {
   color: #007bff; /* 파란색으로 설정 */
 }
 
-.price-change .down {
+.price-change .up {
   color: #d9534f; /* 빨간색으로 설정 */
 }
 

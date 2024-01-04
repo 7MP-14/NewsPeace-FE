@@ -120,9 +120,9 @@ const LineChart = () => {
         // 현재가, 전일 종가, 변동 금액, 변동률 계산
         setCurrentPrice(data.result_present[data.result_present.length - 1]);
         setPreviousClose(data.result_open);
-        const changeValue = data.result_present[data.result_present.length - 1] - data.result_open;
-        setChange(changeValue);
-        setChangePercent((changeValue / data.result_open) * 100);
+        const change = data.result_present[data.result_present.length - 1] - data.result_open;
+        setChange(data.result_dod);
+        setChangePercent((change / data.result_open) * 100);
         setOpenPrice(data.result_open);
         setHighPrice(data.result_high);
         setLowPrice(data.result_low);
@@ -152,7 +152,7 @@ const LineChart = () => {
   return (
     <div className='chart-background'>
       <div className='chart-container'>
-        <div className='chart-title'><h2><strong>{keywordText}</strong> 시간별 부정률(%)</h2></div>
+        <div className='chart-title'><h2><strong className="keyword-text">{keywordText}</strong> 시간별 추이</h2></div>
         <div className='chart-box'>
           <ReactApexChart options={options.sentimentOptions} series={sentimentSeries} type='line' height={350} />
         </div>

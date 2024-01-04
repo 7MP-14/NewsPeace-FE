@@ -129,22 +129,7 @@ export default function Editpage(props) {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div className="form-group">
-                        <div className="label-group">
-                            <label htmlFor="keywords">키워드:</label>
-                        </div>
-                        {/* {userData.keywords.length > 0 ? ( */}
-                            <input
-                                type="text"
-                                id="keywords"
-                                name="keywords"
-                                placeholder={userData.keywords.map(keyword => keyword.keyword_text).join(', ')}
-                                onChange={handleInputChange}
-                            />
-                        {/* ) : ( */}
-                            {/* <p>키워드를 설정하지 않음</p> */}
-                        {/* )} */}
-                    </div>
+                    
                     <div className="form-group notify-group3">
                         {/* <input
                             type="checkbox"

@@ -14,7 +14,6 @@
 
 .mypage_body {
   align-items: center;
-  background-color: var(--white);
   background: url("../img/bg-masthead.jpg");
   background-attachment: fixed;
   background-position: center center;
@@ -32,25 +31,18 @@
 }
 
 .mypage_container {
-  background-color: var(--white);
+  /* background-color: var(--white); */
   border-radius: var(--button-radius);
-  box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
-    0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
-  /* height: auto; 높이 자동 조정 */
-  /* max-width: var(--max-width); */
+  /* box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
+    0 0.7rem 0.7rem rgba(0, 0, 0, 0.22); */
   overflow: hidden;
-  /* height: 88vh; */
-  /* height: calc(95% - 20px); */
   height: auto;
-  /* position: relative; */
-  width: 50%;
+  width: 40%;
   margin: 0 auto;
-  /* height: 800px; */
   display: flex; /* Flex 컨테이너 설정 */
   justify-content: space-between; /* 아이템 사이의 공간 균등 분배 */
   position: relative; 
-  /* margin-bottom: 5%; */
-  margin-top: 0;
+  margin-top: -10px;
   min-height: 650px; 
 }
 .rightbox {
@@ -109,16 +101,19 @@
   border-bottom: #e6e4e4 solid 2px;
   line-height: 0.5; /* 원하는 비율로 조절 (1보다 작은 값으로 줄이기) */
   padding-bottom: 16px;
+  text-align: center; /* 텍스트 가운데 정렬 */
 
 }
 .keyword_section {
   padding: 0 20px;
-  margin-bottom: 18px;
+  margin-bottom: 40px;
   border-bottom: #e6e4e4 solid 2px;
   line-height: 0.5; /* 원하는 비율로 조절 (1보다 작은 값으로 줄이기) */
   padding-bottom: 16px;
+  text-align: center; /* 텍스트 가운데 정렬 */
 
 }
+
 
 .userinfo_section{
   line-height: 10px;
@@ -133,7 +128,7 @@
   justify-content: center;
   position: absolute;
   /* 추가적인 스타일링 */
-  bottom: 2%; /* 원하는 위치로 조절 (하단으로부터의 거리를 조절할 수 있습니다) */
+  bottom: 1%; /* 원하는 위치로 조절 (하단으로부터의 거리를 조절할 수 있습니다) */
   left: 0; /* 왼쪽에 고정 (원하는 위치로 조절 가능) */
   width: 100%;
   text-align: center; /* 가운데 정렬 */
@@ -167,18 +162,36 @@
   color: var(--blue);
   margin-bottom: 20px;
   font-weight: bold;
-  
+
+}
+.keywords_box {
+  display: flex; /* Flexbox 레이아웃을 사용 */
+  flex-wrap: wrap; /* 요소들이 넘치면 다음 줄로 넘어감 */
+  gap: 10px; /* 요소 사이의 간격 */
+  padding: 10px; /* 안쪽 여백 */
 }
 .keywords{
   display: flex;
-
+  justify-content: center; 
+  flex-wrap: wrap;
 }
+
 .keywords p{
   margin-right: 10px; /* 원하는 간격으로 조절하세요 */
 }
 
+.keyword-item {
+  flex: 0 0 calc(16.66% - 10px); /* 한 줄에 6개의 항목이 들어가도록 설정 (100% / 6 - gap) */
+  text-align: center;
+  /* 필요하다면 추가 스타일을 여기에 작성 */
+}
+
 .keyword-add {
+  flex: 0 0 100%; /* 새 키워드 입력 부분을 한 줄 전체로 설정 */
   display: flex;
+  justify-content: center;
+  gap: 10px; /* 입력 필드와 버튼 사이의 간격을 10px로 설정 */
+  padding: 10px 0; /* 위 아래 패딩을 줍니다 */
   margin-top: 10px;
 }
 
@@ -241,11 +254,9 @@
   color: #666;
 }
 .section_title_scrap{
-  font-size: 1.7rem;
-  color: var(--blue);
-  margin-bottom: 15px;
-  font-weight: bold;
-  text-align: center;
+  width: 1100px;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 .noticealert{
   padding-bottom: 5px;
@@ -273,6 +284,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  justify-content: center; 
 }
 
 .deletebutton4{
