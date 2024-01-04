@@ -3,6 +3,7 @@ import {React, useState} from "react";
 import '../css/login.css';
 import backimg from "../img/bg-masthead.jpg";
 import logo from'../img/logo2.png';
+import kakao from '../img/kakao.png';
 
 
 const ErrorMsg = styled.div`
@@ -13,6 +14,7 @@ const ErrorMsg = styled.div`
 `;
 export default function Login(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
+    const rest_api_key=process.env.REACT_APP_REST_API_KEY;
     const [Email, setEmail]=useState();
     const [Password, setPassword]=useState();
 
@@ -20,6 +22,9 @@ export default function Login(props) {
         email: "",
         password: "",
       });
+    const REST_API_KEY = `${rest_api_key}`;
+    const KAKAO_REDIRECT_URI = "http://newspeace.co.kr/kakao/oauth";
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
       const handleEmail = (event) => {
         setEmail(event.target.value);
@@ -119,16 +124,21 @@ export default function Login(props) {
 
             {/* <!-- Sign In --> */}
             <div class="login_container__form login_container--signin">
-                <form action="#" class="form" id="form2">
-                    <h2 class="form__title">Login</h2>
-                    <input type="email" placeholder="Email" className="input" onChange={handleEmail} />
-                    <ErrorMsg>{error.email}</ErrorMsg>
-                    <input type="password" placeholder="Password" className="input" onChange={handlePassword} />
-                    <ErrorMsg>{error.password}</ErrorMsg>
-                    {/* <a href="#" class="link">Forgot your password?</a> */}
+              <form action="#" class="form" id="form2">
+                  <h2 class="form__title">Login</h2>
+                  <input type="email" placeholder="Email" className="input" onChange={handleEmail} />
+                  <ErrorMsg>{error.email}</ErrorMsg>
+                  <input type="password" placeholder="Password" className="input" onChange={handlePassword} />
+                  <ErrorMsg>{error.password}</ErrorMsg>
+                  {/* 이미지와 버튼을 동일한 부모 요소에 넣기 */}
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <button class="login_btn" onClick={checkSignIn}>Sign In</button>
-                </form>
-            </div>
+
+                      <a href={KAKAO_AUTH_URL}><img src={kakao} className='kakaologinbtn'></img></a>
+                  </div>
+              </form>
+          </div>
+
 
             {/* <!-- Overlay --> */}
             <div class="login_container__overlay">
