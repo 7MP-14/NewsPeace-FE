@@ -8,7 +8,7 @@
 }
 
 .mypage-edit {
-    width: 30%;
+    width: 40%;
     margin: auto;
     margin-top: 50px;
     padding: 20px;
@@ -102,5 +102,9 @@
     justify-content: center;
     align-items: center;
     margin:0 auto;
+}
+
+.form-group.notify-group3 input{
+    margin-right: 10px;
 }
   
