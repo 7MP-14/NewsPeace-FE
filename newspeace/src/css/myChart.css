@@ -62,11 +62,13 @@
   color: #000;
 }
 
-.price-change .down {
+.price-change .down::before {
+  content: "▼";
   color: #007bff; /* 파란색으로 설정 */
 }
 
-.price-change .up {
+.price-change .up::before {
+  content: "▲";
   color: #d9534f; /* 빨간색으로 설정 */
 }
 

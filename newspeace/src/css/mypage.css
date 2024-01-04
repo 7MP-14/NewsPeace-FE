@@ -37,12 +37,12 @@
     0 0.7rem 0.7rem rgba(0, 0, 0, 0.22); */
   overflow: hidden;
   height: auto;
-  width: 40%;
+  width: 45%;
   margin: 0 auto;
   display: flex; /* Flex 컨테이너 설정 */
   justify-content: space-between; /* 아이템 사이의 공간 균등 분배 */
   position: relative; 
-  margin-top: -10px;
+  margin-top: -20px;
   min-height: 650px; 
 }
 .rightbox {
@@ -181,9 +181,18 @@
 }
 
 .keyword-item {
-  flex: 0 0 calc(16.66% - 10px); /* 한 줄에 6개의 항목이 들어가도록 설정 (100% / 6 - gap) */
+  flex: 1; /* 한 줄에 4개의 항목이 들어가도록 설정 */
   text-align: center;
-  /* 필요하다면 추가 스타일을 여기에 작성 */
+  margin: 5px; /* 주변 마진 추가 */
+  padding: 5px; /* 안쪽 패딩 추가 */
+  box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+  overflow: visible; /* 텍스트가 넘쳐도 숨기지 않음 */
+  text-overflow: clip; /* 텍스트가 넘쳐도 생략하지 않고 클리핑 */
+  white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+  min-width: 100px; /* 최소 너비를 설정하여 너무 작게 줄어들지 않도록 함 */
+}
+.keyword-item:hover {
+  white-space: nowrap; /* 호버 시 텍스트가 줄바꿈 될 수 있도록 설정 */
 }
 
 .keyword-add {

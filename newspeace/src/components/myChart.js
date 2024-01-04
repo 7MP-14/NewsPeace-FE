@@ -105,13 +105,18 @@ const LineChart = () => {
         });
         const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
         
-        // 데이터를 시간순으로 정렬
+        
+        if (!data || !data.result_present) {
+          setStockSeries([]);
+          // 다른 상태 업데이트나 UI 로직은 여기에 추가...
+        } else {
+          // result_present가 유효한 경우 처리
+          // 데이터를 시간순으로 정렬
         const sortedData = data.result_time.map((time, index) => ({
           time: new Date(time).getTime(),
           price: data.result_present[index]
         })).sort((a, b) => a.time - b.time); // 시간순 정렬
-
-        // 정렬된 데이터를 차트 데이터로 변환
+          // 정렬된 데이터를 차트 데이터로 변환
         const stockData = sortedData.map(item => ({
           x: item.time,
           y: item.price
@@ -140,6 +145,7 @@ const LineChart = () => {
             }
           }
         }));
+        }
 
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -157,20 +163,29 @@ const LineChart = () => {
           <ReactApexChart options={options.sentimentOptions} series={sentimentSeries} type='line' height={350} />
         </div>
         
+        {/* 주식 차트 또는 메시지 표시 */}
+        {stockSeries.length > 0 ? (
+          <>
         <div className='chart-info'>
           <div className='chart-title'><h2>시세 정보</h2></div>
         </div>
           <div className='price-info-box'>
            <div className='stock-price'>현재가: <strong>{currentPrice || '로딩 중...'}</strong></div>
-          <div className='price-change'>전일대비: <span className={change >= 0 ? 'up' : 'down'}>{change || '...'}</span></div>
-          <div className='stock-info'>등락률: <span className={changePercent >= 0 ? 'rate-up' : 'rate-down'}>{changePercent ? `${changePercent.toFixed(2)}%` : '...'}</span></div>
-          <div className='stock-info'>시가: <span className='open-price'>{openPrice || '...'}</span></div>
-          <div className='stock-info'>고가: <span className='high-price'>{highPrice || '...'}</span></div>
-          <div className='stock-info'>저가: <span className='low-price'>{lowPrice || '...'}</span></div>
+           <div className='price-change'>전일대비: <span className={change >= 0 ? 'up' : 'down'}>{change ? `${Math.abs(change)}` : '...'}</span></div>
+           <div className='stock-info'>등락률: <span className={changePercent >= 0 ? 'rate-up' : 'rate-down'}>{changePercent ? `${changePercent.toFixed(2)}%` : '...'}</span></div>
+           <div className='stock-info'>시가: <span className='open-price'>{openPrice || '...'}</span></div>
+           <div className='stock-info'>고가: <span className='high-price'>{highPrice || '...'}</span></div>
+           <div className='stock-info'>저가: <span className='low-price'>{lowPrice || '...'}</span></div>
           </div>
         <div className='chart-box'>
           <ReactApexChart options={options.stockOptions} series={stockSeries} type='area' height={350} />
         </div>
+      </>
+      ) : (
+        <div className='no-stock-data'>
+            <h2>해당 기업 정보가 없습니다.</h2>
+          </div>
+        )}
       </div>
     </div>
   );
