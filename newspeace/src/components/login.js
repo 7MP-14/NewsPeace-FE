@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {React, useState} from "react";
 import '../css/login.css';
-import backimg from "../img/bg-masthead.jpg";
 import logo from'../img/logo2.png';
 
 
@@ -63,7 +62,6 @@ export default function Login(props) {
             // data에서 토큰 추출
             const token = data.token;
             const userId = data.user_id;
-            // console.log(data.token);
             // 추출한 토큰을 localStorage에 저장
             window.localStorage.setItem('token', token);
             window.localStorage.setItem('user_id', userId);
@@ -137,12 +135,9 @@ export default function Login(props) {
                 <div class="overlay">
                 <div class="overlay__panel overlay--left">
                     <img src={logo} style={{width:'320px', height:'180px'}}></img>
-                    {/* <button class="login_btn" id="signIn" >Sign In</button> */}
                 </div>
                 <div class="overlay__panel overlay--right">
                     <img src={logo} style={{width:'320px', height:'180px'}}></img>
-
-                     {/* <button class="login_btn" id="signUp">Sign Up</button> */}
                 </div>
                 </div>
             </div>

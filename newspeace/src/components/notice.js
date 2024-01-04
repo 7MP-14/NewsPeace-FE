@@ -10,7 +10,6 @@ export default function Notice() {
   const [notices, setNotices] = useState([]);
   // const [isadmin, setIsadmin] = useState();
   const isadmin=window.localStorage.getItem("is_admin");
-
   useEffect(() => {
     getNotice();
   }, []);
@@ -51,7 +50,7 @@ export default function Notice() {
         <div className="container">
           <div className="addNoticeContainer">
             {/* Use Link instead of a regular button to enable navigation */}
-            {isadmin && <Link to="/write" className="addNotice">글쓰기</Link>}
+            {isadmin === "true" && <Link to="/write" className="addNotice">글쓰기</Link>}
           </div>
           <table className="board-table">
             <thead>
@@ -75,6 +74,7 @@ export default function Notice() {
           </table>
         </div>
       </div>
+
 
       {/* 공지사항 모달 */}
       <NoticeModal
