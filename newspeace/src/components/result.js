@@ -24,7 +24,8 @@ function Dashboard() {
     const isPositiveHigh = parseFloat(positiveWidth) > 50;
     const isNegativeHigh = parseFloat(negativeWidth) > 50;
     const [loading, setLoading] = useState(false);
-    
+    const user_id=window.localStorage.getItem("user_id");
+
     // 긍정,부정률에 따른 테두리 색 변화
     let positiveBoxShadowClass = '';
     let negativeBoxShadowClass = '';
@@ -180,32 +181,35 @@ const handleKeywordClick = (clickedKeyword) => {
                                         {articleData.write_dt.split('T')[0]} {((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[0]}:{((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[1]}</p>
                                     </p>
                                 </div>
-                                <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
-                                    <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
-                                </button>
+                                {user_id && (
+                                    <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
+                                        <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>
                 </div>
-
-                    <div className={`list-box_ng ${negativeBoxShadowClass}`} style={{ width: '100%', backgroundImage: `url(${article})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        <h3 className="list-title">negative</h3>
-                        <p className="article-count">{responseData.article.부정.length}개</p>
-                        <hr></hr>
-                        <div className="article-list">
-                            {responseData.article.부정.map((articleData) => (
-                                <div className="article-item" key={articleData.id}>
-                                <img src={articleData.img || people6} className='article-img' alt="Article"/>
-                                <div className="article-content">
-                                    <a href={articleData.link} className="article-link">{articleData.title}</a>
-                                    <p className="write-dt">{articleData.write_dt.split('T')[0]} {((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[0]}:{((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[1]}</p>
-                                </div>
-                                <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
-                                    <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
-                                </button>
-                                </div>
-                            ))}
+                <div className={`list-box_ng ${negativeBoxShadowClass}`} style={{ width: '100%', backgroundImage: `url(${article})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                    <h3 className="list-title">negative</h3>
+                    <p className="article-count">{responseData.article.부정.length}개</p>
+                    <hr></hr>
+                    <div className="article-list">
+                        {responseData.article.부정.map((articleData) => (
+                            <div className="article-item" key={articleData.id}>
+                            <img src={articleData.img || people6} className='article-img' alt="Article"/>
+                            <div className="article-content">
+                                <a href={articleData.link} className="article-link">{articleData.title}</a>
+                                <p className="write-dt">{articleData.write_dt.split('T')[0]} {((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[0]}:{((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[1]}</p>
                             </div>
+                                {user_id && (
+                                    <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
+                                        <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        </div>
                     </div>
                 </div>
             </div>
