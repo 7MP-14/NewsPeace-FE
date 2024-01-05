@@ -20,6 +20,12 @@ import Loading from './Loading.js';
 const Home=()=>{
 
   // 투명도
+  const [showNotification, setShowNotification] = useState(false);
+
+  const handleNotificationClick = () => {
+    // 알림창 도우미 버튼을 클릭하면 알림창을 보여줍니다.
+    setShowNotification(true);
+  };
   /////
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 마우스 위치를 저장할 state 추가
@@ -174,6 +180,18 @@ const Home=()=>{
        :
        (
         <>
+
+<div className="notification-helper">
+        <button onClick={handleNotificationClick}>알림창 도우미</button>
+        {showNotification && (
+          <div className="notification">
+            {/* 알림창의 내용을 여기에 추가 */}
+            <p>알림창 도우미 내용</p>
+            <button onClick={() => setShowNotification(false)}>닫기</button>
+          </div>
+        )}
+      </div>
+
         <div
           className="blurred-background"
           style={{
@@ -269,7 +287,7 @@ const Home=()=>{
 
           <section className="features-icons bg-light text-center">
           <div className='hothot'>
-            <div className='hotkeyword'>
+            <div className='hotkeyword' style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)'}}>
               <div className='titlediv'>
                 <h3>주요 키워드  &gt; </h3>
               </div>
@@ -278,10 +296,9 @@ const Home=()=>{
                 <p key={index} className="keyword">{index + 1}. {keyword.keyword}</p>
               ))}
             </div>
-            <div className='hotnews'>
+            <div className='hotnews' style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)'}}>
               <div className='titlediv'>
                 <h3>주요 뉴스  &gt; </h3>
-
               </div>
               {/* Display titles with links from hot2_keyword */}
               {mainKeywords.map((item, index) => (
@@ -296,11 +313,12 @@ const Home=()=>{
         </section>
         
 
-          <hr></hr>
-          <div className="showcase"  style={{paddingTop:'2rem'}}>
+          
+          <div className="showcase"  style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
+            <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr>
             <div className="container-fluid p-0" style={{ width: '90%', margin: '0 auto', display: 'flex' }}>
               <div className="col-lg-6" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img src={Service} style={{ width: '70%', height: 'auto' }} alt="Service" />
+                <img src={Service} style={{ width: '70%', height: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)'}} alt="Service" />
               </div>
 
               <div className="col-lg-6">
@@ -325,10 +343,10 @@ const Home=()=>{
             </div>
           </div>
           
-          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto'}}>
-            <div className="image-and-heading">
-              <hr></hr>
-              <h2><img src={chatbot} style={{ width: '4%', height: '10%', paddingTop:'2rem'}} alt="chatbot" />
+
+          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto', paddingTop:'2rem'}}>
+            <div className="image-and-heading"><hr></hr>
+              <h2><img src={chatbot} style={{ width: '5%', height: '10%'}} alt="chatbot" />
               챗봇 서비스
               </h2>
             </div>
@@ -349,8 +367,10 @@ const Home=()=>{
               />
             </div>
             <img src={qr} style={{ width: '5%', height: '5%'}} alt="qr" className="qr-hover"/>
-            <p style={{ fontSize: '0.8rem', marginBottom:'3rem'}}>[QR코드]</p>
+            <p style={{ fontSize: '0.8rem'}}>[QR코드]</p>
           </div>
+
+        
 
         <section className="testimonials text-center bg-light">
           <div className="container" ><hr></hr>
