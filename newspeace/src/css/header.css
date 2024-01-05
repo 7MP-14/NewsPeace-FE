@@ -11086,10 +11086,10 @@ footer.footer {
   color: #000;
   border: none;
   border-radius: 10px;
-  padding: 12px 19px;
+  padding: 17px 24px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 .checkbtn.selected {
@@ -11150,8 +11150,6 @@ footer.footer {
 }
 
 
-
-
 .hothot {
   display: flex;
   padding: 0 10%;
@@ -11177,8 +11175,9 @@ footer.footer {
   background-color: white;
 
 }
+
 .hotnews{
-  flex: 0 0 80%; /* flex-grow, flex-shrink, flex-basis */
+  flex: 0 0 100%; /* flex-grow, flex-shrink, flex-basis */
   /* border: 1px solid #ccc;  */
   border-radius: 10px; 
   /* padding:10px; 내부 여백 지정 */
@@ -11253,12 +11252,13 @@ footer.footer {
   left: 50%;
   transform: translateX(-50%);
   width: 150px;
-  background-color: #fff; /* Change the background color as needed */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow for a nice effect */
+  background-color: rgba(255, 255, 255, 0.7); /* Change the last value (0.9) for transparency */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   padding: 10px;
   z-index: 1;
   margin: 0 auto;
-  
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  border-radius: 5px;
 }
 
 .all-keywords .keyword {
@@ -11269,6 +11269,7 @@ footer.footer {
   color: #000;
   text-align: left;
   font-size: 1rem;
+
 
 }
 
@@ -11291,3 +11292,4 @@ footer.footer {
   height: 37px;
   cursor: pointer;
 }
+
