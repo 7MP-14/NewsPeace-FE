@@ -19,7 +19,7 @@ const Background = styled.div`
 `;
 
 const LoadingText = styled.div`
-    font:3rem 'Gowun Dodum';
+    font:3rem 'nanumsquare';
     text-align:center;
     margin-bottom:1rem;
 `;

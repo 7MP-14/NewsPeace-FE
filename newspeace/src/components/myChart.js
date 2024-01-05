@@ -5,10 +5,18 @@ import '../css/myChart.css';
 import backimg from "../img/bg-masthead.jpg";
 
 const LineChart = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const location = useLocation();
   const keywordText = location.state?.keywordText || '키워드'; // state가 정의되지 않은 경우 기본값 사용
   const [sentimentSeries, setSentimentSeries] = useState([]);
   const [stockSeries, setStockSeries] = useState([]);
+  const [currentPrice, setCurrentPrice] = useState(null);
+  const [previousClose, setPreviousClose] = useState(null);
+  const [change, setChange] = useState(null);
+  const [changePercent, setChangePercent] = useState(null);
+  const [openPrice, setOpenPrice] = useState(null);
+  const [highPrice, setHighPrice] = useState(null);
+  const [lowPrice, setLowPrice] = useState(null);
   const [options, setOptions] = useState({
     sentimentOptions: {
       chart: {
@@ -78,7 +86,7 @@ const LineChart = () => {
     
     const fetchData = async () => {
       try {
-        const response = await fetch('/mykeyword/', {
+        const response = await fetch(`${apiUrl}/mykeyword/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -97,33 +105,48 @@ const LineChart = () => {
         });
         const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
         
-        // 주식 데이터
-        const stockData = times.map((time, index) => ({
-          x: time,
-          y: data.result_present[index]
+        
+        if (!data || !data.result_present) {
+          setStockSeries([]);
+          // 다른 상태 업데이트나 UI 로직은 여기에 추가...
+        } else {
+          // result_present가 유효한 경우 처리
+          // 데이터를 시간순으로 정렬
+        const sortedData = data.result_time.map((time, index) => ({
+          time: new Date(time).getTime(),
+          price: data.result_present[index]
+        })).sort((a, b) => a.time - b.time); // 시간순 정렬
+          // 정렬된 데이터를 차트 데이터로 변환
+        const stockData = sortedData.map(item => ({
+          x: item.time,
+          y: item.price
         }));
-        // console.log(stockData);
+
+        // 현재가, 전일 종가, 변동 금액, 변동률 계산
+        setCurrentPrice(data.result_present[data.result_present.length - 1]);
+        setPreviousClose(data.result_open);
+        const change = data.result_present[data.result_present.length - 1] - data.result_open;
+        setChange(data.result_dod);
+        setChangePercent((change / data.result_open) * 100);
+        setOpenPrice(data.result_open);
+        setHighPrice(data.result_high);
+        setLowPrice(data.result_low);
+
         setSentimentSeries([{ name: '부정도 %', data: negatives }]);
         setStockSeries([{ name: '주식 가격', data: stockData }]);
-
-        // 차트 옵션 설정
         setOptions(prevOptions => ({
-            ...prevOptions,
-            sentimentOptions: {
-              ...prevOptions.sentimentOptions,
-              xaxis: {
-                ...prevOptions.sentimentOptions.xaxis,
-                categories: times
-              }
-            },
-            stockOptions: {
-              ...prevOptions.stockOptions,
-              xaxis: {
-                ...prevOptions.stockOptions.xaxis,
-                type: 'datetime'
-              }
+          ...prevOptions,
+          stockOptions: {
+            ...prevOptions.stockOptions,
+            xaxis: {
+              ...prevOptions.stockOptions.xaxis,
+              type: 'datetime',
+              categories: data.result_time // 주식 데이터의 시간 설정
             }
-          }));
+          }
+        }));
+        }
+
         } catch (error) {
           console.error('Error fetching data:', error);
         }
@@ -133,16 +156,36 @@ const LineChart = () => {
   }, [keywordText]);
 
   return (
-    <div className='chart-background' style={{ backgroundImage: `url(${backimg})` }}>
+    <div className='chart-background'>
       <div className='chart-container'>
-        <div className='chart-title'><strong>{keywordText}</strong> 시간별 부정률(%)</div>
+        <div className='chart-title'><h2><strong className="keyword-text">{keywordText}</strong> 시간별 추이</h2></div>
         <div className='chart-box'>
           <ReactApexChart options={options.sentimentOptions} series={sentimentSeries} type='line' height={350} />
         </div>
-        <div className='chart-title'>주식 가격 추이</div>
+        
+        {/* 주식 차트 또는 메시지 표시 */}
+        {stockSeries.length > 0 ? (
+          <>
+        <div className='chart-info'>
+          <div className='chart-title'><h2>시세 정보</h2></div>
+        </div>
+          <div className='price-info-box'>
+           <div className='stock-price'>현재가: <strong>{currentPrice || '로딩 중...'}</strong></div>
+           <div className='price-change'>전일대비: <span className={change >= 0 ? 'up' : 'down'}>{change ? `${Math.abs(change)}` : '...'}</span></div>
+           <div className='stock-info'>등락률: <span className={changePercent >= 0 ? 'rate-up' : 'rate-down'}>{changePercent ? `${changePercent.toFixed(2)}%` : '...'}</span></div>
+           <div className='stock-info'>시가: <span className='open-price'>{openPrice || '...'}</span></div>
+           <div className='stock-info'>고가: <span className='high-price'>{highPrice || '...'}</span></div>
+           <div className='stock-info'>저가: <span className='low-price'>{lowPrice || '...'}</span></div>
+          </div>
         <div className='chart-box'>
           <ReactApexChart options={options.stockOptions} series={stockSeries} type='area' height={350} />
         </div>
+      </>
+      ) : (
+        <div className='no-stock-data'>
+            <h2>해당 기업 정보가 없습니다.</h2>
+          </div>
+        )}
       </div>
     </div>
   );

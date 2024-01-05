@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../css/result.css'; // CSS 파일 import
 import scrap from '../img/빈책갈피.png';
 import scrapcomp from'../img/찬책갈피.png';
@@ -9,11 +9,12 @@ import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
 import people6 from '../img/null.png';
 
 function Dashboard() {
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const location = useLocation();
     const responseData = location.state?.responseData;
     const category = location.state?.category;
     const categoryString = Array.isArray(category) ? category.join(', ') : category;
+    const navigate = useNavigate();
 
     const content = '키워드입력'
     const positiveWidth = `${responseData.긍정도}%`; // 긍정 비율
@@ -22,6 +23,7 @@ function Dashboard() {
 
     const isPositiveHigh = parseFloat(positiveWidth) > 50;
     const isNegativeHigh = parseFloat(negativeWidth) > 50;
+    const [loading, setLoading] = useState(false);
     
     // 긍정,부정률에 따른 테두리 색 변화
     let positiveBoxShadowClass = '';
@@ -52,7 +54,7 @@ function Dashboard() {
 
         // 백엔드로 fetch 요청을 보냅니다.
         // 'your-backend-api-endpoint'를 실제 엔드포인트로 교체하세요.
-        fetch('/news/newsscript/', {
+        fetch(`${apiUrl}/news/newsscript/`, {
             method: 'POST', // 백엔드 API 요구 사항에 따라 메서드를 조정하세요.
             headers: {
                 'Content-Type': 'application/json',
@@ -94,13 +96,62 @@ function Dashboard() {
         return title;
       }
 
+const handleKeywordClick = (clickedKeyword) => {
+    setLoading(true);
+    fetch(`${apiUrl}/news/search/`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({
+        keyword: clickedKeyword,
+        }),
+    })
+        .then(res => res.json())
+        .then(res => {
+        if (res.reply === false) {
+            setLoading(false);
+
+            // 결과가 없는 경우
+            window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        } else {
+            // 결과가 있는 경우 페이지 이동
+            navigate('/result', { state: { responseData: res} });
+        }
+        })
+        .catch(error => {
+        setLoading(false);
+        console.error('에러:', error);
+        });
+      };
+      
+
     return (
         <div className="result_container mx-auto p-4" style={{height:'100%',backgroundImage: `url(${news_1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="flex-1 text-center">     
                 {/* <h1 className='Test'> 키워드 : </h1> */}
-                <h2 className="text-2xl font-bold mb-4">{responseData.keyword}</h2><hr></hr>
+                <h2 className="text-2xl font-bold mb-4">{responseData.search_keyword}</h2>
+                <div className="search-related-keywords">
+                    <p>
+                    연관 검색어 : {responseData.related_keyword.map((related_keyword, index) => (
+                        <span key={index} className="related_keyword" onClick={() => handleKeywordClick(related_keyword)}>
+                        {related_keyword}{index < responseData.related_keyword.length - 1 && ' '}
+                        </span>
+                    ))}
+                    </p>
+                </div>
+                <hr></hr>
                 <div className="introduction-text">
-                    카테고리 <b>{categoryString}</b>에서의 <b>'{responseData.keyword}'</b> 분석 결과입니다. 
+                {categoryString ? (
+                    <>
+                        카테고리 <b>{categoryString}</b>에서의 <b>'{responseData.search_keyword}'</b> 분석 결과입니다.
+                    </>
+                )
+                : (
+                    <>
+                        <b>'{responseData.search_keyword}'</b> 분석 결과입니다.
+                    </>
+                )}
                 </div>
                 <h1 className='Test1'>
                     <span>긍정 의견 (%)</span>

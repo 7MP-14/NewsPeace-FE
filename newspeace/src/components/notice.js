@@ -4,18 +4,18 @@ import '../css/notice.css';
 import { Link } from "react-router-dom";
 
 export default function Notice() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notices, setNotices] = useState([]);
   // const [isadmin, setIsadmin] = useState();
   const isadmin=window.localStorage.getItem("is_admin");
-
   useEffect(() => {
     getNotice();
   }, []);
 
   const getNotice = () => {
-    fetch("/notice/", {
+    fetch(`${apiUrl}/notice/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -50,7 +50,7 @@ export default function Notice() {
         <div className="container">
           <div className="addNoticeContainer">
             {/* Use Link instead of a regular button to enable navigation */}
-            {isadmin && <Link to="/write" className="addNotice">글쓰기</Link>}
+            {isadmin === "true" && <Link to="/write" className="addNotice">글쓰기</Link>}
           </div>
           <table className="board-table">
             <thead>
@@ -74,6 +74,7 @@ export default function Notice() {
           </table>
         </div>
       </div>
+
 
       {/* 공지사항 모달 */}
       <NoticeModal

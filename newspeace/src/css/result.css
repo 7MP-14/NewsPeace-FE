@@ -1,7 +1,7 @@
 /* result.css */
 
 .result_container {
-    font-family: 'Gowun Dodum', sans-serif;
+    font-family: 'nanumsquare', sans-serif;
     /* font-family: 'Gothic A1', sans-serif; */
     border-radius: 8px;
     padding: 20px;
@@ -192,3 +192,32 @@
     text-align: right;
     margin-bottom: -3%;
   }
+  .relatedKeywordDiv{
+    align-items: left;
+  }
+
+/* styles.css */
+
+.search-related-keywords {
+    text-align: left;
+}
+  
+.search-related-keywords p {
+font-size: 1.2rem;
+font-weight:1000;
+margin-bottom: 10px;
+padding-left: 10px;
+
+}
+
+.search-related-keywords span {
+/* 추가적인 스타일링이 필요하다면 여기에 추가 */
+font-size: 1rem;
+font-weight: lighter;
+margin-left: 2%;
+
+}
+.search-related-keywords .related_keyword {
+    /* 키워드에 대한 추가적인 스타일링을 여기에 추가 */
+    margin-right: 20px; /* 각 키워드 사이 간격 조절 */
+}

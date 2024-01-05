@@ -1,40 +1,75 @@
 .chart-background {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 140vh;
-  background-image: url('../img/bg-masthead.jpg');
-  background-size: cover;
-  background-position: center;
+  background: #f8f9fa;
   padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chart-container {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #ffffff; /* 백색 배경 */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 0 auto; /* 가운데 정렬 */
-  width: 80%;
-  height: 100%;
-  overflow: hidden; /* 컨테이너 밖으로 내용이 넘치지 않도록 */
-  max-width: 1000px; /* 최대 너비 제한 */
+  width: 70%; /* 컨테이너 너비를 70%로 설정 */
+  margin: 0 auto; /* 상하는 0, 좌우는 자동(중앙 정렬) */
 }
 
 .chart-title {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 20px; /* 제목과 차트 사이의 여백 */
+  font-size: 1.25rem; /* 큰 제목 글씨 크기 */
+  margin-bottom: 16px;
+  color: #333; /* 짙은 글씨 색 */
+  text-align: left;
+}
+
+.keyword-text {
+  color: var(--blue);
 }
 
 /* 차트 박스 스타일 */
 .chart-box {
-  width: 100%; /* 컨테이너의 폭에 맞춤 */
-  margin-bottom: 20px; /* 아래쪽 여백 */
-  height: auto; /* 높이 자동 조절 */
+  margin-bottom: 24px; /* 아래쪽 여백 */
+}
+
+.chart-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.price-info-box {
+  display: flex; /* flexbox 레이아웃을 사용하여 내부 요소들을 가로로 배열합니다. */
+  justify-content: space-between; /* 내부 요소들을 양 끝으로 정렬합니다. */
+  align-items: center; /* 내부 요소들을 세로 중앙 정렬합니다. */
+  padding: 10px 20px; /* 상하 10px, 좌우 20px의 패딩을 추가합니다. */
+  margin: 10px 0; /* 상하 마진 추가 */
+  border: 1px solid #ddd; /* 경계선 추가 */
+  border-radius: 15px; /* 모서리를 둥글게 합니다. */
+  background-color: #f9f9f9; /* 박스의 배경색 */
+}
+
+.stock-info {
+  margin: 5px 0; /* 각 정보 항목 사이의 마진을 설정합니다. */
+  font-size: 0.9rem; /* 폰트 크기를 설정합니다. */
+}
+
+.stock-info span {
+  font-weight: bold; /* 정보 값을 강조하기 위해 bold 처리합니다. */
+}
+
+.stock-price {
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.price-change .down::before {
+  content: "▼";
+  color: #007bff; /* 파란색으로 설정 */
+}
+
+.price-change .up::before {
+  content: "▲";
+  color: #d9534f; /* 빨간색으로 설정 */
 }
 
 .apexcharts-canvas {

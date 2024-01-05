@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import '../css/scrap.css';
-import backimg from "../img/bg-masthead.jpg";
+// import backimg from "../img/bg-masthead.jpg";
 import { Link } from 'react-router-dom';
 import people6 from '../img/null.png';
 
 export default function ScrapSection() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const articlesPerRow = 4;
   const rowsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +20,10 @@ export default function ScrapSection() {
     currentPage * articlesPerRow * rowsPerPage
   );
 
+  const goToFirstPage = () => setCurrentPage(1);
+  const goToLastPage = () => setCurrentPage(totalPage);
+  const goToPrevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
+  const goToNextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPage));
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
@@ -26,7 +31,7 @@ export default function ScrapSection() {
   }, []);
 
   const getScrap = () => {
-    fetch(`/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
+    fetch(`${apiUrl}/news/mynewsscript/${window.localStorage.getItem('user_id')}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -51,7 +56,7 @@ export default function ScrapSection() {
 
     if (isConfirmed) {
       // Make a fetch request to delete the article by its ID
-      fetch(`/news/delete/${articleId}/`, {
+      fetch(`${apiUrl}/news/delete/${articleId}/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -72,7 +77,7 @@ export default function ScrapSection() {
   };
 
   return (
-    <div className="scrap-section-body" style={{ backgroundImage: `url(${backimg})` }}>
+    <div className="scrap-section-body">
       <div className="scrap-section">
         <div className="section-title-scrap-container">
           <h3 className="section-title-scrap">스크랩 기사</h3>
@@ -90,13 +95,22 @@ export default function ScrapSection() {
           ))}
         </div>
         <div className="pagination">
+          <button onClick={goToFirstPage} disabled={currentPage === 1}>&laquo;</button>
+          <button onClick={goToPrevPage} disabled={currentPage === 1}>&lt;</button>
           {pages.map(number => (
-            <button key={number} onClick={() => paginate(number)} className={`page-number ${currentPage === number ? 'active' : ''}`}>
+            <button
+              key={number}
+              onClick={() => paginate(number)}
+              className={`page-number ${currentPage === number ? 'active' : ''}`}
+            >
               {number}
             </button>
           ))}
+          <button onClick={goToNextPage} disabled={currentPage === totalPage}>&gt;</button>
+          <button onClick={goToLastPage} disabled={currentPage === totalPage}>&raquo;</button>
         </div>
       </div>
     </div>
   );
+
 }
