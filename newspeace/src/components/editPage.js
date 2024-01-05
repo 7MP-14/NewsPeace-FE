@@ -11,7 +11,6 @@ export default function Editpage(props) {
         name: queryParams.get("name") || "",
         email: queryParams.get("email") || "",
         emailNotice: queryParams.get("emailNotice") === "true",
-        // keywords: queryParams.get("keywords") ? queryParams.get("keywords").split(',').map(keyword => ({ keyword_text: keyword.trim() })) : [],
     });
 
     const handleInputChange = (event) => {
@@ -35,12 +34,6 @@ export default function Editpage(props) {
         // 입력받은 값들만 필터링
         const filteredData = Object.entries(userData)
             .filter(([key, value]) => {
-                // 이메일 및 문자 알림 설정 관련 필드는 NotifyTF가 true일 때만 전송
-                // if (key === "smsNotice" || key === "emailNotice") {
-                //     return userData.NotifyTF && value !== undefined;
-                // }
-
-                // 비밀번호 및 키워드 필드는 전송하지 않음
                 return key !== "password" && !(key === "keywords" && Array.isArray(value) && value.length === 0) && value !== "";
             })
             .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -118,18 +111,6 @@ export default function Editpage(props) {
                         />
                         <p>관심 키워드에 대한 부정적 기사 탐지 시 이메일 알림을 받겠습니다.</p>
                     </div>
-
-                        {/* <input
-                            type="checkbox"
-                            id="smsNotice"
-                            name="smsNotice"
-                            checked={userData.smsNotice}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="smsNotice" className="notify-label">문자</label> */}
-
-                        {/* <label htmlFor="emailNotice" className="notify-label">이메일</label> */}
-
                     <div className="form-group button-group">
                         <button type="submit" className="submit-btn">수정완료</button>
                     </div>

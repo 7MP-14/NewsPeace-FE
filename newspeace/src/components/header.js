@@ -1,14 +1,11 @@
-import styled from "styled-components";
 import React from "react";
 import '../css/header.css';
-import logo from '../img/logo3.png';
 export default function Header(props) {
   return (
     // Navigation
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
             <a class="navbar-brand" href="/"> <strong>Newspeace</strong></a>
-            {/* <img src={logo} style={{width:'120px', height:'60px'}}></img> */}
             <span className="menu">
             {
             props.login

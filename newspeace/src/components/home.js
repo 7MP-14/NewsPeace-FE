@@ -1,20 +1,10 @@
 import {React, useEffect, useState} from 'react';
-//import { useSpring, animated } from 'react-spring';
-
-// import '../css/home.css';
-// import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import first from '../img/first.png';
 import second from '../img/second.png';
 import chatbot from '../img/chatbot.png';
 import qr from '../img/qr.png';
 import icon1 from '../img/흰돋보기.png';
-// import icon2 from '../img/의사결정.png';
-// import icon3 from '../img/효율성.png';
-// import icon4 from '../img/전략2.png';
-//import icon5 from '../img/정장.jpg';
-//import icon6 from '../img/의사소통.jpg';
-//import icon7 from '../img/업무.jpg';
 import Service from '../img/Service.png';
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
@@ -53,7 +43,7 @@ const Home=()=>{
   const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
   const [loading, setLoading] = useState(false);
   // const [writetime, setWritetime]=useState();
-
+  const [isHovered, setIsHovered] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
@@ -206,17 +196,22 @@ const Home=()=>{
                 <div className="col-xl-6">
                   <div className="text-center text-white">
                     <div className="form-subscribe" id="contactForm">
+                      <div className="col-input">
+                            <input
+                              className="form-control form-control-lg"
+                              id="keyword"
+                              type="text"
+                              value={inputkeyword}
+                              onChange={handleKeywordChange}
+                              onKeyDown={handleKeyPress}
+                              placeholder="관심 있는 키워드를 입력하세요."
+                            />
+                            <div>
+                              <img src={icon1} style={{ width: '40px', height: '37px', cursor: 'pointer'}} onClick={submit} alt="search icon" />
+                            </div>
+                          </div>
                       <div className="row">
-                        <div className="col">
-                          <input
-                            className="form-control form-control-lg"
-                            id="keyword"
-                            type="text"
-                            value={inputkeyword}
-                            onChange={handleKeywordChange}
-                            onKeyDown={handleKeyPress}
-                            placeholder="관심 있는 키워드를 입력하세요."
-                          />
+                        
                           <div className="categorybtn">
                               <button className={`checkbtn ${checkedItems.includes('정치') ? 'selected' : ''}`} onClick={() => checkedItemHandler('정치')}>정치</button>
                               <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
@@ -233,16 +228,37 @@ const Home=()=>{
                             <div className="label-container">
                               <p className="label">인기 검색어:</p>
                             </div>
-                          <div className="keyword-container">
-                            {hotKeywords.length > 0 &&
-                              <p className={`keyword ${animationClass}`} style={{cursor: 'pointer'}} onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])} >{currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}</p>
-                            }
+                            <div
+                              className="keyword-container"
+                              onMouseEnter={() => setIsHovered(true)}
+                              onMouseLeave={() => setIsHovered(false)}
+                            >
+                              {hotKeywords.length > 0 && (
+                                <p
+                                  className={`keyword ${isHovered ? 'hovered' : ''}`}
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])}
+                                >
+                                  {currentHotKeywordIndex + 1}. {hotKeywords[currentHotKeywordIndex]}
+                                </p>
+                              )}
+                              {isHovered && (
+                                <div className="all-keywords">
+                                  {hotKeywords.map((keyword, index) => (
+                                    <p
+                                      key={index}
+                                      className="keyword"
+                                      onClick={() => hotkeywordsubmit(keyword)}
+                                    >
+                                      {index + 1}. {keyword}
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          </div>
-                        </div>
-                        <div className="col-auto">
-                          <img src={icon1} style={{ width: '40px', height: '37px', cursor: 'pointer'}} onClick={submit} alt="search icon" />
-                        </div>
+                        
+
                       </div>
                     </div>
                   </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import '../css/mypage.css';
-// import backimg from "../img/bg-masthead.jpg";
 import icon2 from '../img/user.png'
 import { Link, useNavigate } from "react-router-dom";
 import EmailButton from './sendEmail.js';
@@ -9,15 +8,10 @@ export default function Mypage(props) {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [name, setName] = useState();
   const [email, setEmail] = useState();
-  // const [phoneNumber, setPhoneNumber] = useState();
   const [keywords, setKeywords] = useState([]);
   const [emailNotice, setEmailNotice] = useState();
-  // const [smsNotice, setSmsNotice] = useState();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
-  // const [isSmsVerified, setIsSmsVerified] = useState(false);
   const [newKeyword, setNewKeyword] = useState('');
-
-  // const [keywords, setKeywords] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
   const [selectedKeywords, setSelectedKeywords] = useState([]); // 선택된 키워드를 관리하는 상태 추가
 
@@ -84,14 +78,11 @@ export default function Mypage(props) {
   // 키워드 목록을 저장하는 함수
   const handleSaveKeywords = () => {
     // 서버에 keywords 배열을 저장하는 API 요청을 보냅니다.
-    
     const userId = window.localStorage.getItem("user_id");
-  
     // 기존 키워드와 새로운 키워드를 합쳐서 API에 전송합니다.
     const updatedKeywords = isEditing
       ? [...keywords, ...selectedKeywords.map(keywordId => ({ id: keywordId, keyword_text: newKeyword }))]
       : keywords;
-  
     const formattedKeywords = updatedKeywords.map(keyword => ({ keyword_text: keyword.keyword_text }));
   
     fetch(`${apiUrl}/api/profile/${userId}/`, {

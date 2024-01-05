@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import '../css/scrap.css';
-// import backimg from "../img/bg-masthead.jpg";
 import { Link } from 'react-router-dom';
 import people6 from '../img/null.png';
 
@@ -10,7 +9,6 @@ export default function ScrapSection() {
   const rowsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
   const [originalArticles, setOriginalArticles] = useState([]);
-
   const totalArticles = originalArticles.length;
   const totalPage = Math.ceil(totalArticles / (articlesPerRow * rowsPerPage));
   const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
@@ -53,7 +51,6 @@ export default function ScrapSection() {
   const handleDelete = (articleId) => {
     // Confirm before deleting
     const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
-
     if (isConfirmed) {
       // Make a fetch request to delete the article by its ID
       fetch(`${apiUrl}/news/delete/${articleId}/`, {

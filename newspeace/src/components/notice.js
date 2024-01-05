@@ -8,7 +8,6 @@ export default function Notice() {
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notices, setNotices] = useState([]);
-  // const [isadmin, setIsadmin] = useState();
   const isadmin=window.localStorage.getItem("is_admin");
   useEffect(() => {
     getNotice();

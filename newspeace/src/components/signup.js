@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { React, useState, useCallback } from "react";
 import '../css/signup.css';
-import backimg from "../img/bg-masthead.jpg";
-import backgroundColor from '../img/z.png';
 import logo from '../img/logo2.png';
 
 const ErrorMsg = styled.div`
@@ -19,10 +17,8 @@ export default function Signin(props) {
   const [Password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
-
   const [checkedInputs, setCheckedInputs] = useState([]);
   const [nextSignupState, setNextSignupState] = useState(false);
-
   const [error, setError] = useState({
     name: "",
     email: "",
@@ -101,13 +97,6 @@ export default function Signin(props) {
         return response.json();
         })
         .then((data) => {
-            // data에서 토큰 추출
-            // const token = data.token;
-            // console.log(data.token);
-            // 추출한 토큰을 localStorage에 저장
-            // window.localStorage.setItem('token', token);
-
-            // 로그인 성공 후 다른 동작 수행
             window.location.replace('/login');
         })
         .catch((error) => {
@@ -192,7 +181,6 @@ export default function Signin(props) {
             <ErrorMsg>{error.checkPassword}</ErrorMsg>
             <input type="text" placeholder="Phone Number" className="input" onChange={handlePhoneNumber} />
             <ErrorMsg>{error.phoneNumber}</ErrorMsg>
-
             <div className="checkbox-container">
               <label>
                 <input
@@ -228,7 +216,6 @@ export default function Signin(props) {
           <div class="overlay">
             <div class="overlay__panel overlay--left">
               <img src={logo} style={{ width: '320px', height: '180px' }}></img>
-
             </div>
             <div class="overlay__panel overlay--right">
               <img src={logo} style={{ width: '320px', height: '180px' }}></img>

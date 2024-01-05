@@ -15,8 +15,6 @@ function Dashboard() {
     const category = location.state?.category;
     const categoryString = Array.isArray(category) ? category.join(', ') : category;
     const navigate = useNavigate();
-
-    const content = '키워드입력'
     const positiveWidth = `${responseData.긍정도}%`; // 긍정 비율
     const negativeWidth = `${responseData.부정도}%`; // 부정 비율
     const [scrapped, setScrapped] = useState({}); // 스크랩 상태 관리 (스크랩 완료 시 이미지 변경)
