@@ -98,9 +98,9 @@ function Dashboard() {
         <div className="result_container mx-auto p-4" style={{height:'100%',backgroundImage: `url(${news_1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="flex-1 text-center">     
                 {/* <h1 className='Test'> 키워드 : </h1> */}
-                <h2 className="text-2xl font-bold mb-4">{responseData.keyword}</h2><hr></hr>
+                <h2 className="text-2xl font-bold mb-4">{responseData.search_keyword}</h2><hr></hr>
                 <div className="introduction-text">
-                    카테고리 <b>{categoryString}</b>에서의 <b>'{responseData.keyword}'</b> 분석 결과입니다. 
+                    카테고리 <b>{categoryString}</b>에서의 <b>'{responseData.search_keyword}'</b> 분석 결과입니다. 
                 </div>
                 <h1 className='Test1'>
                     <span>긍정 의견 (%)</span>
