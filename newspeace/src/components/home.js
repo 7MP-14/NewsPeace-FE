@@ -159,17 +159,89 @@ const Home=()=>{
         // category: checkedItems,
       }),
     })
-      .then(res => res.json())
-      .then(res => {
-        console.log('성공');
-        console.log(res);
-        setLoading(false);
+    .then((res) => res.json())
+    .then((res) => {
+      setLoading(false);
+
+      if (res.reply === false) {
+        // 결과가 없는 경우
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword('');
+      } else {
+        // 결과가 있는 경우 페이지 이동
         navigate('/result', { state: { responseData: res } });
+      }
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
+  }
+
+  const allkeywordsubmit=(keyword)=>{
+    setLoading(true);
+
+    fetch(`${apiUrl}/news/search/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({
+        keyword: keyword,
+        // category: checkedItems,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false);
+
+        if (res.reply === false) {
+          // 결과가 없는 경우
+          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+          setinputKeyword('');
+        } else {
+          // 결과가 있는 경우 페이지 이동
+          navigate('/result', { state: { responseData: res } });
+        }
       })
-      .catch(error => {
+      .catch((error) => {
+        setLoading(false);
         console.error('에러:', error);
       });
   }
+
+  const handleMainKeywordClick = (keyword) => {
+    setLoading(true);
+
+    fetch(`${apiUrl}/news/search/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({
+        keyword:keyword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false);
+
+        if (res.reply === false) {
+          // 결과가 없는 경우
+          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+          setinputKeyword('');
+        } else {
+          // 결과가 있는 경우 페이지 이동
+          navigate('/result', { state: { responseData: res } });
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error('에러:', error);
+      });
+  };
+
+
     return (  
       <>
 
@@ -235,7 +307,6 @@ const Home=()=>{
                               <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
                               <button className={`checkbtn ${checkedItems.includes('사회') ? 'selected' : ''}`} onClick={() => checkedItemHandler('사회')}>사회</button>
                               <button className={`checkbtn ${checkedItems.includes('문화') ? 'selected' : ''}`} onClick={() => checkedItemHandler('문화')}>문화</button>
-                              {/* <button className={`checkbtn ${checkedItems.includes('국제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('국제')}>국제</button> */}
                               <button className={`checkbtn ${checkedItems.includes('IT') ? 'selected' : ''}`} onClick={() => checkedItemHandler('IT')}>IT</button>
                               <button className={`checkbtn ${checkedItems.includes('연예') ? 'selected' : ''}`} onClick={() => checkedItemHandler('연예')}>연예</button>
                               <button className={`checkbtn ${checkedItems.includes('스포츠') ? 'selected' : ''}`} onClick={() => checkedItemHandler('스포츠')}>스포츠</button>
@@ -246,11 +317,7 @@ const Home=()=>{
                             <div className="label-container">
                               <p className="label">인기 검색어:</p>
                             </div>
-                            <div
-                              className="keyword-container"
-                              onMouseEnter={() => setIsHovered(true)}
-                              onMouseLeave={() => setIsHovered(false)}
-                            >
+                            <div className="keyword-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                               {hotKeywords.length > 0 && (
                                 <p
                                   className={`keyword ${isHovered ? 'hovered' : ''}`}
@@ -263,11 +330,7 @@ const Home=()=>{
                               {isHovered && (
                                 <div className="all-keywords">
                                   {hotKeywords.map((keyword, index) => (
-                                    <p
-                                      key={index}
-                                      className="keyword"
-                                      onClick={() => hotkeywordsubmit(keyword)}
-                                    >
+                                    <p key={index} className="keyword" onClick={() => allkeywordsubmit(keyword)}>
                                       {index + 1}. {keyword}
                                     </p>
                                   ))}
@@ -275,8 +338,6 @@ const Home=()=>{
                               )}
                             </div>
                           </div>
-                        
-
                       </div>
                     </div>
                   </div>
@@ -293,7 +354,9 @@ const Home=()=>{
               </div>
               {/* Display main keywords */}
               {mainKeywords.map((keyword, index) => (
-                <p key={index} className="keyword">{index + 1}. {keyword.keyword}</p>
+                <p key={index} className="keyword" onClick={() => handleMainKeywordClick(keyword.keyword)}>
+                  {index + 1}. {keyword.keyword}
+                </p>
               ))}
             </div>
             <div className='hotnews' style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)'}}>
