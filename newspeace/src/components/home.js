@@ -20,12 +20,6 @@ import Loading from './Loading.js';
 const Home=()=>{
 
   // 투명도
-  const [showNotification, setShowNotification] = useState(false);
-
-  const handleNotificationClick = () => {
-    // 알림창 도우미 버튼을 클릭하면 알림창을 보여줍니다.
-    setShowNotification(true);
-  };
   /////
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 마우스 위치를 저장할 state 추가
@@ -252,18 +246,6 @@ const Home=()=>{
        :
        (
         <>
-
-<div className="notification-helper">
-        <button onClick={handleNotificationClick}>알림창 도우미</button>
-        {showNotification && (
-          <div className="notification">
-            {/* 알림창의 내용을 여기에 추가 */}
-            <p>알림창 도우미 내용</p>
-            <button onClick={() => setShowNotification(false)}>닫기</button>
-          </div>
-        )}
-      </div>
-
         <div
           className="blurred-background"
           style={{
@@ -407,34 +389,29 @@ const Home=()=>{
           </div>
           
 
-          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto', paddingTop:'2rem'}}>
+          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto', paddingTop:'2rem', paddingBottom:'11rem'}}>
             <div className="image-and-heading"><hr></hr>
               <h2><img src={chatbot} style={{ width: '5%', height: '10%'}} alt="chatbot" />
               챗봇 서비스
               </h2>
             </div>
-            <p style={{ fontSize: '1.2rem' }}>카카오톡 ➡️ <b>"뉴스피스(Newspeace)"</b> 채널 등록 후 서비스를 이용해보세요!</p>
-            <p style={{ fontSize: '1.0rem' }}>🐶사진을 확대하려면 마우스를 올려주세요.🐶</p>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop:'3rem', marginBottom:'4rem'}}>
-              <img
-                src={second}
-                style={{ width: '15%', height: '20%', margin: '0 4rem', transition: 'transform 0.3s' }}
-                alt="second"
-                className="enlarge-on-hover"
-              />
-              <img
-                src={first}
-                style={{ width: '15%', height: '20%', margin: '0 4rem', transition: 'transform 0.3s' }}
-                alt="first"
-                className="enlarge-on-hover"
-              />
+            <p style={{ fontSize: '1.5rem' }}>카카오톡 ➡️ <b>"뉴스피스(Newspeace)"</b> 채널 등록 후 서비스를 이용해보세요!</p>
+            <p style={{ fontSize: '1.2rem' }}>🐶사진을 확대하려면 마우스를 올려주세요.🐶</p>
+            <div className="showphone" style={{ display: 'flex', justifyContent: 'center', marginTop:'3rem'}}>
+              <img src={second} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="second"
+                className="enlarge-on-hover"/>
+
+              <div style={{ flexDirection: 'column', alignItems: 'bottom', marginTop: '10rem' }}>
+                <img src={qr} style={{ width: '20%', height: 'auto'}} alt="qr" className="qr-hover" />
+                <p style={{ fontSize: '1rem'}}><b>[NewsPeace 채널]</b></p>
+              </div>
+              
+              <img src={first} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="first"
+                className="enlarge-on-hover"/>
             </div>
-            <img src={qr} style={{ width: '5%', height: '5%'}} alt="qr" className="qr-hover"/>
-            <p style={{ fontSize: '0.8rem'}}>[QR코드]</p>
           </div>
 
         
-
         <section className="testimonials text-center bg-light">
           <div className="container" ><hr></hr>
               <h2 className="mb-5" style={{marginTop:'4rem'}}>KT Aivle 4기 ❤️14조❤️</h2>

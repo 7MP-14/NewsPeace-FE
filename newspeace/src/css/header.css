@@ -11147,7 +11147,7 @@ footer.footer {
   transition: transform 1s; 
 }
 .qr-hover:hover {
-  transform: scale(6);
+  transform: scale(3);
 }
 
 
