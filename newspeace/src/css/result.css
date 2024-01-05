@@ -220,4 +220,5 @@ margin-left: 2%;
 .search-related-keywords .related_keyword {
     /* 키워드에 대한 추가적인 스타일링을 여기에 추가 */
     margin-right: 20px; /* 각 키워드 사이 간격 조절 */
+    cursor: pointer;
 }
