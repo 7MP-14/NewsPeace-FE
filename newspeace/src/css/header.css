@@ -11008,11 +11008,13 @@ footer.footer {
   margin:0 auto;
   /* margin-left:70px; */
   font-size: 1.3rem;
+
 }
 
 .hottopic .keyword {
   margin-left:-50px;
   margin-top: 15px;
+
 
 }
 
@@ -11126,7 +11128,9 @@ footer.footer {
   top: 30%;
   left: 70%;
   transform: translate(-50%, -50%);
+
 }
+
 .blurred-background {
   filter: blur(180px); /* 필요에 따라 블러 정도 조절 */
   -webkit-backdrop-filter: blur(5px); /* Safari용 블러 정도 조절 */
@@ -11209,7 +11213,7 @@ footer.footer {
   font-size: 1.4rem;
   color: #000;
   text-decoration: none;
-  padding-left: 8%;
+  padding-left: 5%;
   /* border-bottom: 1px solid #e1e1e1; */
   position: relative;
   text-decoration: underline;
@@ -11360,4 +11364,31 @@ footer.footer {
   transform: translate(-50%, -50%) scale(0.9);
   visibility: hidden;
   transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, visibility 0s 0.4s;
+}
+
+.animation-enter {
+  animation: slideDown 0.5s ease-in;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* 시작 위치에서 위로 10px 이동 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hotnews .titlediv h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hotnews .keyword {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
