@@ -5,6 +5,7 @@ import second from '../img/second.png';
 import chatbot from '../img/chatbot.png';
 import qr from '../img/qr.png';
 import icon1 from '../img/흰돋보기.png';
+import arrow from '../img/화살표.png';
 import Service from '../img/Service.png';
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
@@ -14,10 +15,50 @@ import people5 from '../img/people5.jpg';
 import people6 from '../img/people6.png';
 import people7 from '../img/people7.jpg';
 import people8 from '../img/people8.png';
-
 import Loading from './Loading.js';
 
 const Home=()=>{
+
+  /////// 기업리스트
+  /////////////////
+
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+  useEffect(() => {
+
+    //// 스크롤
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const scrollThreshold = 400; // 스크롤 값 2450
+
+      // 스크롤이 일정 이상 내려갔을 때 버튼 표시
+      console.log(scrollTop)
+      setShowScrollToTop(scrollTop > scrollThreshold);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // 부드러운 스크롤 적용
+    });
+  };
+  
+  /////
+
+
+
+  // 도움말 상자 
+  const [isHelpBoxOpen, setIsHelpBoxOpen] = useState(false);
+  const toggleHelpBox = () => {
+    setIsHelpBoxOpen(!isHelpBoxOpen);
+  };
+  ////////
+
 
   // 투명도
   /////
@@ -241,23 +282,41 @@ const Home=()=>{
 
      {loading ? 
          ( //로딩이 참이면, 로딩 페이지로
+         
          <Loading/>
        )
        :
-       (
+       (// 코스피 rgba(255, 182, 193, 1)
         <>
-        <div
-          className="blurred-background"
+        <button onClick={toggleHelpBox} style={{ width:'95px', position: 'fixed', bottom: '2rem', right: '1.5rem', zIndex: '9999', cursor: 'pointer', borderRadius: '10rem',
+      backgroundColor:'rgba(155, 176, 216, 1)' }}> 
+          코스피
+        </button>
+
+        <button
+          onClick={scrollToTop}
+          className="scroll-to-top-button"
           style={{
-            width: '160px',
-            height: '160px',  
-            borderRadius: '50%',
-            background: '#2D78EF',    // #1774D0
-            position: 'fixed',
+            opacity: showScrollToTop ? 1 : 0,
+            backgroundColor: 'transparent',
+            border: '2px solid lightgrey'
+          }}
+        >
+        <img src={arrow} style={{width:'70%', height:'70%'}} alt="arrow" />
+        </button>
+
+
+        <div className={`help-box ${isHelpBoxOpen ? 'show' : 'hide'}`}>
+            <p style={{ fontSize: '1.5rem' }}>
+              기업리스트 제발 
+            </p>
+          </div>
+
+
+        <div className="blurred-background"
+          style={{
             top: mousePosition.y - 40,
             left: mousePosition.x - 60,
-            zIndex: -1,
-            pointerEvents: 'none',
           }}
         ></div>
         
@@ -335,24 +394,24 @@ const Home=()=>{
                 <h3>주요 키워드  &gt; </h3>
               </div>
               {/* Display main keywords */}
-              {mainKeywords.map((keyword, index) => (
+              {/* {mainKeywords.map((keyword, index) => (
                 <p key={index} className="keyword" onClick={() => handleMainKeywordClick(keyword.keyword)}>
                   {index + 1}. {keyword.keyword}
                 </p>
-              ))}
+              ))} */}
             </div>
             <div className='hotnews' style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)'}}>
               <div className='titlediv'>
                 <h3>주요 뉴스  &gt; </h3>
               </div>
               {/* Display titles with links from hot2_keyword */}
-              {mainKeywords.map((item, index) => (
+              {/* {mainKeywords.map((item, index) => (
                 <p key={index} className="keyword">
                   <a href={item.link} target="_blank" rel="noopener noreferrer">
                     {item.title}
                   </a>
                 </p>
-              ))}
+              ))} */}
             </div>
           </div>
         </section>

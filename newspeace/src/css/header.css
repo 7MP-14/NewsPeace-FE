@@ -11294,3 +11294,70 @@ footer.footer {
   cursor: pointer;
 }
 
+.scroll-to-top-button {
+  width: 3.5rem;
+  height: 3.5rem;
+  position: fixed;
+  bottom: 6rem;
+  right: 2.5rem;
+  z-index: 9999;
+  cursor: pointer;
+  border-radius: 5rem;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  background-color: transparent;
+  border: 2px solid lightgrey;
+}
+
+.scroll-to-top-button:hover {
+  opacity: 1;
+}
+
+.scroll-to-top-button.show {
+  opacity: 1;
+}
+
+.scroll-to-top-button img {
+  width: 70%;
+  height: 70%;
+}
+
+.blurred-background {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #2D78EF; /* 또는 원하는 색상 코드로 변경 */
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+.help-box {
+  position: fixed;
+  background-color: rgba(240, 240, 240, 0.95);  /* 247, 247, 247, 0.95 */
+  border: 2px solid grey;
+  padding: 10px;
+  border-radius: 1.5rem;
+  width: 70%;
+  height: 90%;
+  z-index: 9999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform-origin: center;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.help-box.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.help-box.hide {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  visibility: hidden;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, visibility 0s 0.4s;
+}
