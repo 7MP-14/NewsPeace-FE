@@ -32,7 +32,7 @@ const Home=()=>{
       const scrollThreshold = 400; // 스크롤 값 2450
 
       // 스크롤이 일정 이상 내려갔을 때 버튼 표시
-      console.log(scrollTop)
+
       setShowScrollToTop(scrollTop > scrollThreshold);
     };
     window.addEventListener('scroll', handleScroll);
@@ -159,7 +159,7 @@ const Home=()=>{
       .then((res) => {
         console.log('성공');
         console.log(res);
-        setHotKeywords(res.hot_keyword);
+        setHotKeywords(res.hot_search_keyword);
         setMainKeywords(res.hot2_keyword);
       })
       .catch((error) => {
