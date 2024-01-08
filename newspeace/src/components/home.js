@@ -397,8 +397,13 @@ const Home=()=>{
                           .slice(tabIndex * itemsPerPage, (tabIndex + 1) * itemsPerPage)
                           .map(([key, value]) => (
                             <p style={{ display: 'flex', alignItems: 'center' }}  onClick={() => handleKeywordClick(value)}>
-                              <span style={{textAlign: 'left', marginLeft:'2rem',cursor: 'pointer'}}>{key}</span>
-                              <span style={{ flex: '1', textAlign: 'center', cursor: 'pointer'}}>{[value]}</span>
+                              <span style={{textAlign: 'left', marginLeft:'2rem'}}>{Number(key)+1}</span>
+                              <span
+                                style={{ flex: '1', textAlign: 'center', cursor: 'pointer', fontWeight: 'normal' }}
+                                onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }}
+                                onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}>
+                                {[value]}
+                              </span>
                             </p>
                           ))}
                       </div>
@@ -493,7 +498,9 @@ const Home=()=>{
                               {isHovered && (
                                 <div className="all-keywords">
                                   {hotKeywords.map((keyword, index) => (
-                                    <p key={index} className="keyword" onClick={() => allkeywordsubmit(keyword)}>
+                                    <p style={{cursor: 'pointer', fontWeight: 'normal'}}
+                                    onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }} onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}
+                                    key={index} className="keyword" onClick={() => allkeywordsubmit(keyword)}>
                                       {index + 1}. {keyword}
                                     </p>
                                   ))}
@@ -537,7 +544,9 @@ const Home=()=>{
                  {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
                   {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
                     hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
-                      <p key={index} className={`keyword ${index === 0 ? 'bold' : ''}`} style={{ cursor: 'pointer' }}>
+                      <p style={{cursor: 'pointer', fontWeight: 'normal'}}
+                      onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }} onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}
+                    key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
                         <a href={item.link} target="_blank" rel="noopener noreferrer">
                           {item.title}
                         </a>
@@ -546,7 +555,6 @@ const Home=()=>{
                   ) : (
                     <p>해당 키워드에 대한 뉴스가 없습니다.</p>
                   )}
-
               </div>
             </div>
           </section>
