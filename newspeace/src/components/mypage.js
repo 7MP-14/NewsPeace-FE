@@ -221,7 +221,7 @@ export default function Mypage(props) {
                     checked={selectedKeywords.includes(keyword.id)}
                   />
                 )}
-                <p onClick={() => handleKeywordClick(keyword.keyword_text)}>
+                <p >
                   <strong>{keyword.keyword_text}</strong>
                 </p>
               </div>

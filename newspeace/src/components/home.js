@@ -337,6 +337,11 @@ const Home=()=>{
       });
   };
 
+  const handleKeywordClick = (keywordText) => {
+    // 다른 페이지로 이동하고자 하는 경우 navigate 사용
+    navigate(`/myChart`, { state: { keywordText } });
+    // navigate('/result', { state: { responseData: res } });
+  };
 
     return (  
       <>
@@ -401,7 +406,7 @@ const Home=()=>{
                         {Object.entries(kpi)
                           .slice(tabIndex * itemsPerPage, (tabIndex + 1) * itemsPerPage)
                           .map(([key, value]) => (
-                            <p style={{ display: 'flex', alignItems: 'center' }}>
+                            <p style={{ display: 'flex', alignItems: 'center' }}  onClick={() => handleKeywordClick(value)}>
                               <span style={{textAlign: 'left', marginLeft:'2rem'}}>{key}</span>
                               <span style={{ flex: '1', textAlign: 'center' }}>{[value]}</span>
                             </p>
