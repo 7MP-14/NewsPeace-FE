@@ -11159,24 +11159,18 @@ footer.footer {
 .hothot {
   display: flex;
   padding: 0 10%;
-  /* border-bottom: 1px solid #e1e1e1; */
   justify-content: space-around;
   width: 80%;
   margin: 0 auto;
-  max-width: 80%;
 }
 
 .hotkeyword {
   flex: 0 0 40%; 
-  /* border: 1px solid #ccc;  */
   border-radius: 10px; 
-  /* padding: 10px; 내부 여백 지정 */
-  margin: 5px; /* 각 요소 사이의 간격 지정 */
+  margin: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
   height: 21rem;
   max-width: 20rem;
-  /* border-right: 1px solid #e1e1e1; */
-  /* border-left: 1px solid #e1e1e1; */
   margin-bottom: 3%;
   text-align: left;
   background-color: white;
@@ -11184,21 +11178,18 @@ footer.footer {
 }
 
 .hotnews{
-  flex: 0 0 100%; 
-  /* border: 1px solid #ccc;  */
-  border-radius: 10px; 
-  /* padding:10px; 내부 여백 지정 */
-  margin: 5px; /* 각 요소 사이의 간격 지정 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  flex: 0 0 100%;
+  border-radius: 10px;
+  margin: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   height: 21rem;
-  max-width: 80rem;
+  width: 50%; /* 고정된 너비 값으로 설정 */
   text-align: left;
   margin-left: 7%;
-  /* border-right: 1px solid #e1e1e1; */
   background-color: white;
   box-sizing: border-box;
-
 }
+
 .hotkeyword h3,.hotnews h3{
   text-align: left;
   margin: 10px;

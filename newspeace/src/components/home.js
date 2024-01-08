@@ -7,7 +7,6 @@ import qr from '../img/qr.png';
 import left from '../img/left.png';
 import right from '../img/right.png';
 import kospi_close from '../img/kospi_close.png';
-
 import icon1 from '../img/흰돋보기.png';
 import arrow from '../img/화살표.png';
 import kpilogo from '../img/kpilogo.png';
@@ -24,18 +23,31 @@ import Loading from './Loading.js';
 import { CSSTransition } from 'react-transition-group';   // npm install react-transition-group
 
 const Home=()=>{
-
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [inputkeyword, setinputKeyword] = useState('');
+  const [hotKeywords, setHotKeywords] = useState([]);
+  const [kpi, setkpi_list] = useState([]);
+  const [hot5Keywords, setHot5Keywords]=useState([]);
+  const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
+  const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
+  const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
+  const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
+  const [loading, setLoading] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
+  const [hoveredKeyword, setHoveredKeyword] = useState(null);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [currentTab, setCurrentTab] = useState(0);
+  const itemsPerPage = 10;
+  const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
 
+  //// 스크롤
   useEffect(() => {
-
-    //// 스크롤
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const scrollThreshold = 400; // 스크롤 값 2450
-
       // 스크롤이 일정 이상 내려갔을 때 버튼 표시
-
       setShowScrollToTop(scrollTop > scrollThreshold);
     };
     window.addEventListener('scroll', handleScroll);
@@ -54,7 +66,6 @@ const Home=()=>{
   /////
 
 
-
   // 도움말 상자 
   const [isHelpBoxOpen, setIsHelpBoxOpen] = useState(false);
   const toggleHelpBox = () => {
@@ -62,13 +73,10 @@ const Home=()=>{
   };
   ////////
 
-  
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 마우스 위치를 저장할 state 추가
-
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
-
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove); // 마우스 이동 이벤트 추가
     return () => {
@@ -76,21 +84,6 @@ const Home=()=>{
     };
   }, []);
 
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [inputkeyword, setinputKeyword] = useState('');
-  const [hotKeywords, setHotKeywords] = useState([]);
-  const [kpi, setkpi_list] = useState([]);
-  const [mainKeywords, setMainKeywords]=useState([]);
-  const [hot5Keywords, setHot5Keywords]=useState([]);
-  const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
-  const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
-  const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
-  const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
-  const [loading, setLoading] = useState(false);
-  // const [writetime, setWritetime]=useState();
-  const [isHovered, setIsHovered] = useState(false);
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const navigate = useNavigate();
 
 
 
@@ -115,12 +108,12 @@ const Home=()=>{
     setinputKeyword(event.target.value);
   };
 
+  //검색어 FETCH 함수
   const submit=()=>{
     if (!inputkeyword.trim()) {
       window.alert('검색어를 입력해주세요.');
       return;
     }
-  
     setLoading(true);
   
     fetch(`${apiUrl}/news/search/`, {
@@ -133,29 +126,30 @@ const Home=()=>{
         category: checkedItems,
       }),
     })
-      .then(res => res.json())
-      .then(res => {
-        setLoading(false);
-  
-        if (res.reply === false) {
-          // 결과가 없는 경우
-          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-          setinputKeyword("");
-        } else {
-          // 결과가 있는 경우 페이지 이동
-          navigate('/result', { state: { responseData: res, category: checkedItems } });
-        }
-      })
-      .catch(error => {
-        setLoading(false);
-        console.error('에러:', error);
-      });
+    .then(res => res.json())
+    .then(res => {
+      setLoading(false);
+
+      if (res.reply === false) {
+        // 결과가 없는 경우
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword("");
+      } else {
+        // 결과가 있는 경우 페이지 이동
+        navigate('/result', { state: { responseData: res, category: checkedItems } });
+      }
+    })
+    .catch(error => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
   }
 
   useEffect(() => {
     getHotKeyword();
   }, []);
 
+  //인기검색어 GET FETCH 함수
   const getHotKeyword=()=>{
     fetch(`${apiUrl}/hot/`, {
       method: 'GET',
@@ -173,6 +167,7 @@ const Home=()=>{
       });
   }
 
+ //인기검색어 애니메이션 함수
   useEffect(() => {
     const intervalId = setInterval(() => {
       // 먼저 애니메이션 클래스를 제거
@@ -196,14 +191,16 @@ const Home=()=>{
       // 약간의 지연 후에 애니메이션 클래스를 다시 적용
       setTimeout(() => {
         setAnimationClass('keyword-animation-enter');
-        // 다음 키워드로 이동, 4일 경우 0으로 초기화
         setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
+        // 마우스를 떼면 hoveredKeyword를 null로 설정
+        setHoveredKeyword(null);
       }, 100);
     }, 2000); // 4초마다 키워드 업데이트
-
+  
     return () => clearInterval(intervalId);
-  }, [hotKeywords.length, currentHot5KeywordIndex]);
+  }, [hot5Keywords.length, currentHot5KeywordIndex]);
 
+  //인기 검색어 FETCH 함수
   const hotkeywordsubmit=()=>{
     setLoading(true);
 
@@ -214,7 +211,6 @@ const Home=()=>{
       },
       body: JSON.stringify({
         keyword: hotKeywords[currentHotKeywordIndex], // 선택된 핫 키워드 사용
-        // category: checkedItems,
       }),
     })
     .then((res) => res.json())
@@ -222,11 +218,9 @@ const Home=()=>{
       setLoading(false);
 
       if (res.reply === false) {
-        // 결과가 없는 경우
         window.alert('해당하는 검색어에 대한 결과가 없습니다.');
         setinputKeyword('');
       } else {
-        // 결과가 있는 경우 페이지 이동
         navigate('/result', { state: { responseData: res } });
       }
     })
@@ -256,9 +250,6 @@ const Home=()=>{
       });
   };
 
-  const [currentTab, setCurrentTab] = useState(0);
-  const itemsPerPage = 10;
-  const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
 
   const handleTabChange = (newTab) => {
     setCurrentTab(newTab);
@@ -273,7 +264,7 @@ const Home=()=>{
   };
   ///
 
-
+  //인기 검색어 전체 보여주는 함수
   const allkeywordsubmit=(keyword)=>{
     setLoading(true);
 
@@ -284,28 +275,26 @@ const Home=()=>{
       },
       body: JSON.stringify({
         keyword: keyword,
-        // category: checkedItems,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        setLoading(false);
+    .then((res) => res.json())
+    .then((res) => {
+      setLoading(false);
 
-        if (res.reply === false) {
-          // 결과가 없는 경우
-          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-          setinputKeyword('');
-        } else {
-          // 결과가 있는 경우 페이지 이동
-          navigate('/result', { state: { responseData: res } });
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('에러:', error);
-      });
+      if (res.reply === false) {
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword('');
+      } else {
+        navigate('/result', { state: { responseData: res } });
+      }
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
   }
 
+  //실시간 키워드 검색 FETCH 함수
   const handleMainKeywordClick = (keyword) => {
     setLoading(true);
 
@@ -318,31 +307,32 @@ const Home=()=>{
         keyword:keyword,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        setLoading(false);
+    .then((res) => res.json())
+    .then((res) => {
+      setLoading(false);
 
-        if (res.reply === false) {
-          // 결과가 없는 경우
-          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-          setinputKeyword('');
-        } else {
-          // 결과가 있는 경우 페이지 이동
-          navigate('/result', { state: { responseData: res } });
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('에러:', error);
-      });
+      if (res.reply === false) {
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword('');
+      } else {
+        navigate('/result', { state: { responseData: res } });
+      }
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
   };
 
   const handleKeywordClick = (keywordText) => {
-    // 다른 페이지로 이동하고자 하는 경우 navigate 사용
     navigate(`/myChart`, { state: { keywordText } });
-    // navigate('/result', { state: { responseData: res } });
   };
 
+  //실시간 검색어 호버 함수
+  const handleKeywordMouseEnter = (keyword) => {
+    console.log(`Fetching news for keyword: ${keyword}`);
+    setHoveredKeyword(keyword);
+  };
     return (  
       <>
 
@@ -414,7 +404,6 @@ const Home=()=>{
                                 onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}>
                                 {[value]}
                               </span>
-
                             </p>
                           ))}
                       </div>
@@ -533,25 +522,28 @@ const Home=()=>{
                 <div className="titlediv">
                   <h3>실시간 키워드 &gt; </h3>
                 </div>
-                {/* 주요 키워드 표시 */}
+               {/* 주요 키워드 표시 */}
                 {hot5Keywords.map((keyword, index) => (
                   <p
                     key={index}
-                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal', cursor:'pointer'}}
+                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal', cursor: 'pointer'}}
                     onClick={() => {
                       setCurrentHot5KeywordIndex(index);
-                      handleMainKeywordClick(keyword);}}>
+                      handleMainKeywordClick(keyword);
+                    }}
+                    onMouseEnter={() => handleKeywordMouseEnter(keyword)}
+                  >
                     {index + 1}. {keyword}
                   </p>
                 ))}
               </div>
               <div className="hotnews" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
                 <div className="titlediv">
-                  <h3>실시간 "{hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
+                  <h3>실시간 "{hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
                 </div>
                  {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
-                  {hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]] ? (
-                    hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                  {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
+                    hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
                       <p style={{cursor: 'pointer', fontWeight: 'normal'}}
                       onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }} onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}
                     key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
@@ -613,7 +605,7 @@ const Home=()=>{
 
               <div style={{ flexDirection: 'column', alignItems: 'bottom', marginTop: '10rem' }}>
                 <img src={qr} style={{ width: '20%', height: 'auto'}} alt="qr" className="qr-hover" />
-                <p style={{ fontSize: '1rem'}}><b>[NewsPeace 채널]</b></p>
+                <p style={{ fontSize: '1rem'}}><b>[Newspeace 채널]</b></p>
               </div>
               
               <img src={first} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="first"
