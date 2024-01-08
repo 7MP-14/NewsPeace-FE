@@ -4,8 +4,12 @@ import first from '../img/first.png';
 import second from '../img/second.png';
 import chatbot from '../img/chatbot.png';
 import qr from '../img/qr.png';
+import left from '../img/left.png';
+import right from '../img/right.png';
+import kospi_close from '../img/kospi_close.png';
 import icon1 from '../img/흰돋보기.png';
 import arrow from '../img/화살표.png';
+import kpilogo from '../img/kpilogo.png';
 import Service from '../img/Service.png';
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
@@ -16,23 +20,34 @@ import people6 from '../img/people6.png';
 import people7 from '../img/people7.jpg';
 import people8 from '../img/people8.png';
 import Loading from './Loading.js';
+import { CSSTransition } from 'react-transition-group';   // npm install react-transition-group
 
 const Home=()=>{
-
-  /////// 기업리스트
-  /////////////////
-
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [inputkeyword, setinputKeyword] = useState('');
+  const [hotKeywords, setHotKeywords] = useState([]);
+  const [kpi, setkpi_list] = useState([]);
+  const [hot5Keywords, setHot5Keywords]=useState([]);
+  const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
+  const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
+  const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
+  const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
+  const [loading, setLoading] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
+  const [hoveredKeyword, setHoveredKeyword] = useState(null);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [currentTab, setCurrentTab] = useState(0);
+  const itemsPerPage = 10;
+  const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
 
+  //// 스크롤
   useEffect(() => {
-
-    //// 스크롤
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const scrollThreshold = 400; // 스크롤 값 2450
-
       // 스크롤이 일정 이상 내려갔을 때 버튼 표시
-
       setShowScrollToTop(scrollTop > scrollThreshold);
     };
     window.addEventListener('scroll', handleScroll);
@@ -51,7 +66,6 @@ const Home=()=>{
   /////
 
 
-
   // 도움말 상자 
   const [isHelpBoxOpen, setIsHelpBoxOpen] = useState(false);
   const toggleHelpBox = () => {
@@ -59,16 +73,10 @@ const Home=()=>{
   };
   ////////
 
-
-  // 투명도
-  /////
-  
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 마우스 위치를 저장할 state 추가
-
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
-
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove); // 마우스 이동 이벤트 추가
     return () => {
@@ -76,19 +84,6 @@ const Home=()=>{
     };
   }, []);
 
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [inputkeyword, setinputKeyword] = useState('');
-  const [hotKeywords, setHotKeywords] = useState([]);
-  const [hot5Keywords, setHot5Keywords]=useState([]);
-  const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
-  const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
-  const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
-  const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
-  const [loading, setLoading] = useState(false);
-  // const [writetime, setWritetime]=useState();
-  const [isHovered, setIsHovered] = useState(false);
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const navigate = useNavigate();
 
 
 
@@ -113,12 +108,12 @@ const Home=()=>{
     setinputKeyword(event.target.value);
   };
 
+  //검색어 FETCH 함수
   const submit=()=>{
     if (!inputkeyword.trim()) {
       window.alert('검색어를 입력해주세요.');
       return;
     }
-  
     setLoading(true);
   
     fetch(`${apiUrl}/news/search/`, {
@@ -131,29 +126,30 @@ const Home=()=>{
         category: checkedItems,
       }),
     })
-      .then(res => res.json())
-      .then(res => {
-        setLoading(false);
-  
-        if (res.reply === false) {
-          // 결과가 없는 경우
-          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-          setinputKeyword("");
-        } else {
-          // 결과가 있는 경우 페이지 이동
-          navigate('/result', { state: { responseData: res, category: checkedItems } });
-        }
-      })
-      .catch(error => {
-        setLoading(false);
-        console.error('에러:', error);
-      });
+    .then(res => res.json())
+    .then(res => {
+      setLoading(false);
+
+      if (res.reply === false) {
+        // 결과가 없는 경우
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword("");
+      } else {
+        // 결과가 있는 경우 페이지 이동
+        navigate('/result', { state: { responseData: res, category: checkedItems } });
+      }
+    })
+    .catch(error => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
   }
 
   useEffect(() => {
     getHotKeyword();
   }, []);
 
+  //인기검색어 GET FETCH 함수
   const getHotKeyword=()=>{
     fetch(`${apiUrl}/hot/`, {
       method: 'GET',
@@ -171,6 +167,7 @@ const Home=()=>{
       });
   }
 
+ //인기검색어 애니메이션 함수
   useEffect(() => {
     const intervalId = setInterval(() => {
       // 먼저 애니메이션 클래스를 제거
@@ -194,14 +191,16 @@ const Home=()=>{
       // 약간의 지연 후에 애니메이션 클래스를 다시 적용
       setTimeout(() => {
         setAnimationClass('keyword-animation-enter');
-        // 다음 키워드로 이동, 4일 경우 0으로 초기화
         setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
+        // 마우스를 떼면 hoveredKeyword를 null로 설정
+        setHoveredKeyword(null);
       }, 100);
     }, 2000); // 4초마다 키워드 업데이트
-
+  
     return () => clearInterval(intervalId);
-  }, [hotKeywords.length, currentHot5KeywordIndex]);
+  }, [hot5Keywords.length, currentHot5KeywordIndex]);
 
+  //인기 검색어 FETCH 함수
   const hotkeywordsubmit=()=>{
     setLoading(true);
 
@@ -212,7 +211,6 @@ const Home=()=>{
       },
       body: JSON.stringify({
         keyword: hotKeywords[currentHotKeywordIndex], // 선택된 핫 키워드 사용
-        // category: checkedItems,
       }),
     })
     .then((res) => res.json())
@@ -220,11 +218,9 @@ const Home=()=>{
       setLoading(false);
 
       if (res.reply === false) {
-        // 결과가 없는 경우
         window.alert('해당하는 검색어에 대한 결과가 없습니다.');
         setinputKeyword('');
       } else {
-        // 결과가 있는 경우 페이지 이동
         navigate('/result', { state: { responseData: res } });
       }
     })
@@ -234,6 +230,41 @@ const Home=()=>{
     });
   }
 
+  //// KPI
+  useEffect(() => {
+    KPI200();
+  }, []);
+
+  const KPI200 = () => {
+    fetch(`${apiUrl}/enterprise/`, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('성공');
+        console.log("zh",res);
+        setkpi_list(res.return);
+      })
+      .catch((error) => {
+        console.error('에러:', error);
+      });
+  };
+
+
+  const handleTabChange = (newTab) => {
+    setCurrentTab(newTab);
+  };
+
+  const handlePrevClick = () => {
+    setCurrentTab((prevTab) => (prevTab === 0 ? totalTabs - 1 : prevTab - 1));
+  };
+
+  const handleNextClick = () => {
+    setCurrentTab((prevTab) => (prevTab === totalTabs - 1 ? 0 : prevTab + 1));
+  };
+  ///
+
+  //인기 검색어 전체 보여주는 함수
   const allkeywordsubmit=(keyword)=>{
     setLoading(true);
 
@@ -244,28 +275,26 @@ const Home=()=>{
       },
       body: JSON.stringify({
         keyword: keyword,
-        // category: checkedItems,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        setLoading(false);
+    .then((res) => res.json())
+    .then((res) => {
+      setLoading(false);
 
-        if (res.reply === false) {
-          // 결과가 없는 경우
-          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-          setinputKeyword('');
-        } else {
-          // 결과가 있는 경우 페이지 이동
-          navigate('/result', { state: { responseData: res } });
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('에러:', error);
-      });
+      if (res.reply === false) {
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword('');
+      } else {
+        navigate('/result', { state: { responseData: res } });
+      }
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
   }
 
+  //실시간 키워드 검색 FETCH 함수
   const handleMainKeywordClick = (keyword) => {
     setLoading(true);
 
@@ -278,26 +307,32 @@ const Home=()=>{
         keyword:keyword,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        setLoading(false);
+    .then((res) => res.json())
+    .then((res) => {
+      setLoading(false);
 
-        if (res.reply === false) {
-          // 결과가 없는 경우
-          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-          setinputKeyword('');
-        } else {
-          // 결과가 있는 경우 페이지 이동
-          navigate('/result', { state: { responseData: res } });
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('에러:', error);
-      });
+      if (res.reply === false) {
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword('');
+      } else {
+        navigate('/result', { state: { responseData: res } });
+      }
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
   };
 
+  const handleKeywordClick = (keywordText) => {
+    navigate(`/myChart`, { state: { keywordText } });
+  };
 
+  //실시간 검색어 호버 함수
+  const handleKeywordMouseEnter = (keyword) => {
+    console.log(`Fetching news for keyword: ${keyword}`);
+    setHoveredKeyword(keyword);
+  };
     return (  
       <>
 
@@ -309,11 +344,6 @@ const Home=()=>{
        :
        (// 코스피 rgba(255, 182, 193, 1)
         <>
-        <button onClick={toggleHelpBox} style={{ width:'95px', position: 'fixed', bottom: '2rem', right: '1.5rem', zIndex: '9999', cursor: 'pointer', borderRadius: '10rem',
-      backgroundColor:'rgba(155, 176, 216, 1)' }}> 
-          코스피
-        </button>
-
         <button
           onClick={scrollToTop}
           className="scroll-to-top-button"
@@ -326,12 +356,88 @@ const Home=()=>{
         <img src={arrow} style={{width:'70%', height:'70%'}} alt="arrow" />
         </button>
 
+        <button
+          onClick={toggleHelpBox}
+          style={{
+            width: '95px',
+            position: 'fixed',
+            bottom: '2rem',
+            right: '1.5rem',
+            zIndex: '9999',
+            cursor: 'pointer',
+            borderRadius: '10rem',
+            backgroundColor: 'rgba(155, 176, 216, 1)',
+          }}
+        >
+          주가 정보
+        </button>
 
-        <div className={`help-box ${isHelpBoxOpen ? 'show' : 'hide'}`}>
-            <p style={{ fontSize: '1.5rem' }}>
-              기업리스트 제발 
-            </p>
+
+        
+        <div className={`help-box ${isHelpBoxOpen ? 'show' : 'hide'}`} style={{width:'40rem', height:'41rem'}}>
+        <img src={kospi_close} onClick={toggleHelpBox} style={{ width: '2rem', height: '2rem', marginLeft:'37rem', cursor: 'pointer' }}/>
+          <div className='kpilist text-center ' style={{ overflowX: 'hidden'}}>
+            {kpi && (
+              <div className='mainkpi'>
+                <h2 style={{ margin:'auto', width:'20rem'}}>
+                  <img src={kpilogo} alt="kpilogo" style={{ width: '7rem', height: '4.5rem', marginRight:'1rem'}}></img>
+                KOSPI 100</h2><hr style={{width:'18.5rem', margin:'auto'}}></hr>
+                <br />
+                <div className="kpibox" style={{ display: 'flex', overflowX: 'hidden', backgroundColor: 'white', width: '40%', margin: 'auto', paddingTop: '1rem', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.4)' }}>
+                  {Array.from({ length: totalTabs }, (_, tabIndex) => (
+                    <CSSTransition
+                      key={tabIndex}
+                      in={currentTab === tabIndex}
+                      timeout={300}
+                      classNames="kpibox"
+                      unmountOnExit
+                    >
+                      <div style={{ width: '100%', flex: '0 0 auto' }}>
+                        {Object.entries(kpi)
+                          .slice(tabIndex * itemsPerPage, (tabIndex + 1) * itemsPerPage)
+                          .map(([key, value]) => (
+                            <p style={{ display: 'flex', alignItems: 'center' }}  onClick={() => handleKeywordClick(value)}>
+                              <span style={{textAlign: 'left', marginLeft:'2rem'}}>{Number(key)+1}</span>
+                              <span
+                                style={{ flex: '1', textAlign: 'center', cursor: 'pointer', fontWeight: 'normal' }}
+                                onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }}
+                                onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}>
+                                {[value]}
+                              </span>
+                            </p>
+                          ))}
+                      </div>
+                    </CSSTransition>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                  <img src={left} alt="Previous" onClick={handlePrevClick} style={{ width: '2rem', height: '2rem', marginRight: '10px', cursor: 'pointer' }}/>
+                  <img src={right}  alt="Next" onClick={handleNextClick} style={{ width: '2rem', height: '2rem', cursor: 'pointer' }}/>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                  {Array.from({ length: totalTabs }, (_, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        background: currentTab === index ? '#007BFF' : '#CCCCCC',
+                        margin: '0 5px',
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+        </div>
+
+        <div
+          className={`blurred-background-help ${
+            isHelpBoxOpen ? 'blurred-background-help-visible' : ''
+          }`}
+        ></div>
 
 
         <div className="blurred-background"
@@ -392,7 +498,9 @@ const Home=()=>{
                               {isHovered && (
                                 <div className="all-keywords">
                                   {hotKeywords.map((keyword, index) => (
-                                    <p key={index} className="keyword" onClick={() => allkeywordsubmit(keyword)}>
+                                    <p style={{cursor: 'pointer', fontWeight: 'normal'}}
+                                    onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }} onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}
+                                    key={index} className="keyword" onClick={() => allkeywordsubmit(keyword)}>
                                       {index + 1}. {keyword}
                                     </p>
                                   ))}
@@ -409,20 +517,21 @@ const Home=()=>{
           </header>
 
           <section className="features-icons bg-light text-center">
-            <div className="hothot">
+            <div className="hothot" style={{width:'70%'}}>
               <div className="hotkeyword" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
                 <div className="titlediv">
                   <h3>실시간 키워드 &gt; </h3>
                 </div>
-                {/* 주요 키워드 표시 */}
+               {/* 주요 키워드 표시 */}
                 {hot5Keywords.map((keyword, index) => (
                   <p
                     key={index}
-                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal' }}
+                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal', cursor: 'pointer'}}
                     onClick={() => {
                       setCurrentHot5KeywordIndex(index);
                       handleMainKeywordClick(keyword);
                     }}
+                    onMouseEnter={() => handleKeywordMouseEnter(keyword)}
                   >
                     {index + 1}. {keyword}
                   </p>
@@ -430,12 +539,14 @@ const Home=()=>{
               </div>
               <div className="hotnews" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
                 <div className="titlediv">
-                  <h3>실시간 "{hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
+                  <h3>실시간 "{hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
                 </div>
                  {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
-                  {hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]] ? (
-                    hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
-                      <p key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                  {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
+                    hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                      <p style={{cursor: 'pointer', fontWeight: 'normal'}}
+                      onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }} onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}
+                    key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
                         <a href={item.link} target="_blank" rel="noopener noreferrer">
                           {item.title}
                         </a>
@@ -444,7 +555,6 @@ const Home=()=>{
                   ) : (
                     <p>해당 키워드에 대한 뉴스가 없습니다.</p>
                   )}
-
               </div>
             </div>
           </section>
@@ -460,7 +570,7 @@ const Home=()=>{
 
               <div className="col-lg-6">
                 <div className="showcase-text" style={{ width: '100%', height: 'auto' }}>
-                  <h2><b>NewsPeace</b>는 어떤 서비스인가요 ? </h2>  
+                  <h2><b>Newspeace</b>는 어떤 서비스인가요 ? </h2>  
                   <div className="feature" style={{ marginTop: '5rem' }}>
                     <h3>일주일 단위 기사 데이터 수집</h3>
                     <p style={{ fontSize: '1.07rem' }}>최근 일주일 동안의 뉴스기사를 수집하여 검색한 키워드에 대한 기사를 분석합니다.</p>
@@ -495,7 +605,7 @@ const Home=()=>{
 
               <div style={{ flexDirection: 'column', alignItems: 'bottom', marginTop: '10rem' }}>
                 <img src={qr} style={{ width: '20%', height: 'auto'}} alt="qr" className="qr-hover" />
-                <p style={{ fontSize: '1rem'}}><b>[NewsPeace 채널]</b></p>
+                <p style={{ fontSize: '1rem'}}><b>[Newspeace 채널]</b></p>
               </div>
               
               <img src={first} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="first"

@@ -283,9 +283,9 @@
   padding-bottom: 5px;
 }
 
-.keywords p:hover {
-  border-bottom: 2px solid #000; /* 호버 효과 */
-}
+/* .keywords p:hover { */
+  /* border-bottom: 2px solid #000; 호버 효과 */
+/* } */
 
 
 

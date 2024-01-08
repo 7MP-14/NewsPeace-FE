@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../css/mypage.css';
-import icon2 from '../img/user.png'
+import icon2 from '../img/사용자.png'
 import { Link, useNavigate } from "react-router-dom";
 import EmailButton from './sendEmail.js';
 
@@ -221,7 +221,7 @@ export default function Mypage(props) {
                     checked={selectedKeywords.includes(keyword.id)}
                   />
                 )}
-                <p onClick={() => handleKeywordClick(keyword.keyword_text)}>
+                <p >
                   <strong>{keyword.keyword_text}</strong>
                 </p>
               </div>

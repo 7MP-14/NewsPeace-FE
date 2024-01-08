@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useLocation } from 'react-router-dom';
 import '../css/myChart.css';
-import backimg from "../img/bg-masthead.jpg";
 
 
 const LineChart = () => {
