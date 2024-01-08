@@ -82,14 +82,18 @@ const Home=()=>{
   const [hotKeywords, setHotKeywords] = useState([]);
   const [kpi, setkpi_list] = useState([]);
   const [mainKeywords, setMainKeywords]=useState([]);
+  const [hot5Keywords, setHot5Keywords]=useState([]);
+  const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
   const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
+  const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
   const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
   const [loading, setLoading] = useState(false);
   // const [writetime, setWritetime]=useState();
   const [isHovered, setIsHovered] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
-
   const navigate = useNavigate();
+
+
 
   // Enter로 검색
   const handleKeyPress = (event) => {
@@ -162,7 +166,8 @@ const Home=()=>{
         console.log('성공');
         console.log(res);
         setHotKeywords(res.hot_search_keyword);
-        setMainKeywords(res.hot2_keyword);
+        setHot5Keywords(res.hot_5_keyword);
+        setHot5KeywordsInfo(res.hot_5_keyword_info);
       })
       .catch((error) => {
         console.error('에러:', error);
@@ -177,11 +182,28 @@ const Home=()=>{
       setTimeout(() => {
         setAnimationClass('keyword-animation-enter');
         setCurrentHotKeywordIndex(prevIndex => (prevIndex + 1) % hotKeywords.length);
+        // 다음 키워드로 이동, 4일 경우 0으로 초기화
+        // setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
       }, 100);
     }, 2000); // 4초마다 키워드 업데이트
 
     return () => clearInterval(intervalId);
   }, [hotKeywords.length, currentHotKeywordIndex]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // 먼저 애니메이션 클래스를 제거
+      setAnimationClass('');
+      // 약간의 지연 후에 애니메이션 클래스를 다시 적용
+      setTimeout(() => {
+        setAnimationClass('keyword-animation-enter');
+        // 다음 키워드로 이동, 4일 경우 0으로 초기화
+        setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
+      }, 100);
+    }, 2000); // 4초마다 키워드 업데이트
+
+    return () => clearInterval(intervalId);
+  }, [hotKeywords.length, currentHot5KeywordIndex]);
 
   const hotkeywordsubmit=()=>{
     setLoading(true);
@@ -467,7 +489,7 @@ const Home=()=>{
                             <div className="keyword-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                               {hotKeywords.length > 0 && (
                                 <p
-                                  className={`keyword ${isHovered ? 'hovered' : ''}`}
+                                  className={`keyword ${isHovered ? 'hovered ' : ''}`}
                                   style={{ cursor: 'pointer' }}
                                   onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])}
                                 >
@@ -494,33 +516,45 @@ const Home=()=>{
           </header>
 
           <section className="features-icons bg-light text-center">
-          <div className='hothot'>
-            <div className='hotkeyword' style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)'}}>
-              <div className='titlediv'>
-                <h3>주요 키워드  &gt; </h3>
+            <div className="hothot">
+              <div className="hotkeyword" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
+                <div className="titlediv">
+                  <h3>실시간 키워드 &gt; </h3>
+                </div>
+                {/* 주요 키워드 표시 */}
+                {hot5Keywords.map((keyword, index) => (
+                  <p
+                    key={index}
+                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal' }}
+                    onClick={() => {
+                      setCurrentHot5KeywordIndex(index);
+                      handleMainKeywordClick(keyword);
+                    }}
+                  >
+                    {index + 1}. {keyword}
+                  </p>
+                ))}
               </div>
-              {/* Display main keywords */}
-              {/* {mainKeywords.map((keyword, index) => (
-                <p key={index} className="keyword" onClick={() => handleMainKeywordClick(keyword.keyword)}>
-                  {index + 1}. {keyword.keyword}
-                </p>
-              ))} */}
-            </div>
-            <div className='hotnews' style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)'}}>
-              <div className='titlediv'>
-                <h3>주요 뉴스  &gt; </h3>
+              <div className="hotnews" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
+                <div className="titlediv">
+                  <h3>실시간 "{hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
+                </div>
+                 {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
+                  {hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]] ? (
+                    hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                      <p key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                        <a href={item.link} target="_blank" rel="noopener noreferrer">
+                          {item.title}
+                        </a>
+                      </p>
+                    ))
+                  ) : (
+                    <p>해당 키워드에 대한 뉴스가 없습니다.</p>
+                  )}
+
               </div>
-              {/* Display titles with links from hot2_keyword */}
-              {/* {mainKeywords.map((item, index) => (
-                <p key={index} className="keyword">
-                  <a href={item.link} target="_blank" rel="noopener noreferrer">
-                    {item.title}
-                  </a>
-                </p>
-              ))} */}
             </div>
-          </div>
-        </section>
+          </section>
         
 
           
@@ -540,7 +574,7 @@ const Home=()=>{
                   </div>
 
                   <div className="feature" style={{ marginTop: '3rem' }}>
-                    <h3>뉴스기사 별 긍정, 부정률 분석</h3>
+                    <h3>뉴스기사 별 여론 분석</h3>
                     <p style={{ fontSize: '1.07rem' }}>AI 모델을 활용하여 각 기사의 감정분석을 수행하고 긍정과 부정의 비율을 제공합니다.</p>
                   </div>
 
