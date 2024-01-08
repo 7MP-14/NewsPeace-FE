@@ -15,6 +15,7 @@ function Dashboard() {
     const category = location.state?.category;
     const categoryString = Array.isArray(category) ? category.join(', ') : category;
     const navigate = useNavigate();
+
     const positiveWidth = `${responseData.긍정도}%`; // 긍정 비율
     const negativeWidth = `${responseData.부정도}%`; // 부정 비율
     const [scrapped, setScrapped] = useState({}); // 스크랩 상태 관리 (스크랩 완료 시 이미지 변경)
@@ -169,7 +170,7 @@ const handleKeywordClick = (clickedKeyword) => {
                     <p className="article-count">{responseData.article.긍정.length}개</p>
                     <hr />
                     <div className="article-list">
-                        {responseData.article.긍정.map((articleData) => (
+                        {responseData.article.긍정.slice().reverse().map((articleData) => (
                             <div className="article-item" key={articleData.id}>
                                 <img src={articleData.img || people6} className='article-img' alt="Article" />
                                 <div className="article-content">
@@ -193,7 +194,7 @@ const handleKeywordClick = (clickedKeyword) => {
                     <p className="article-count">{responseData.article.부정.length}개</p>
                     <hr></hr>
                     <div className="article-list">
-                        {responseData.article.부정.map((articleData) => (
+                        {responseData.article.부정.slice().reverse().map((articleData) => (
                             <div className="article-item" key={articleData.id}>
                             <img src={articleData.img || people6} className='article-img' alt="Article"/>
                             <div className="article-content">

@@ -10860,8 +10860,8 @@ textarea.form-control-lg {
   }
 }
 .features-icons {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
 
 }
 .features-icons .features-icons-item {
@@ -11008,10 +11008,13 @@ footer.footer {
   margin:0 auto;
   /* margin-left:70px; */
   font-size: 1.3rem;
+
 }
 
 .hottopic .keyword {
   margin-left:-50px;
+  margin-top: 15px;
+
 
 }
 
@@ -11086,10 +11089,10 @@ footer.footer {
   color: #000;
   border: none;
   border-radius: 10px;
-  padding: 12px 19px;
+  padding: 17px 24px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 .checkbtn.selected {
@@ -11125,7 +11128,9 @@ footer.footer {
   top: 30%;
   left: 70%;
   transform: translate(-50%, -50%);
+
 }
+
 .blurred-background {
   filter: blur(180px); /* 필요에 따라 블러 정도 조절 */
   -webkit-backdrop-filter: blur(5px); /* Safari용 블러 정도 조절 */
@@ -11146,16 +11151,14 @@ footer.footer {
   transition: transform 1s; 
 }
 .qr-hover:hover {
-  transform: scale(6);
+  transform: scale(3);
 }
-
-
 
 
 .hothot {
   display: flex;
   padding: 0 10%;
-  border-bottom: 1px solid #e1e1e1;
+  /* border-bottom: 1px solid #e1e1e1; */
   justify-content: space-around;
   width: 80%;
   margin: 0 auto;
@@ -11177,8 +11180,9 @@ footer.footer {
   background-color: white;
 
 }
+
 .hotnews{
-  flex: 0 0 80%; /* flex-grow, flex-shrink, flex-basis */
+  flex: 0 0 100%; /* flex-grow, flex-shrink, flex-basis */
   /* border: 1px solid #ccc;  */
   border-radius: 10px; 
   /* padding:10px; 내부 여백 지정 */
@@ -11209,7 +11213,7 @@ footer.footer {
   font-size: 1.4rem;
   color: #000;
   text-decoration: none;
-  padding-left: 8%;
+  padding-left: 5%;
   /* border-bottom: 1px solid #e1e1e1; */
   position: relative;
   text-decoration: underline;
@@ -11253,12 +11257,13 @@ footer.footer {
   left: 50%;
   transform: translateX(-50%);
   width: 150px;
-  background-color: #fff; /* Change the background color as needed */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow for a nice effect */
+  background-color: rgba(255, 255, 255, 0.7); /* Change the last value (0.9) for transparency */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   padding: 10px;
   z-index: 1;
   margin: 0 auto;
-  
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  border-radius: 5px;
 }
 
 .all-keywords .keyword {
@@ -11269,6 +11274,7 @@ footer.footer {
   color: #000;
   text-align: left;
   font-size: 1rem;
+
 
 }
 
@@ -11290,4 +11296,99 @@ footer.footer {
   width: 40px;
   height: 37px;
   cursor: pointer;
+}
+
+.scroll-to-top-button {
+  width: 3.5rem;
+  height: 3.5rem;
+  position: fixed;
+  bottom: 6rem;
+  right: 2.5rem;
+  z-index: 9999;
+  cursor: pointer;
+  border-radius: 5rem;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  background-color: transparent;
+  border: 2px solid lightgrey;
+}
+
+.scroll-to-top-button:hover {
+  opacity: 1;
+}
+
+.scroll-to-top-button.show {
+  opacity: 1;
+}
+
+.scroll-to-top-button img {
+  width: 70%;
+  height: 70%;
+}
+
+.blurred-background {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #2D78EF; /* 또는 원하는 색상 코드로 변경 */
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+.help-box {
+  position: fixed;
+  background-color: rgba(240, 240, 240, 0.95);  /* 247, 247, 247, 0.95 */
+  border: 2px solid grey;
+  padding: 10px;
+  border-radius: 1.5rem;
+  width: 70%;
+  height: 90%;
+  z-index: 9999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform-origin: center;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.help-box.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.help-box.hide {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  visibility: hidden;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, visibility 0s 0.4s;
+}
+
+.animation-enter {
+  animation: slideDown 0.5s ease-in;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* 시작 위치에서 위로 10px 이동 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hotnews .titlediv h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hotnews .keyword {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

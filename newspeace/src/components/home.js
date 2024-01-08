@@ -5,6 +5,7 @@ import second from '../img/second.png';
 import chatbot from '../img/chatbot.png';
 import qr from '../img/qr.png';
 import icon1 from '../img/흰돋보기.png';
+import arrow from '../img/화살표.png';
 import Service from '../img/Service.png';
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
@@ -14,10 +15,50 @@ import people5 from '../img/people5.jpg';
 import people6 from '../img/people6.png';
 import people7 from '../img/people7.jpg';
 import people8 from '../img/people8.png';
-
 import Loading from './Loading.js';
 
 const Home=()=>{
+
+  /////// 기업리스트
+  /////////////////
+
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+  useEffect(() => {
+
+    //// 스크롤
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const scrollThreshold = 400; // 스크롤 값 2450
+
+      // 스크롤이 일정 이상 내려갔을 때 버튼 표시
+
+      setShowScrollToTop(scrollTop > scrollThreshold);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // 부드러운 스크롤 적용
+    });
+  };
+  
+  /////
+
+
+
+  // 도움말 상자 
+  const [isHelpBoxOpen, setIsHelpBoxOpen] = useState(false);
+  const toggleHelpBox = () => {
+    setIsHelpBoxOpen(!isHelpBoxOpen);
+  };
+  ////////
+
 
   // 투명도
   /////
@@ -38,15 +79,18 @@ const Home=()=>{
   const [checkedItems, setCheckedItems] = useState([]);
   const [inputkeyword, setinputKeyword] = useState('');
   const [hotKeywords, setHotKeywords] = useState([]);
-  const [mainKeywords, setMainKeywords]=useState([]);
+  const [hot5Keywords, setHot5Keywords]=useState([]);
+  const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
   const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
+  const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
   const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
   const [loading, setLoading] = useState(false);
   // const [writetime, setWritetime]=useState();
   const [isHovered, setIsHovered] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
-
   const navigate = useNavigate();
+
+
 
   // Enter로 검색
   const handleKeyPress = (event) => {
@@ -118,8 +162,9 @@ const Home=()=>{
       .then((res) => {
         console.log('성공');
         console.log(res);
-        setHotKeywords(res.hot_keyword);
-        setMainKeywords(res.hot2_keyword);
+        setHotKeywords(res.hot_search_keyword);
+        setHot5Keywords(res.hot_5_keyword);
+        setHot5KeywordsInfo(res.hot_5_keyword_info);
       })
       .catch((error) => {
         console.error('에러:', error);
@@ -134,11 +179,28 @@ const Home=()=>{
       setTimeout(() => {
         setAnimationClass('keyword-animation-enter');
         setCurrentHotKeywordIndex(prevIndex => (prevIndex + 1) % hotKeywords.length);
+        // 다음 키워드로 이동, 4일 경우 0으로 초기화
+        // setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
       }, 100);
     }, 2000); // 4초마다 키워드 업데이트
 
     return () => clearInterval(intervalId);
   }, [hotKeywords.length, currentHotKeywordIndex]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // 먼저 애니메이션 클래스를 제거
+      setAnimationClass('');
+      // 약간의 지연 후에 애니메이션 클래스를 다시 적용
+      setTimeout(() => {
+        setAnimationClass('keyword-animation-enter');
+        // 다음 키워드로 이동, 4일 경우 0으로 초기화
+        setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
+      }, 100);
+    }, 2000); // 4초마다 키워드 업데이트
+
+    return () => clearInterval(intervalId);
+  }, [hotKeywords.length, currentHot5KeywordIndex]);
 
   const hotkeywordsubmit=()=>{
     setLoading(true);
@@ -153,39 +215,129 @@ const Home=()=>{
         // category: checkedItems,
       }),
     })
-      .then(res => res.json())
-      .then(res => {
-        console.log('성공');
-        console.log(res);
-        setLoading(false);
+    .then((res) => res.json())
+    .then((res) => {
+      setLoading(false);
+
+      if (res.reply === false) {
+        // 결과가 없는 경우
+        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+        setinputKeyword('');
+      } else {
+        // 결과가 있는 경우 페이지 이동
         navigate('/result', { state: { responseData: res } });
+      }
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error('에러:', error);
+    });
+  }
+
+  const allkeywordsubmit=(keyword)=>{
+    setLoading(true);
+
+    fetch(`${apiUrl}/news/search/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({
+        keyword: keyword,
+        // category: checkedItems,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false);
+
+        if (res.reply === false) {
+          // 결과가 없는 경우
+          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+          setinputKeyword('');
+        } else {
+          // 결과가 있는 경우 페이지 이동
+          navigate('/result', { state: { responseData: res } });
+        }
       })
-      .catch(error => {
+      .catch((error) => {
+        setLoading(false);
         console.error('에러:', error);
       });
   }
+
+  const handleMainKeywordClick = (keyword) => {
+    setLoading(true);
+
+    fetch(`${apiUrl}/news/search/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({
+        keyword:keyword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false);
+
+        if (res.reply === false) {
+          // 결과가 없는 경우
+          window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+          setinputKeyword('');
+        } else {
+          // 결과가 있는 경우 페이지 이동
+          navigate('/result', { state: { responseData: res } });
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error('에러:', error);
+      });
+  };
+
+
     return (  
       <>
 
      {loading ? 
          ( //로딩이 참이면, 로딩 페이지로
+         
          <Loading/>
        )
        :
-       (
+       (// 코스피 rgba(255, 182, 193, 1)
         <>
-        <div
-          className="blurred-background"
+        <button onClick={toggleHelpBox} style={{ width:'95px', position: 'fixed', bottom: '2rem', right: '1.5rem', zIndex: '9999', cursor: 'pointer', borderRadius: '10rem',
+      backgroundColor:'rgba(155, 176, 216, 1)' }}> 
+          코스피
+        </button>
+
+        <button
+          onClick={scrollToTop}
+          className="scroll-to-top-button"
           style={{
-            width: '160px',
-            height: '160px',  
-            borderRadius: '50%',
-            background: '#2D78EF',    // #1774D0
-            position: 'fixed',
+            opacity: showScrollToTop ? 1 : 0,
+            backgroundColor: 'transparent',
+            border: '2px solid lightgrey'
+          }}
+        >
+        <img src={arrow} style={{width:'70%', height:'70%'}} alt="arrow" />
+        </button>
+
+
+        <div className={`help-box ${isHelpBoxOpen ? 'show' : 'hide'}`}>
+            <p style={{ fontSize: '1.5rem' }}>
+              기업리스트 제발 
+            </p>
+          </div>
+
+
+        <div className="blurred-background"
+          style={{
             top: mousePosition.y - 40,
             left: mousePosition.x - 60,
-            zIndex: -1,
-            pointerEvents: 'none',
           }}
         ></div>
         
@@ -217,7 +369,6 @@ const Home=()=>{
                               <button className={`checkbtn ${checkedItems.includes('경제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('경제')}>경제</button>
                               <button className={`checkbtn ${checkedItems.includes('사회') ? 'selected' : ''}`} onClick={() => checkedItemHandler('사회')}>사회</button>
                               <button className={`checkbtn ${checkedItems.includes('문화') ? 'selected' : ''}`} onClick={() => checkedItemHandler('문화')}>문화</button>
-                              {/* <button className={`checkbtn ${checkedItems.includes('국제') ? 'selected' : ''}`} onClick={() => checkedItemHandler('국제')}>국제</button> */}
                               <button className={`checkbtn ${checkedItems.includes('IT') ? 'selected' : ''}`} onClick={() => checkedItemHandler('IT')}>IT</button>
                               <button className={`checkbtn ${checkedItems.includes('연예') ? 'selected' : ''}`} onClick={() => checkedItemHandler('연예')}>연예</button>
                               <button className={`checkbtn ${checkedItems.includes('스포츠') ? 'selected' : ''}`} onClick={() => checkedItemHandler('스포츠')}>스포츠</button>
@@ -228,14 +379,10 @@ const Home=()=>{
                             <div className="label-container">
                               <p className="label">인기 검색어:</p>
                             </div>
-                            <div
-                              className="keyword-container"
-                              onMouseEnter={() => setIsHovered(true)}
-                              onMouseLeave={() => setIsHovered(false)}
-                            >
+                            <div className="keyword-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                               {hotKeywords.length > 0 && (
                                 <p
-                                  className={`keyword ${isHovered ? 'hovered' : ''}`}
+                                  className={`keyword ${isHovered ? 'hovered ' : ''}`}
                                   style={{ cursor: 'pointer' }}
                                   onClick={() => hotkeywordsubmit(hotKeywords[currentHotKeywordIndex])}
                                 >
@@ -245,11 +392,7 @@ const Home=()=>{
                               {isHovered && (
                                 <div className="all-keywords">
                                   {hotKeywords.map((keyword, index) => (
-                                    <p
-                                      key={index}
-                                      className="keyword"
-                                      onClick={() => hotkeywordsubmit(keyword)}
-                                    >
+                                    <p key={index} className="keyword" onClick={() => allkeywordsubmit(keyword)}>
                                       {index + 1}. {keyword}
                                     </p>
                                   ))}
@@ -257,8 +400,6 @@ const Home=()=>{
                               )}
                             </div>
                           </div>
-                        
-
                       </div>
                     </div>
                   </div>
@@ -268,39 +409,53 @@ const Home=()=>{
           </header>
 
           <section className="features-icons bg-light text-center">
-          <div className='hothot'>
-            <div className='hotkeyword'>
-              <div className='titlediv'>
-                <h3>주요 키워드  &gt; </h3>
+            <div className="hothot">
+              <div className="hotkeyword" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
+                <div className="titlediv">
+                  <h3>실시간 키워드 &gt; </h3>
+                </div>
+                {/* 주요 키워드 표시 */}
+                {hot5Keywords.map((keyword, index) => (
+                  <p
+                    key={index}
+                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal' }}
+                    onClick={() => {
+                      setCurrentHot5KeywordIndex(index);
+                      handleMainKeywordClick(keyword);
+                    }}
+                  >
+                    {index + 1}. {keyword}
+                  </p>
+                ))}
               </div>
-              {/* Display main keywords */}
-              {mainKeywords.map((keyword, index) => (
-                <p key={index} className="keyword">{index + 1}. {keyword.keyword}</p>
-              ))}
-            </div>
-            <div className='hotnews'>
-              <div className='titlediv'>
-                <h3>주요 뉴스  &gt; </h3>
+              <div className="hotnews" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
+                <div className="titlediv">
+                  <h3>실시간 "{hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
+                </div>
+                 {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
+                  {hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]] ? (
+                    hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                      <p key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                        <a href={item.link} target="_blank" rel="noopener noreferrer">
+                          {item.title}
+                        </a>
+                      </p>
+                    ))
+                  ) : (
+                    <p>해당 키워드에 대한 뉴스가 없습니다.</p>
+                  )}
 
               </div>
-              {/* Display titles with links from hot2_keyword */}
-              {mainKeywords.map((item, index) => (
-                <p key={index} className="keyword">
-                  <a href={item.link} target="_blank" rel="noopener noreferrer">
-                    {item.title}
-                  </a>
-                </p>
-              ))}
             </div>
-          </div>
-        </section>
+          </section>
         
 
-          <hr></hr>
-          <div className="showcase"  style={{paddingTop:'2rem'}}>
+          
+          <div className="showcase"  style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
+            <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr>
             <div className="container-fluid p-0" style={{ width: '90%', margin: '0 auto', display: 'flex' }}>
               <div className="col-lg-6" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img src={Service} style={{ width: '70%', height: 'auto' }} alt="Service" />
+                <img src={Service} style={{ width: '70%', height: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)'}} alt="Service" />
               </div>
 
               <div className="col-lg-6">
@@ -312,7 +467,7 @@ const Home=()=>{
                   </div>
 
                   <div className="feature" style={{ marginTop: '3rem' }}>
-                    <h3>뉴스기사 별 긍정, 부정률 분석</h3>
+                    <h3>뉴스기사 별 여론 분석</h3>
                     <p style={{ fontSize: '1.07rem' }}>AI 모델을 활용하여 각 기사의 감정분석을 수행하고 긍정과 부정의 비율을 제공합니다.</p>
                   </div>
 
@@ -325,33 +480,30 @@ const Home=()=>{
             </div>
           </div>
           
-          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto'}}>
-            <div className="image-and-heading">
-              <hr></hr>
-              <h2><img src={chatbot} style={{ width: '4%', height: '10%', paddingTop:'2rem'}} alt="chatbot" />
+
+          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto', paddingTop:'2rem', paddingBottom:'11rem'}}>
+            <div className="image-and-heading"><hr></hr>
+              <h2><img src={chatbot} style={{ width: '5%', height: '10%'}} alt="chatbot" />
               챗봇 서비스
               </h2>
             </div>
-            <p style={{ fontSize: '1.2rem' }}>카카오톡 ➡️ <b>"뉴스피스(Newspeace)"</b> 채널 등록 후 서비스를 이용해보세요!</p>
-            <p style={{ fontSize: '1.0rem' }}>🐶사진을 확대하려면 마우스를 올려주세요.🐶</p>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop:'3rem', marginBottom:'4rem'}}>
-              <img
-                src={second}
-                style={{ width: '15%', height: '20%', margin: '0 4rem', transition: 'transform 0.3s' }}
-                alt="second"
-                className="enlarge-on-hover"
-              />
-              <img
-                src={first}
-                style={{ width: '15%', height: '20%', margin: '0 4rem', transition: 'transform 0.3s' }}
-                alt="first"
-                className="enlarge-on-hover"
-              />
+            <p style={{ fontSize: '1.5rem' }}>카카오톡 ➡️ <b>"뉴스피스(Newspeace)"</b> 채널 등록 후 서비스를 이용해보세요!</p>
+            <p style={{ fontSize: '1.2rem' }}>🐶사진을 확대하려면 마우스를 올려주세요.🐶</p>
+            <div className="showphone" style={{ display: 'flex', justifyContent: 'center', marginTop:'3rem'}}>
+              <img src={second} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="second"
+                className="enlarge-on-hover"/>
+
+              <div style={{ flexDirection: 'column', alignItems: 'bottom', marginTop: '10rem' }}>
+                <img src={qr} style={{ width: '20%', height: 'auto'}} alt="qr" className="qr-hover" />
+                <p style={{ fontSize: '1rem'}}><b>[NewsPeace 채널]</b></p>
+              </div>
+              
+              <img src={first} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="first"
+                className="enlarge-on-hover"/>
             </div>
-            <img src={qr} style={{ width: '5%', height: '5%'}} alt="qr" className="qr-hover"/>
-            <p style={{ fontSize: '0.8rem', marginBottom:'3rem'}}>[QR코드]</p>
           </div>
 
+        
         <section className="testimonials text-center bg-light">
           <div className="container" ><hr></hr>
               <h2 className="mb-5" style={{marginTop:'4rem'}}>KT Aivle 4기 ❤️14조❤️</h2>
