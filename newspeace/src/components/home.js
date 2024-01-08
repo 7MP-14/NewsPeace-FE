@@ -562,7 +562,7 @@ const Home=()=>{
 
               <div className="col-lg-6">
                 <div className="showcase-text" style={{ width: '100%', height: 'auto' }}>
-                  <h2><b>NewsPeace</b>는 어떤 서비스인가요 ? </h2>  
+                  <h2><b>Newspeace</b>는 어떤 서비스인가요 ? </h2>  
                   <div className="feature" style={{ marginTop: '5rem' }}>
                     <h3>일주일 단위 기사 데이터 수집</h3>
                     <p style={{ fontSize: '1.07rem' }}>최근 일주일 동안의 뉴스기사를 수집하여 검색한 키워드에 대한 기사를 분석합니다.</p>
