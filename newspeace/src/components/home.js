@@ -21,8 +21,7 @@ import people6 from '../img/people6.png';
 import people7 from '../img/people7.jpg';
 import people8 from '../img/people8.png';
 import Loading from './Loading.js';
-
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';   // npm install react-transition-group
 
 const Home=()=>{
 
@@ -516,7 +515,7 @@ const Home=()=>{
           </header>
 
           <section className="features-icons bg-light text-center">
-            <div className="hothot">
+            <div className="hothot" style={{width:'70%'}}>
               <div className="hotkeyword" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
                 <div className="titlediv">
                   <h3>실시간 키워드 &gt; </h3>
@@ -542,7 +541,7 @@ const Home=()=>{
                  {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
                   {hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]] ? (
                     hot5KeywordsInfo[hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
-                      <p key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                      <p key={index} className={`keyword ${index === 0 ? 'bold' : ''}`} style={{ cursor: 'pointer'}}>
                         <a href={item.link} target="_blank" rel="noopener noreferrer">
                           {item.title}
                         </a>
