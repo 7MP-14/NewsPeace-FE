@@ -4,8 +4,13 @@ import first from '../img/first.png';
 import second from '../img/second.png';
 import chatbot from '../img/chatbot.png';
 import qr from '../img/qr.png';
+import left from '../img/left.png';
+import right from '../img/right.png';
+import kospi_close from '../img/kospi_close.png';
+
 import icon1 from '../img/흰돋보기.png';
 import arrow from '../img/화살표.png';
+import kpilogo from '../img/kpilogo.png';
 import Service from '../img/Service.png';
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
@@ -17,10 +22,9 @@ import people7 from '../img/people7.jpg';
 import people8 from '../img/people8.png';
 import Loading from './Loading.js';
 
-const Home=()=>{
+import { CSSTransition } from 'react-transition-group';
 
-  /////// 기업리스트
-  /////////////////
+const Home=()=>{
 
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
@@ -59,9 +63,6 @@ const Home=()=>{
   };
   ////////
 
-
-  // 투명도
-  /////
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // 마우스 위치를 저장할 state 추가
 
@@ -79,6 +80,7 @@ const Home=()=>{
   const [checkedItems, setCheckedItems] = useState([]);
   const [inputkeyword, setinputKeyword] = useState('');
   const [hotKeywords, setHotKeywords] = useState([]);
+  const [kpi, setkpi_list] = useState([]);
   const [mainKeywords, setMainKeywords]=useState([]);
   const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
   const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
@@ -213,6 +215,44 @@ const Home=()=>{
     });
   }
 
+  //// KPI
+  useEffect(() => {
+    KPI200();
+  }, []);
+
+  const KPI200 = () => {
+    fetch(`${apiUrl}/enterprise/`, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('성공');
+        console.log("zh",res);
+        setkpi_list(res.return);
+      })
+      .catch((error) => {
+        console.error('에러:', error);
+      });
+  };
+
+  const [currentTab, setCurrentTab] = useState(0);
+  const itemsPerPage = 10;
+  const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
+
+  const handleTabChange = (newTab) => {
+    setCurrentTab(newTab);
+  };
+
+  const handlePrevClick = () => {
+    setCurrentTab((prevTab) => (prevTab === 0 ? totalTabs - 1 : prevTab - 1));
+  };
+
+  const handleNextClick = () => {
+    setCurrentTab((prevTab) => (prevTab === totalTabs - 1 ? 0 : prevTab + 1));
+  };
+  ///
+
+
   const allkeywordsubmit=(keyword)=>{
     setLoading(true);
 
@@ -288,11 +328,6 @@ const Home=()=>{
        :
        (// 코스피 rgba(255, 182, 193, 1)
         <>
-        <button onClick={toggleHelpBox} style={{ width:'95px', position: 'fixed', bottom: '2rem', right: '1.5rem', zIndex: '9999', cursor: 'pointer', borderRadius: '10rem',
-      backgroundColor:'rgba(155, 176, 216, 1)' }}> 
-          코스피
-        </button>
-
         <button
           onClick={scrollToTop}
           className="scroll-to-top-button"
@@ -305,12 +340,83 @@ const Home=()=>{
         <img src={arrow} style={{width:'70%', height:'70%'}} alt="arrow" />
         </button>
 
+        <button
+          onClick={toggleHelpBox}
+          style={{
+            width: '95px',
+            position: 'fixed',
+            bottom: '2rem',
+            right: '1.5rem',
+            zIndex: '9999',
+            cursor: 'pointer',
+            borderRadius: '10rem',
+            backgroundColor: 'rgba(155, 176, 216, 1)',
+          }}
+        >
+          주가 정보
+        </button>
 
-        <div className={`help-box ${isHelpBoxOpen ? 'show' : 'hide'}`}>
-            <p style={{ fontSize: '1.5rem' }}>
-              기업리스트 제발 
-            </p>
+
+        
+        <div className={`help-box ${isHelpBoxOpen ? 'show' : 'hide'}`} style={{width:'40rem', height:'41rem'}}>
+        <img src={kospi_close} onClick={toggleHelpBox} style={{ width: '2rem', height: '2rem', marginLeft:'37rem', cursor: 'pointer' }}/>
+          <div className='kpilist text-center ' style={{ overflowX: 'hidden'}}>
+            {kpi && (
+              <div className='mainkpi'>
+                <h2 style={{ margin:'auto', width:'20rem'}}>
+                  <img src={kpilogo} alt="kpilogo" style={{ width: '7rem', height: '4.5rem', marginRight:'1rem'}}></img>
+                KOSPI 100</h2><hr style={{width:'18.5rem', margin:'auto'}}></hr>
+                <br />
+                <div className="kpibox" style={{ display: 'flex', overflowX: 'hidden', backgroundColor: 'white', width: '40%', margin: 'auto', paddingTop: '1rem', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.4)' }}>
+                  {Array.from({ length: totalTabs }, (_, tabIndex) => (
+                    <CSSTransition
+                      key={tabIndex}
+                      in={currentTab === tabIndex}
+                      timeout={300}
+                      classNames="kpibox"
+                      unmountOnExit
+                    >
+                      <div style={{ width: '100%', flex: '0 0 auto' }}>
+                        {Object.entries(kpi)
+                          .slice(tabIndex * itemsPerPage, (tabIndex + 1) * itemsPerPage)
+                          .map(([key, value]) => (
+                            <p style={{ display: 'flex', alignItems: 'center' }}>
+                              <span style={{textAlign: 'left', marginLeft:'2rem'}}>{key}</span>
+                              <span style={{ flex: '1', textAlign: 'center' }}>{[value]}</span>
+                            </p>
+                          ))}
+                      </div>
+                    </CSSTransition>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                  <img src={left} alt="Previous" onClick={handlePrevClick} style={{ width: '2rem', height: '2rem', marginRight: '10px', cursor: 'pointer' }}/>
+                  <img src={right}  alt="Next" onClick={handleNextClick} style={{ width: '2rem', height: '2rem', cursor: 'pointer' }}/>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                  {Array.from({ length: totalTabs }, (_, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        background: currentTab === index ? '#007BFF' : '#CCCCCC',
+                        margin: '0 5px',
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+        </div>
+
+        <div
+          className={`blurred-background-help ${
+            isHelpBoxOpen ? 'blurred-background-help-visible' : ''
+          }`}
+        ></div>
 
 
         <div className="blurred-background"
