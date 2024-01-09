@@ -127,6 +127,23 @@ const LineChart = () => {
         const sentimentData = data.result_negative.map((value, index) => [timeStamps[index], value]);
         setSentimentSeries([{ name: '부정도', data: sentimentData }]);
 
+         // 날짜별로 주석을 추가하는 로직
+        const marketTimeAnnotations = [];
+        const uniqueDates = new Set(data.result_time.map(time => time.split('T')[0]));
+        uniqueDates.forEach(dateStr => {
+          const date = new Date(dateStr);
+          const dayOfWeek = date.getDay();
+          if (dayOfWeek !== 0 && dayOfWeek !== 6) { // 주말(0: 일요일, 6: 토요일) 제외
+           marketTimeAnnotations.push({
+              x: new Date(`${dateStr}T09:00:00`).getTime(),
+              x2: new Date(`${dateStr}T15:30:00`).getTime(),
+              fillColor: '#B3F7CA',
+              label: {
+                text: '시장 운영 시간'
+             }
+            });
+          }
+        });
 
         // 주식 차트 데이터 설정
         const stockData = data.result_present.map((value, index) => [timeStamps[index], value]);
@@ -150,7 +167,7 @@ const LineChart = () => {
             ...prevOptions.sentimentOptions,
             xaxis: {
               ...prevOptions.sentimentOptions.xaxis,
-              type: 'category',
+              type: 'datetime',
               categories: categories,
             },
             tooltip: {
@@ -169,6 +186,9 @@ const LineChart = () => {
       
           stockOptions: {
             ...prevOptions.stockOptions,
+            annotations: {
+              xaxis: marketTimeAnnotations
+            },
             stroke: {
               curve: 'straight',
             },
