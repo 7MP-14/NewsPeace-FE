@@ -21,13 +21,16 @@ const LineChart = () => {
   const [options, setOptions] = useState({
     sentimentOptions: {
       chart: {
+        id: 'sentiment-chart',
+        group: 'stock-sentiment',
         height: 350,
         type: 'line',
         zoom: {
-          enabled: false
+          enabled: false // 확대/축소 기능 비활성화
         },
         background: '#ffffff'
       },
+      colors: ['#008FFB'],
       dataLabels: {
         enabled: false
       },
@@ -37,6 +40,9 @@ const LineChart = () => {
       
       xaxis: {
         type: 'category',
+        labels: {
+          format: 'HH:mm'
+        }
       },
       yaxis: {
         max: 100,
@@ -51,13 +57,16 @@ const LineChart = () => {
     },
     stockOptions: {
       chart: {
+        id: 'stock-chart',
+        group: 'stock-sentiment',
         height: 350,
-        type: 'area',
+        type: 'line',
         zoom: {
-          autoScaleYaxis: true
+          enabled: false // 확대/축소 기능 비활성화
         },
         background: '#ffffff'
       },
+      colors: ['#008FFB'],
       dataLabels: {
         enabled: false
       },
@@ -67,18 +76,12 @@ const LineChart = () => {
       markers: {
         size: 5, 
       },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          inverseColors: false,
-          opacityFrom: 0.5,
-          opacityTo: 0,
-          stops: [0, 90, 100]
-        }
-      },
+      
       xaxis: {
-        type: 'category',
+        type: 'datetime',
+        labels: {
+          format: 'HH:mm'
+        }
         
       },
       yaxis: {
@@ -110,7 +113,9 @@ const LineChart = () => {
         const data = await response.json();
         console.log(data);
 
-        
+        // 시간 데이터를 타임스탬프로 변환
+        const timeStamps = data.result_time.map(time => new Date(time).getTime());
+
         // 시간 데이터를 HH:MM 형식으로 변환하여 차트 카테고리에 사용
         const categories = data.result_time.map(time => {
           const timePart = time.split('T')[1];
@@ -119,15 +124,12 @@ const LineChart = () => {
         });
         
         // 부정도 차트 데이터 설정
-        const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
-        setSentimentSeries([{ name: '부정도', data: negatives }]);
+        const sentimentData = data.result_negative.map((value, index) => [timeStamps[index], value]);
+        setSentimentSeries([{ name: '부정도', data: sentimentData }]);
 
 
         // 주식 차트 데이터 설정
-        const stockData = data.result_present.map((value, index) => ({
-          x: new Date(data.result_time[index]).getTime(), // 변환된 날짜-시간 문자열
-          y: data.result_present[index]
-        }));
+        const stockData = data.result_present.map((value, index) => [timeStamps[index], value]);
         setStockSeries([{ name: '주식 가격', data: stockData }]);
 
         // 현재가, 전일 종가, 변동 금액, 변동률 계산
@@ -224,7 +226,7 @@ const LineChart = () => {
            <div className='stock-info'>저가: <span className='low-price'>{lowPrice ? `${parseInt(lowPrice, 10).toLocaleString()}` : '...'}</span></div>
           </div>
         <div className='chart-box'>
-          <ReactApexChart options={options.stockOptions} series={stockSeries} type='area' height={350} />
+          <ReactApexChart options={options.stockOptions} series={stockSeries} type='line' height={350} />
         </div>
       </>
       ) : (
