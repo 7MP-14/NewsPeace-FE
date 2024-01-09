@@ -62,7 +62,10 @@ const LineChart = () => {
         enabled: false
       },
       stroke: {
-        curve: 'smooth'
+        curve: 'straight',
+      },
+      markers: {
+        size: 5, 
       },
       fill: {
         type: 'gradient',
@@ -164,6 +167,12 @@ const LineChart = () => {
       
           stockOptions: {
             ...prevOptions.stockOptions,
+            stroke: {
+              curve: 'straight',
+            },
+            markers: {
+              size: 5, 
+            },
             xaxis: {
               ...prevOptions.stockOptions.xaxis,
               type: 'category',
