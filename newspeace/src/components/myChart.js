@@ -19,7 +19,14 @@ const LineChart = () => {
   const [lowPrice, setLowPrice] = useState(null);
   const [options, setOptions] = useState({
     sentimentOptions: {
+      series: [{
+        name: "부정도",
+        data: sentimentData
+      }],
       chart: {
+        id: 'sentimentChart',
+        group: 'stock-sentiment-group',
+        type: 'line',
         height: 350,
         type: 'line',
         zoom: {
@@ -33,7 +40,10 @@ const LineChart = () => {
       stroke: {
         curve: 'straight'
       },
-      
+      colors: ['#008FFB'],
+      xaxis: {
+      type: 'datetime'
+      },
       xaxis: {
         type: 'category',
       },
@@ -49,7 +59,14 @@ const LineChart = () => {
       }
     },
     stockOptions: {
+      series: [{
+        name: "주식 가격",
+        data: stockData
+      }],
       chart: {
+        id: 'stockChart',
+        group: 'stock-sentiment-group',
+        type: 'area',
         height: 350,
         type: 'area',
         zoom: {
@@ -61,7 +78,7 @@ const LineChart = () => {
         enabled: false
       },
       stroke: {
-        curve: 'smooth'
+        curve: 'straigt'
       },
       fill: {
         type: 'gradient',
@@ -72,6 +89,10 @@ const LineChart = () => {
           opacityTo: 0,
           stops: [0, 90, 100]
         }
+      },
+      colors: ['#00E396'],
+      xaxis: {
+      type: 'datetime'
       },
       xaxis: {
         type: 'category',
@@ -114,17 +135,26 @@ const LineChart = () => {
           return `${hours}`; // 변환된 시간 문자열
         });
         
-        // 부정도 차트 데이터 설정
-        const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
-        setSentimentSeries([{ name: '부정도', data: negatives }]);
+         // 시간 데이터를 타임스탬프로 변환
+         const timeStamps = data.result_time.map(time => new Date(time).getTime());
+
+         // 부정도 차트 데이터
+         const sentimentData = data.result_negative.map((value, index) => [timeStamps[index], value]);
+ 
+         // 주식 차트 데이터
+         const stockData = data.result_present.map((value, index) => [timeStamps[index], value]);
+
+        // // 부정도 차트 데이터 설정
+        // const negatives = data.result_negative.map(value => (value === -1 ? 0 : value));
+        // setSentimentSeries([{ name: '부정도', data: negatives }]);
 
 
-        // 주식 차트 데이터 설정
-        const stockData = data.result_present.map((value, index) => ({
-          x: new Date(data.result_time[index]).getTime(), // 변환된 날짜-시간 문자열
-          y: data.result_present[index]
-        }));
-        setStockSeries([{ name: '주식 가격', data: stockData }]);
+        // // 주식 차트 데이터 설정
+        // const stockData = data.result_present.map((value, index) => ({
+        //   x: new Date(data.result_time[index]).getTime(), // 변환된 날짜-시간 문자열
+        //   y: data.result_present[index]
+        // }));
+        // setStockSeries([{ name: '주식 가격', data: stockData }]);
 
         // 현재가, 전일 종가, 변동 금액, 변동률 계산
         setCurrentPrice(data.result_present[data.result_present.length - 1]);
@@ -187,6 +217,14 @@ const LineChart = () => {
           }
         }));
       
+
+        // 차트 렌더링
+        var sentimentChart = new ApexCharts(sentimentChartRef.current, sentimentOptions);
+        sentimentChart.render();
+
+        var stockChart = new ApexCharts(stockChartRef.current, stockOptions);
+        stockChart.render();
+
       //}
         } catch (error) {
           console.error('Error fetching data:', error);
