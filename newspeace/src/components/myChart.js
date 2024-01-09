@@ -37,7 +37,9 @@ const LineChart = () => {
       stroke: {
         curve: 'straight'
       },
-      
+      markers: {
+        size: 5, 
+      },
       xaxis: {
         type: 'category',
         labels: {
@@ -125,7 +127,7 @@ const LineChart = () => {
         
         // 부정도 차트 데이터 설정
         const sentimentData = data.result_negative.map((value, index) => [timeStamps[index], value]);
-        setSentimentSeries([{ name: '부정도', data: sentimentData }]);
+        setSentimentSeries([{ name: '부정률(%)', data: sentimentData }]);
 
          // 날짜별로 주석을 추가하는 로직
         const marketTimeAnnotations = [];
@@ -153,8 +155,20 @@ const LineChart = () => {
         setCurrentPrice(data.result_present[data.result_present.length - 1]);
         setPreviousClose(data.result_open);
         const change = data.result_present[data.result_present.length - 1] - data.result_open;
-        setChange(data.result_dod);
-        setChangePercent((change / data.result_open) * 100);
+        // dod (전일대비 변동량) 계산
+        const dod = parseFloat(data.result_dod);
+        setChange(dod);
+
+        let changePercent;
+        if (dod >= 0) {        
+            // dod가 양수일 경우: 현재가에서 dod를 뺀 값으로 나누기
+            changePercent = (dod / (data.result_present[data.result_present.length - 1] - dod)) * 100;
+        } else {
+            // dod가 음수일 경우: 현재가에서 dod를 더한 값으로 나누기
+            changePercent = (dod / (data.result_present[data.result_present.length - 1] + Math.abs(dod))) * 100;
+        }
+        setChangePercent(changePercent);
+
         setOpenPrice(data.result_open);
         setHighPrice(data.result_high);
         setLowPrice(data.result_low);
@@ -226,7 +240,7 @@ const LineChart = () => {
   return (
     <div className='chart-background'>
       <div className='chart-container'>
-        <div className='chart-title'><h2><strong className="keyword-text">{keywordText}</strong> 시간별 추이</h2></div>
+        <div className='chart-title'><h2><strong className="keyword-text">{keywordText}</strong> 시간별 여론 변화 추이</h2></div>
         <div className='chart-box'>
           <ReactApexChart options={options.sentimentOptions} series={sentimentSeries} type='line' height={350} />
         </div>
