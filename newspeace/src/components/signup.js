@@ -16,7 +16,6 @@ export default function Signin(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
-  const [PhoneNumber, setPhoneNumber] = useState("");
   const [checkedInputs, setCheckedInputs] = useState([]);
   const [nextSignupState, setNextSignupState] = useState(false);
   const [error, setError] = useState({
@@ -24,7 +23,6 @@ export default function Signin(props) {
     email: "",
     password: "",
     checkPassword: "",
-    phoneNumber: "",
   });
 
   const handleEmail = (event) => {
@@ -42,10 +40,7 @@ export default function Signin(props) {
     setError({ ...error, name: "" }); // 입력 시 에러 초기화
   };
 
-  const handlePhoneNumber = (event) => {
-    setPhoneNumber(event.target.value);
-    setError({ ...error, phoneNumber: "" }); // 입력 시 에러 초기화
-  };
+
 
   const handleCheckPassword = (event) => {
     setCheckPassword(event.target.value);
@@ -83,7 +78,6 @@ export default function Signin(props) {
         body: JSON.stringify({
           email: Email,
           name: Name,
-          phone_number: PhoneNumber,
           password: Password,
           password2: checkPassword,
           credentials: 'include',
@@ -116,7 +110,6 @@ export default function Signin(props) {
       email: "",
       password: "",
       checkPassword: "",
-      phoneNumber: "",
     };
 
     // 각각의 유효성 검사
@@ -140,11 +133,6 @@ export default function Signin(props) {
 
     if (Password !== checkPassword) {
       newError.checkPassword = "비밀번호가 일치하지 않습니다.";
-      isValid = false;
-    }
-
-    if (!PhoneNumber) {
-      newError.phoneNumber = "전화번호를 입력하세요.";
       isValid = false;
     }
 
@@ -179,8 +167,6 @@ export default function Signin(props) {
             <ErrorMsg>{error.password}</ErrorMsg>
             <input type="password" placeholder="Check Password" className="input" onChange={handleCheckPassword} />
             <ErrorMsg>{error.checkPassword}</ErrorMsg>
-            <input type="text" placeholder="Phone Number" className="input" onChange={handlePhoneNumber} />
-            <ErrorMsg>{error.phoneNumber}</ErrorMsg>
             <div className="checkbox-container">
               <label>
                 <input
