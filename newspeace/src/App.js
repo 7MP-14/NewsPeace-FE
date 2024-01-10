@@ -18,6 +18,8 @@ import SendEmail from './components/sendEmail.js';
 import ScrapPage from './components/scrap.js';
 import MyChart from './components/myChart.js';
 import Loading from './components/Loading.js';
+import TermofUse from './components/termOfUse.js';
+import Privacypolicy from './components/privacyPolicy.js';
 import styled from "styled-components"; //npm i styled-components
 //npm install emailjs-com
 //npm install react-loader-spinner --save
@@ -63,6 +65,9 @@ function App() {
               <Route exact path="/scrap" element={<ScrapPage/>} />
               <Route exact path="/myChart" element={<MyChart/>} />
               <Route exact path="/loading" element={<Loading/>} />
+              <Route exact path="/termofuse" element={<TermofUse/>} />
+              <Route exact path="/privacypolicy" element={<Privacypolicy/>} />
+
             
 
           </Routes>
