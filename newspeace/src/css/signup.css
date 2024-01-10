@@ -26,7 +26,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     display: grid;
-    height: 120vh;
+    height: 130vh;
     place-items: center;
   }
   
@@ -51,7 +51,7 @@
       0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
     /* height: var(--max-height);
      */
-     height: 700px;
+     height: 780px;
      /* width:800px; */
     max-width: var(--max-width);
     overflow: hidden;
@@ -225,6 +225,8 @@
     /* align-items: center; */
     align-items: flex-start;
     line-height: 7px;
+    flex-direction: column; /* 세로로 나타나도록 설정 */
+    align-items: flex-start; /* 왼쪽 정렬 */
   }
 
   .checkbox-container label {
@@ -236,4 +238,23 @@
   .checkbox-container p {
     margin-top:15px;
 
+  }
+
+  .scroll-box{
+    margin-top: 3%;
+  }
+
+  .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .scroll-box {
+    max-height: 100px; /* 스크롤 박스 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 설정 */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    line-height: 19px;
+    text-align: left;
   }
