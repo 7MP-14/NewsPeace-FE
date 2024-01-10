@@ -561,14 +561,14 @@ const Home=()=>{
         
 
           
-          <div className="showcase"  style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
+          <div className="showcase"   style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
             <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr>
             <div className="container-fluid p-0" style={{ width: '90%', margin: '0 auto', display: 'flex' }}>
               <div className="col-lg-6" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img src={Service} style={{ width: '70%', height: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)'}} alt="Service" />
               </div>
 
-              <div className="col-lg-6">
+              <div className="col-lg-6" id='aboutus'>
                 <div className="showcase-text" style={{ width: '100%', height: 'auto' }}>
                   <h2><b>Newspeace</b>는 어떤 서비스인가요 ? </h2>  
                   <div className="feature" style={{ marginTop: '5rem' }}>
@@ -615,7 +615,7 @@ const Home=()=>{
 
         
         <section className="testimonials text-center bg-light">
-          <div className="container" ><hr></hr>
+          <div className="container"  ><hr></hr>
               <h2 className="mb-5" style={{marginTop:'4rem'}}>KT Aivle 4기 ❤️14조❤️</h2>
               <div className="row">
                   <div className="col-lg-3">
