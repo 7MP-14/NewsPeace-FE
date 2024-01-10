@@ -35,10 +35,11 @@ const LineChart = () => {
         enabled: false
       },
       stroke: {
-        curve: 'straight'
+        curve: 'straight',
+        width:2
       },
       markers: {
-        size: 5, 
+        size: 4, 
       },
       xaxis: {
         type: 'category',
@@ -74,9 +75,10 @@ const LineChart = () => {
       },
       stroke: {
         curve: 'straight',
+        width:2
       },
       markers: {
-        size: 5, 
+        size: 4, 
       },
       
       xaxis: {
@@ -205,9 +207,10 @@ const LineChart = () => {
             },
             stroke: {
               curve: 'straight',
+              width:2,
             },
             markers: {
-              size: 5, 
+              size: 4, 
             },
             xaxis: {
               ...prevOptions.stockOptions.xaxis,
