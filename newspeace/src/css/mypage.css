@@ -20,7 +20,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
-  /* height: 120vh; */
   height: 100%;
   place-items: center;
   padding-top: 5%;
@@ -31,10 +30,7 @@
 }
 
 .mypage_container {
-  /* background-color: var(--white); */
   border-radius: var(--button-radius);
-  /* box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
-    0 0.7rem 0.7rem rgba(0, 0, 0, 0.22); */
   overflow: hidden;
   height: auto;
   width: 45%;
@@ -64,7 +60,6 @@
 .profile_section {
   display: flex;
   align-items: center;
-  /* border-bottom: 2px solid #e1e1e1; */
   padding: 10px;
   margin-bottom: 20px; /* 하단 여백 추가 */
   justify-content: center;
@@ -90,8 +85,6 @@
 .profile_name {
   font-size: 1.5rem;
   margin: 0;
-  /* margin-left:25px; */
-  /* margin-top:20px; */
 }
 
 
@@ -238,7 +231,6 @@
   width: 98%;
   margin-right: 10px;
   margin-bottom: 10px;
-  /* box-shadow: 0 4px 8px rgba(0,0,0,0.15); */
   background-color: #f9f9f9;
   border-radius: 10px;
   overflow: hidden;
@@ -271,22 +263,15 @@
   padding-bottom: 5px;
 }
 .noticealert2{
-  /* padding-bottom: 5px; */
   font-size: 10px;
 }
 
 .keywords p{
   text-decoration: none;
   color:black;
-  /* border-bottom: 1px solid #000; */
   display: inline-block; /* 맨 뒤의 공백 포함 */
   padding-bottom: 5px;
 }
-
-/* .keywords p:hover { */
-  /* border-bottom: 2px solid #000; 호버 효과 */
-/* } */
-
 
 
 .section_header {
@@ -304,7 +289,7 @@
   border-bottom: 1px solid #008997;
   margin-top: -3%;
   border-radius: 0;
-  /* padding: 3px 5px; */
+
 
 }
 
