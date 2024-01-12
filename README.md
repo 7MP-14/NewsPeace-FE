@@ -111,21 +111,21 @@
   <tbody>
     <tr>
       <td align="center"><a href=https://github.com/ShimSeungHeon><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/edd2580b-2c6a-4a76-8199-e44aa143c657
-width="100px;" alt=""/><br /><sub><b>조장, AI: 심승헌 </b></sub></a><br /></td>
+width="100px;" alt=""/><br /><sub><b>조장 심승헌 </b></sub></a><br /></td>
       <td align="center"><a href=https://github.com/CHOI-JAYOON><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/22d3edd6-3e5f-44a6-b66d-b243ec11fd2a
- width="100px;" alt=""/><br /><sub><b>FE 팀장: 최자윤 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>FE 최자윤 </b></sub></a><br /></td>
       <td align="center"><a href=https://github.com/yuziny><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/2a12c616-2a53-4cf9-ab64-5a3df7286238
- width="100px;" alt=""/><br /><sub><b>FE 팀원: 정유진 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>FE 정유진 </b></sub></a><br /></td>
       <td align="center"><a href=""><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/e7a3379e-0fd2-4403-a0a0-a752c2bbfc49
- width="100px;" alt=""/><br /><sub><b>FE 팀원: 온동헌 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>FE 온동헌 </b></sub></a><br /></td>
       <td align="center"><a href=https://github.com/DDDongyeon><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/7e7f5eb0-c00b-4c8a-b5ca-d574f90ff403
- width="100px;" alt=""/><br /><sub><b>BE 팀장: 고동연 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>BE 고동연 </b></sub></a><br /></td>
       <td align="center"><a href=https://github.com/nachj><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/3b998f3d-e6b8-4a1d-8243-9a29202e8175
- width="100px;" alt=""/><br /><sub><b>BE 팀원: 나창준 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>BE 나창준 </b></sub></a><br /></td>
       <td align="center"><a href=https://github.com/Auhsojjj><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/93a21819-8cf7-453c-af55-3b0ddcdfb68a
- width="100px;" alt=""/><br /><sub><b>BE 팀원: 정 솔 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>BE 정 솔 </b></sub></a><br /></td>
       <td align="center"><a href=https://github.com/Dh-Off><img src=https://github.com/7MP-14/NewsPeace-FE/assets/141795938/917d89b6-abeb-4dd2-894a-898f8328d6f8
- width="100px;" alt=""/><br /><sub><b>BE 팀원: 현지연 </b></sub></a><br /></td>
+ width="100px;" alt=""/><br /><sub><b>BE 현지연 </b></sub></a><br /></td>
     </tr>
   </tbody>
 </table>
