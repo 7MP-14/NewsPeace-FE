@@ -17,6 +17,7 @@ import Write from './components/noticeWrite.js';
 import SendEmail from './components/sendEmail.js';
 import ScrapPage from './components/scrap.js';
 import MyChart from './components/myChart.js';
+import StockPage from './components/StockPage.js';
 import Loading from './components/Loading.js';
 import TermofUse from './components/termOfUse.js';
 import Privacypolicy from './components/privacyPolicy.js';
@@ -64,11 +65,10 @@ function App() {
               <Route exact path="/sendemail" element={<SendEmail/>} />
               <Route exact path="/scrap" element={<ScrapPage/>} />
               <Route exact path="/myChart" element={<MyChart/>} />
+              <Route exact path="/StockPage" element={<StockPage/>} />
               <Route exact path="/loading" element={<Loading/>} />
               <Route exact path="/termofuse" element={<TermofUse/>} />
               <Route exact path="/privacypolicy" element={<Privacypolicy/>} />
-
-            
 
           </Routes>
         </Router>
