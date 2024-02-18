@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react';
+import {React, useEffect, useState, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import first from '../img/first.png';
 import second from '../img/second.png';
@@ -7,7 +7,7 @@ import qr from '../img/qr.png';
 import left from '../img/left.png';
 import right from '../img/right.png';
 import kospi_close from '../img/kospi_close.png';
-import icon1 from '../img/흰돋보기.png';
+import icon1 from '../img/돋보기.png';
 import arrow from '../img/화살표.png';
 import kpilogo from '../img/kpilogo.png';
 import Service from '../img/Service.png';
@@ -41,6 +41,7 @@ const Home=()=>{
   const [currentTab, setCurrentTab] = useState(0);
   const itemsPerPage = 10;
   const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
+  const featuresRef = useRef(null);
 
   //// 스크롤
   useEffect(() => {
@@ -175,7 +176,7 @@ const Home=()=>{
       // 약간의 지연 후에 애니메이션 클래스를 다시 적용
       setTimeout(() => {
         setAnimationClass('keyword-animation-enter');
-        setCurrentHotKeywordIndex(prevIndex => (prevIndex + 1) % hotKeywords.length);
+        setCurrentHotKeywordIndex(prevIndex => (prevIndex + 1) % 10);
         // 다음 키워드로 이동, 4일 경우 0으로 초기화
         // setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
       }, 100);
@@ -184,21 +185,21 @@ const Home=()=>{
     return () => clearInterval(intervalId);
   }, [hotKeywords.length, currentHotKeywordIndex]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // 먼저 애니메이션 클래스를 제거
-      setAnimationClass('');
-      // 약간의 지연 후에 애니메이션 클래스를 다시 적용
-      setTimeout(() => {
-        setAnimationClass('keyword-animation-enter');
-        setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
-        // 마우스를 떼면 hoveredKeyword를 null로 설정
-        setHoveredKeyword(null);
-      }, 100);
-    }, 2000); // 4초마다 키워드 업데이트
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     // 먼저 애니메이션 클래스를 제거
+  //     setAnimationClass('');
+  //     // 약간의 지연 후에 애니메이션 클래스를 다시 적용
+  //     setTimeout(() => {
+  //       setAnimationClass('keyword-animation-enter');
+  //       setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % 5);
+  //       // 마우스를 떼면 hoveredKeyword를 null로 설정
+  //       setHoveredKeyword(null);
+  //     }, 100);
+  //   }, 2000); // 4초마다 키워드 업데이트
   
-    return () => clearInterval(intervalId);
-  }, [hot5Keywords.length, currentHot5KeywordIndex]);
+  //   return () => clearInterval(intervalId);
+  // }, [hot5Keywords.length, currentHot5KeywordIndex]);
 
   //인기 검색어 FETCH 함수
   const hotkeywordsubmit=()=>{
@@ -296,32 +297,34 @@ const Home=()=>{
 
   //실시간 키워드 검색 FETCH 함수
   const handleMainKeywordClick = (keyword) => {
-    setLoading(true);
+    setHoveredKeyword(keyword);
 
-    fetch(`${apiUrl}/news/search/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify({
-        keyword:keyword,
-      }),
-    })
-    .then((res) => res.json())
-    .then((res) => {
-      setLoading(false);
+    // setLoading(true);
 
-      if (res.reply === false) {
-        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-        setinputKeyword('');
-      } else {
-        navigate('/result', { state: { responseData: res } });
-      }
-    })
-    .catch((error) => {
-      setLoading(false);
-      console.error('에러:', error);
-    });
+    // fetch(`${apiUrl}/news/search/`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json; charset=utf-8',
+    //   },
+    //   body: JSON.stringify({
+    //     keyword:keyword,
+    //   }),
+    // })
+    // .then((res) => res.json())
+    // .then((res) => {
+    //   setLoading(false);
+
+    //   if (res.reply === false) {
+    //     window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+    //     setinputKeyword('');
+    //   } else {
+    //     navigate('/result', { state: { responseData: res } });
+    //   }
+    // })
+    // .catch((error) => {
+    //   setLoading(false);
+    //   console.error('에러:', error);
+    // });
   };
 
   const handleKeywordClick = (keywordText) => {
@@ -329,9 +332,42 @@ const Home=()=>{
   };
 
   //실시간 검색어 호버 함수
-  const handleKeywordMouseEnter = (keyword) => {
-    console.log(`Fetching news for keyword: ${keyword}`);
-    setHoveredKeyword(keyword);
+  // const handleKeywordMouseEnter = (keyword) => {
+  //   // console.log(`Fetching news for keyword: ${keyword}`);
+  //   setHoveredKeyword(keyword);
+  // };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const featuresSection = featuresSectionRef.current;
+  //     const featuresSectionTop = featuresSection.offsetTop;
+  //     const scrollThreshold = 400;
+
+  //     // 현재 스크롤 위치
+  //     const scrollY = window.scrollY;
+
+  //     // 스크롤이 아래로 내려갔을 때
+  //     if (scrollY > scrollThreshold && scrollY > featuresSectionTop) {
+  //       // 특정 섹션으로 스크롤
+  //       scrollToFeaturesSection();
+  //     }
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll);
+
+  //   // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+
+  // // 스크롤로 이동할 함수를 정의합니다.
+ const scrollToFeaturesSection = () => {
+    if (featuresRef.current) {
+      window.scrollTo({
+        top: featuresRef.current.offsetTop,
+        behavior: 'smooth', // 부드러운 스크롤 적용
+      });
+    }
   };
     return (  
       <>
@@ -456,7 +492,7 @@ const Home=()=>{
                     <div className="form-subscribe" id="contactForm">
                       <div className="col-input">
                             <input
-                              className="form-control form-control-lg"
+                              className="form-control"
                               id="keyword"
                               type="text"
                               value={inputkeyword}
@@ -516,12 +552,14 @@ const Home=()=>{
             </div>
           </header>
 
-          <section className="features-icons bg-light text-center">
-            <div className="hothot" style={{width:'70%'}}>
-              <div className="hotkeyword" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
-                <div className="titlediv">
-                  <h3>실시간 키워드 &gt; </h3>
-                </div>
+          <section ref={featuresRef} className="features-icons bg-light text-center">
+            {/* <div className="hothot" style={{width:'70%'}}> */}
+            <div className='hotkeywordsDiv'>
+              <div className="titlediv">
+                <p style={{font:"1.4rem"}}>뉴스피스 실시간 키워드</p>
+              </div>
+              <div className="hotkeyword" >
+                
                {/* 주요 키워드 표시 */}
                 {hot5Keywords.map((keyword, index) => (
                   <p
@@ -531,36 +569,77 @@ const Home=()=>{
                       setCurrentHot5KeywordIndex(index);
                       handleMainKeywordClick(keyword);
                     }}
-                    onMouseEnter={() => handleKeywordMouseEnter(keyword)}
+                    // onMouseEnter={() => handleKeywordMouseEnter(keyword)}
                   >
                     {index + 1}. {keyword}
                   </p>
                 ))}
               </div>
-              <div className="hotnews" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)' }}>
-                <div className="titlediv">
-                  <h3>실시간 "{hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]}" 뉴스 &gt; </h3>
-                </div>
-                 {/* hot_5_keyword_info에서 제목과 링크를 표시 */}
+              </div>
+              <div className="hotnews">
+                {/* 왼쪽에 이미지와 제목 출력 */}
+                <div className="left-panel">
                   {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
                     hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
-                      <p style={{cursor: 'pointer', fontWeight: 'normal'}}
-                      onMouseOver={(e) => { e.target.style.fontWeight = 'bold'; }} onMouseOut={(e) => { e.target.style.fontWeight = 'normal'; }}
-                    key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
-                        <a href={item.link} target="_blank" rel="noopener noreferrer">
-                          {item.title}
-                        </a>
-                      </p>
+                      <div key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                        {index === 0 ? (
+                          <div>
+                            <a href={item.link} target="_blank" rel="noopener noreferrer">
+                              <img src={item.img} alt={item.title} />
+                            </a>
+                            <a href={item.link} target="_blank" rel="noopener noreferrer">
+                              <p style={{ fontWeight: 'bold' }} className='newstitle'>{item.title}</p>
+                            </a>
+                          </div>
+                        ) : null}
+                      </div>
                     ))
                   ) : (
                     <p>해당 키워드에 대한 뉴스가 없습니다.</p>
                   )}
+                </div>
+                
+                {/* 오른쪽에 제목만 4개 출력 */}
+                <div className="right-panel">
+                  {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
+                    hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                      index > 0 ? (
+                        <div key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                          <p
+                            style={{ cursor: 'pointer', fontWeight: 'normal' }}
+                            onMouseOver={(e) => {
+                              e.target.style.fontWeight = 'bold';
+                            }}
+                            onMouseOut={(e) => {
+                              e.target.style.fontWeight = 'normal';
+                            }}
+                            className='newstitle'
+                          >
+                            <a href={item.link} target="_blank" rel="noopener noreferrer">
+                              {item.title}
+                            </a>
+                          </p>
+                        </div>
+                      ) : null
+                    ))
+                  ) : null}
+                </div>
               </div>
-            </div>
+            {/* </div> */}
           </section>
+          <button
+            onClick={scrollToFeaturesSection}
+            className="scroll-to-features-button"
+            style={{
+              position: 'fixed',
+              bottom: '20px',
+              right: '20px',
+              zIndex: '999',
+            }}
+          >
+            Scroll to Features Section
+          </button>
         
-
-          
           <div className="showcase"   style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
             <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr>
             <div className="container-fluid p-0" style={{ width: '90%', margin: '0 auto', display: 'flex' }}>
@@ -614,7 +693,7 @@ const Home=()=>{
           </div>
 
         
-        <section className="testimonials text-center bg-light">
+        {/* <section className="testimonials text-center bg-light">
           <div className="container"  ><hr></hr>
               <h2 className="mb-5" style={{marginTop:'4rem'}}>KT Aivle 4기 ❤️14조❤️</h2>
               <div className="row">
@@ -622,28 +701,24 @@ const Home=()=>{
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people1} alt="..." />
                           <h5>고동연</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 1"</p> */}
                       </div>
                   </div>
                   <div className="col-lg-3">
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people2} alt="..." />
                           <h5>나창준</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 2"</p> */}
                       </div>
                   </div>
                   <div className="col-lg-3">
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people3} alt="..." />
                           <h5>심승헌</h5>
-                          {/* <p className="font-weight-light mb-0">"팀장"</p> */}
                       </div>
                   </div>
                   <div className="col-lg-3">
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people4} alt="..." />
                           <h5>온동헌</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 4"</p> */}
                       </div>
                   </div>
               </div><br></br>
@@ -652,33 +727,29 @@ const Home=()=>{
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people5} alt="..." />
                           <h5>정솔</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 5"</p> */}
                       </div>
                   </div>
                   <div className="col-lg-3">
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people6} alt="..." />
                           <h5>정유진</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 6"</p> */}
                       </div>
                   </div>
                   <div className="col-lg-3">
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people7} alt="..." />
                           <h5>최자윤</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 7"</p> */}
                       </div>
                   </div>
                   <div className="col-lg-3">
                       <div className="testimonial-item mx-auto mb-5 mb-lg-0">
                           <img src={people8} alt="..." />
                           <h5>현지연</h5>
-                          {/* <p className="font-weight-light mb-0">"멤버 8"</p> */}
                       </div>
                   </div>
               </div>
           </div>
-      </section>
+      </section> */}
       </div>
     </>
     )};

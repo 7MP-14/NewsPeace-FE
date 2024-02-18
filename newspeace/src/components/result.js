@@ -25,6 +25,9 @@ function Dashboard() {
     const [loading, setLoading] = useState(false);
     const user_id=window.localStorage.getItem("user_id");
 
+    const [checkedItems, setCheckedItems] = useState([]);
+    const [inputkeyword, setinputKeyword] = useState('');
+
     // 긍정,부정률에 따른 테두리 색 변화
     let positiveBoxShadowClass = '';
     let negativeBoxShadowClass = '';
@@ -125,12 +128,64 @@ const handleKeywordClick = (clickedKeyword) => {
         });
       };
       
+      const submit=()=>{
+        if (!inputkeyword.trim()) {
+          window.alert('검색어를 입력해주세요.');
+          return;
+        }
+        setLoading(true);
+      
+        fetch(`${apiUrl}/news/search/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          body: JSON.stringify({
+            keyword: inputkeyword,
+            category: checkedItems,
+          }),
+        })
+        .then(res => res.json())
+        .then(res => {
+          setLoading(false);
+    
+          if (res.reply === false) {
+            // 결과가 없는 경우
+            window.alert('해당하는 검색어에 대한 결과가 없습니다.');
+            setinputKeyword("");
+          } else {
+            // 결과가 있는 경우 페이지 이동
+            navigate('/result', { state: { responseData: res, category: checkedItems } });
+          }
+        })
+        .catch(error => {
+          setLoading(false);
+          console.error('에러:', error);
+        });
+      }
 
+      const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          submit(); 
+        }
+      };
+      const handleKeywordChange = (event) => {
+        setinputKeyword(event.target.value);
+      };
     return (
         <div className="result_container mx-auto p-4" style={{height:'100%',backgroundImage: `url(${news_1})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="flex-1 text-center">     
                 {/* <h1 className='Test'> 키워드 : </h1> */}
                 <h2 className="text-2xl font-bold mb-4">{responseData.search_keyword}</h2>
+                <input
+                 className=""
+                 id="keyword"
+                 type="text"
+                 value={inputkeyword}
+                 onChange={handleKeywordChange}
+                 onKeyDown={handleKeyPress}
+                 placeholder=""
+                ></input>
                 <div className="search-related-keywords">
                     <p>
                     연관 검색어 : {responseData.related_keyword.map((related_keyword, index) => (

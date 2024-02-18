@@ -27,6 +27,7 @@ export default function CreateNotice() {
 
     const formData = new FormData();
     const userId = window.localStorage.getItem("user_id")
+    formData.append("number",0);
     formData.append("title", title);
     formData.append("body", content);
     formData.append("image", image);
