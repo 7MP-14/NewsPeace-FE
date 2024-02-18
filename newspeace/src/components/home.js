@@ -325,7 +325,7 @@ const Home=()=>{
   };
 
   const handleKeywordClick = (keywordText) => {
-    navigate(`/myChart`, { state: { keywordText } });
+    navigate(`/StockPage`, { state: { keywordText } });
   };
 
   //실시간 검색어 호버 함수
@@ -396,7 +396,7 @@ const Home=()=>{
                         {Object.entries(kpi)
                           .slice(tabIndex * itemsPerPage, (tabIndex + 1) * itemsPerPage)
                           .map(([key, value]) => (
-                            <p style={{ display: 'flex', alignItems: 'center' }}  onClick={() => handleKeywordClick(value)}>
+                            <p key={key} style={{ display: 'flex', alignItems: 'center' }}  onClick={() => handleKeywordClick(value)}>
                               <span style={{textAlign: 'left', marginLeft:'2rem'}}>{Number(key)+1}</span>
                               <span
                                 style={{ flex: '1', textAlign: 'center', cursor: 'pointer', fontWeight: 'normal' }}
