@@ -62,7 +62,7 @@ export default function Notice() {
             <tbody>
               {notices.map((notice, index) => (
                 <tr key={index} onClick={() => openModal(notice)}>
-                  <td>{notice.id}</td>
+                  <td>{notice.number}</td>
                   <th>
                     <a href="#!">{notice.title}</a>
                   </th>

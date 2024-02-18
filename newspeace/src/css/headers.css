@@ -1,0 +1,45 @@
+.navbar_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.3%;
+    width: 100%;
+    /* margin: 0 auto; */
+    position: fixed;
+    top:0px;
+    z-index: 1;
+    padding-top: 2.4rem;
+    /* margin-left:6rem; */
+    background-color: white;
+    padding-bottom: 2.4rem;
+
+}
+.navbarbrand{
+    color: black;
+    font-size: 1.6rem;
+    padding-left: 6rem;
+}
+
+.mainfuncbtn a{
+    font-size: 1.1rem;    
+    margin-left: 40px; /* 원하는 여백 값으로 조정 */
+    color:black;
+    font-weight: bold;
+    
+}
+.loginbtn a{
+    font-size: 1.1rem;    
+    color:black;
+    font-weight: bold;
+    margin-left: 40px;
+}
+
+
+  .navigatebar_menu {
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+    padding-right:9rem
+  }
+
+  .col-input{
+    margin-left: -10%;
+  }

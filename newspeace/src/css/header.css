@@ -107,7 +107,9 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
+html {
+  scroll-behavior: smooth;
+}
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -645,6 +647,7 @@ progress {
   width: 100%;
   margin-right: auto;
   margin-left: auto;
+  margin-top: 8%;
 }
 
 
@@ -2012,21 +2015,21 @@ progress {
 }
 
 .form-control {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 1rem;
+  display: flex;
+  width: 90%;
+  padding: 1rem 1rem;
   margin-top:-70px;
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 5px solid #527012;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-  border-radius: 0.375rem;
+  border-radius: 1rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   margin: 0 auto;
   margin-left: -10%;
@@ -10878,8 +10881,8 @@ header{
 }
 header.masthead {
   position: relative;
-  background-color: #343a40;
-  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  background-color: none;
+  /* background: url("../img/bg-masthead.jpg") no-repeat center center; */
   background-size: cover;
   padding-top: 8rem;
   padding-bottom: 8rem;
@@ -10887,7 +10890,7 @@ header.masthead {
 header.masthead:before {
   content: "";
   position: absolute;
-  background-color: #1c375e;
+  background-color: none;
   height: 100%;
   width: 100%;
   top: 0;
@@ -10981,9 +10984,9 @@ footer.footer {
 .categorybtn button {
   background-color: rgba(256, 256, 256, 0.7); /* Sky blue color with 0.7 opacity */
   color: #000;
-  border: none;
+  border: 1px solid black;
   border-radius: 10px;
-  padding: 3px 10px;
+  padding: 0 10px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
@@ -11008,6 +11011,7 @@ footer.footer {
   margin:0 auto;
   /* margin-left:70px; */
   font-size: 1.3rem;
+  color:black;
 
 }
 
@@ -11128,7 +11132,6 @@ footer.footer {
   top: 30%;
   left: 70%;
   transform: translate(-50%, -50%);
-
 }
 
 .blurred-background {
@@ -11163,44 +11166,80 @@ footer.footer {
   width: 80%;
   margin: 0 auto;
 }
-
+.hotkeywordsDiv{
+  margin: 0 auto;
+  width: 80%;
+  /* border:1px solid black; */
+}
 .hotkeyword {
-  flex: 0 0 40%; 
+  display: flex;
   border-radius: 10px; 
   margin: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-  height: 21rem;
-  max-width: 20rem;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  */
+  /* height: 21rem; */
+  /* max-width: 20rem; */
   margin-bottom: 3%;
-  text-align: left;
-  background-color: white;
-  box-sizing: border-box;
+  /* text-align: left; */
+  /* background-color: white; */
+  /* box-sizing: border-box; */
+  gap:50px;
+  margin: 0 auto;
+  text-align: center;
+
 }
 
 .hotnews{
-  flex: 0 0 100%;
-  border-radius: 10px;
+  display: flex;
+  /* flex: 0 0 100%; */
+  /* border-radius: 10px; */
   margin: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 21rem;
-  width: 50%; /* 고정된 너비 값으로 설정 */
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  /* height: 21rem; */
+  width: 80%; /* 고정된 너비 값으로 설정 */
   text-align: left;
   margin-left: 7%;
-  background-color: white;
-  box-sizing: border-box;
+  /* background-color: white; */
+  /* box-sizing: border-box; */
+  margin: 0 auto;
+  margin-top: 7%;
+  /* border: 1px solid black; */
 }
 
-.hotkeyword h3,.hotnews h3{
+/* .hotkeyword h4,.hotnews h4{
   text-align: left;
   margin: 10px;
   color: var(--blue);
+} */
+.left-panel{
+  width: 50%;
+  height: 15rem;
+  align-items: center;
 }
+.left-panel img{
+  width: 100%;
+  height: 200px;
+  margin-bottom: 3%;
+}
+.left-panel .newstitle{
+  font-size: 1rem;
+}
+.right-panel{
+  align-items: center;
+  padding-left: 3%;
+  width: 100%;
+  margin-top: 3%;
+}
+.right-panel .newstitle{
+  font-size: 1.2rem;
 
+}
 .hotkeyword p{
-  font-size: 1.4rem;
-  padding-left: 10%;
+  font-size: 1.7rem;
+  /* padding-left: 10%; */
   /* border-bottom: 1px solid #e1e1e1; */
   position: relative;
+  border: 1px solid #000;
+  padding: 5px 20px;
 
 }
 .hotnews p{
@@ -11230,14 +11269,14 @@ footer.footer {
 .hotnews a {
   color: inherit;
   text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
 }
 
-.hotkeyword .titlediv, .hotnews .titlediv{
+.titlediv{
   margin-bottom: 20px;
-  border-bottom: 1px solid #e1e1e1;
+  /* border-bottom: 1px solid #e1e1e1; */
   /* background-color: #E1F5FE; */
   padding: 3px 4px;
   /* border-radius: 10px; */
@@ -11246,7 +11285,10 @@ footer.footer {
 /* .keyword.hovered {
   border-bottom: 2px solid #007bff; 
 } */
-
+.titlediv p{
+  font-size: 2rem;
+  text-align: left;
+}
 .all-keywords {
   position: absolute;
   top: 90%;
@@ -11280,7 +11322,11 @@ footer.footer {
 .col-input {
   display: flex;
   align-items: center;
-  width: 130%;
+  width: 140%;
+  margin: 0 auto;
+  margin-top: -10%;
+  margin-left: -10%;
+
 }
 
 .col-input input {
@@ -11290,7 +11336,7 @@ footer.footer {
 
 .col-input img {
   width: 40px;
-  height: 37px;
+  height: 40px;
   cursor: pointer;
 }
 
@@ -11437,15 +11483,22 @@ footer.footer {
     transform: translateY(0);
   }
 }
-
-.hotnews .titlediv h3 {
+/* 
+.hotnews .titlediv{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+} */
+
+/* .hotnews .keyword {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
+.navibtn{
+  font-size: 1.3rem;
+  margin-right: 1%;
 }
-
-.hotnews .keyword {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.mainfuncbtn{
+  margin-left: 3%;
 }
