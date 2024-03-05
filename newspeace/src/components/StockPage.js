@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 import '../css/StockPage.css';
+import Chart from './Chart';
 
 //kpi
 import kospi_close from '../img/kospi_close.png';
@@ -44,7 +45,7 @@ const StockPage = () => {
 
   // 연결
   const handleKeywordClick = (keywordText) => {
-    navigate(`/StockPage`, { state: { keywordText } });
+    navigate(`/stockPage`, { state: { keywordText } });  //myChart
   };
 
   // 추가 검색
@@ -105,32 +106,37 @@ useEffect(() => {
       //
 
       
+      setStockData(data)
       
-      stock_High(data.result_high)
-      stock_Low(data.result_low)
-      stock_Open(data.result_open)
-      stock_Present (data.result_present)  // 현재가
-      stock_Close (data.result_close)
+      stock_High(data.result_high_date)
+      stock_Low(data.result_low_date)
+      stock_Open(data.result_open_date)
+      stock_Present (data.result_present_date)  // 현재가
+      stock_Close (data.result_close_date)
 
-      const dodData = data.result_dod;
+      const dodData = data.result_dod_date;
       stock_dod(dodData) //전일대비
       // 시간
-      // API로부터 받아온 날짜를 'YYYY-MM-DD' 형식으로 변환
-      const formattedDates = data.result_time.map(dateString => {
-        const date = new Date(dateString);
-        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-      });
-      stock_Date(formattedDates); // 변환된 날짜를 상태로 저장
+      // // API로부터 받아온 날짜를 'YYYY-MM-DD' 형식으로 변환
+      // const formattedDates = data.result_time.map(dateString => {
+      //   const date = new Date(dateString);
+      //   return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+      // });
+      // stock_Date(formattedDates); // 변환된 날짜를 상태로 저장
+
+      // time /// 날짜만
+      stock_Date(data.result_time_date);
 
       console.log("ㅁㅈ;ㅑㅐㅗㅇㅁ지ㅑㅕㅀㅈ미ㅐ려재재", data);
 
-      console.log("시간", data.result_time);
-      console.log("전일대비", data.result_dod);
-      console.log("고가", data.result_high);
-      console.log("저가", data.result_low);
-      console.log("종가", data.result_close);
-      console.log("시초가", data.result_open);
-      console.log("현재가", data.result_present);
+      // console.log("시간", data.result_time_date);
+      // console.log("전일대비", data.result_dod_date);
+      // console.log("고가", data.result_high_date);
+      // console.log("저가", data.result_low_date);
+      // console.log("종가", data.result_close_date);
+      // console.log("시초가", data.result_open_date);
+      console.log("현재가", data.result_present_date);
+      console.log(keywordText);
      
 
     } catch (error) {
@@ -143,11 +149,40 @@ useEffect(() => {
 
 ////////////////////////////////////
 
+///////////////
+const generateAdditionalInfo = (dateIndex) => {
+  const formattedDate = s_Date[dateIndex];
+
+  return `
+    <div>
+      <p>날짜: ${formattedDate}</p>
+    </div>
+  `;
+};
 
   useEffect(() => {
       // Apache ECharts 연결 //
       const chartDom = document.getElementById('stock-chart');
       const echart = echarts.init(chartDom);
+
+
+
+      ////////////////클릭
+    const handleCandlestickClick = (params) => {
+      const dataIndex = params.dataIndex;
+
+      // 추가 정보 생성 함수 호출
+      const additionalInfoHTML = generateAdditionalInfo(dataIndex);
+
+      // 문자열을 HTML로 변환하여 추가
+      const additionalInfoContainer = document.getElementById('additional-info-container');
+      additionalInfoContainer.innerHTML = additionalInfoHTML;
+    };
+
+    // 클릭 이벤트 등록
+    echart.on('click', 'series.candlestick', (params) => {
+      handleCandlestickClick(params);
+    });
       ////////////////////////
     const option = {
       tooltip: {
@@ -158,22 +193,23 @@ useEffect(() => {
         formatter: (params) => {
           const [dateIndex, open, close, low, high] = params[0].data;
           const formattedDate = s_Date[dateIndex];
-          const dod = s_dod[dateIndex]; // 특정 날짜의 전일대비 값 가져오기
+          const dod = s_dod[dateIndex];
+        
           return (
-            `<div style="text-align: left;">
-              <p>날짜: ${formattedDate}</p>
-              <p>시초가: ${open}</p>
-              <p>종가: ${close}</p>
-              <p>저가: ${low}</p>
-              <p>고가: ${high}</p>
-              <p>전일대비: ${dod}</p>
-            </div>`
+            '<div style="text-align: left;">' +
+            '<p>날짜: ' + formattedDate + '</p>' +
+            '<p>시초가: ' + open + '</p>' +
+            '<p>종가: ' + close + '</p>' +
+            '<p>저가: ' + low + '</p>' +
+            '<p>고가: ' + high + '</p>' +
+            '<p>전일대비: ' + dod + '</p>' +
+            '</div>'
           );
         },
       },
       grid: {
       top: '5%',
-      bottom: '5%',
+      bottom: '10%',
       left: '10%',
       right: '10%',
       containLabel: true, // 레이블이 차트를 벗어나지 않도록 설정
@@ -220,31 +256,43 @@ useEffect(() => {
         },
       ],
     };
-    console.log("EChartsdwdwdwdwdwdwdwdw Option", option);
+    console.log("ECharts Option", option);
     echart.setOption(option);
 
     // 컴포넌트가 언마운트될 때 차트 정리
     return () => {
+      echart.off('click');
       echart.dispose();
     };
   }, [s_Date, s_Open, s_Close, s_Low, s_High, s_dod]); // s_Date가 변경될 때마다 실행
   
+
+  // JSX에서 추가 정보를 보여줄 컨테이너
+const additionalInfoContainer = (
+  <div id="additional-info-container" style={{ marginTop: '1rem' }}></div>
+);
+
+
   return (
-    <div className='stock-data'>
+    
+    <div className='stock-data' style={{marginTop: '5rem'}}>
       <div className='stock-text' style={{marginLeft:'10rem', marginRight:'10rem'}}>
-      <h1>{keywordText}  || 현재가 : {s_Present}</h1> <hr></hr><br></br>
+      <h1 style={{position: 'relative'}}>{keywordText}  || 현재가 : {s_Present}</h1> <hr></hr><br></br>
+      <h3>{additionalInfoContainer}</h3>
+      <div id="stock-chart" style={{ height: '500px'}}></div>
 
-    <p>긍부정도 그래프 표기 [time, 현재가, 부정도]</p>
+      <Chart data={s_dod} type="negative" title="부정도 그래프" title1="현재가 그래프"/>
+      <Chart data={stockData.result_present_date} type="present"/>
 
-    <p>일 별 그래프 표기 [time, 현재가]</p>
-      
-      {/* <p>전일대비 {s_dod}</p>
+
+      {/* <p>전일대비 {s_dod}</p> 
       <p>시초가 {s_Open} </p> 
       <p>고가 {s_High} </p>
       <p>저가 {s_Low}  </p>
       <p>종가 {s_Close}</p> */}
       </div>
-        <div id="stock-chart" style={{ height: '500px'}}></div>
+        
+        
         <button
           onClick={Research}
           style={{
