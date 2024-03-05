@@ -46,7 +46,16 @@ export default function Header(props) {
         )}
       </div>
       {/* LoginModal을 모달이 열려있을 때만 렌더링 */}
-      {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />}
+      {/* {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={setIsLoginModalOpen} />} */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => closeLoginModal()}
+      />
+      {/* <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        notice={selectedNotice}
+      /> */}
     </div>
   
   );

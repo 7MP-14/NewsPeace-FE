@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function LoginModal({ isOpen, onClose, notice }) {
+function LoginModal({ isOpen, onClose }) {
     const apiUrl = process.env.REACT_APP_API_URL;
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");

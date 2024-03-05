@@ -22,7 +22,7 @@ export default function CreateNotice() {
   const handleSubmit = () => {
     if (!title || !content) {
       alert("제목과 내용을 작성해주세요.");
-      return;9
+      return;
     }
 
     const formData = new FormData();
@@ -100,4 +100,4 @@ export default function CreateNotice() {
       </form>
     </div>
   );
-}
+}   
