@@ -15,13 +15,15 @@ function Dashboard() {
     const category = location.state?.category;
     const categoryString = Array.isArray(category) ? category.join(', ') : category;
     const navigate = useNavigate();
-
+    console.log(responseData);
     const positiveWidth = `${responseData.긍정도}%`; // 긍정 비율
     const negativeWidth = `${responseData.부정도}%`; // 부정 비율
+    const neutralWidth = `${responseData.중립도}%`; // 중립 비율
+
     const [scrapped, setScrapped] = useState({}); // 스크랩 상태 관리 (스크랩 완료 시 이미지 변경)
 
-    const isPositiveHigh = parseFloat(positiveWidth) > 50;
-    const isNegativeHigh = parseFloat(negativeWidth) > 50;
+    const isPositiveHigh = parseFloat(positiveWidth) > parseFloat(negativeWidth);
+    const isNegativeHigh = parseFloat(negativeWidth) > parseFloat(positiveWidth);
     const [loading, setLoading] = useState(false);
     const user_id=window.localStorage.getItem("user_id");
 
@@ -31,26 +33,20 @@ function Dashboard() {
     // 긍정,부정률에 따른 테두리 색 변화
     let positiveBoxShadowClass = '';
     let negativeBoxShadowClass = '';
+    let neutralBoxShadowClass = '';
 
-    if (isPositiveHigh && isNegativeHigh) {
+   if (isPositiveHigh && isNegativeHigh && parseFloat(neutralWidth) > Math.max(parseFloat(positiveWidth), parseFloat(negativeWidth))) {
     positiveBoxShadowClass = '';
     negativeBoxShadowClass = '';
-    } else if (isPositiveHigh) {  // 긍정 50% 이상
-    positiveBoxShadowClass = 'green-shadow';
-    negativeBoxShadowClass = '';
-    } else if (isNegativeHigh) {  // 부정 50%이상
-    positiveBoxShadowClass = '';
-    negativeBoxShadowClass = 'red-shadow';
-    } else {
-    positiveBoxShadowClass = '';
-    negativeBoxShadowClass = '';
-    }
+    neutralBoxShadowClass = 'blue-shadow';
+} else {
+    neutralBoxShadowClass = '';
+}
 
     // 스크랩 상태 토글 함수
     const toggleScrap = (articleId) => {
-        // 사용자 ID 및 뉴스 ID에 액세스할 수 있다고 가정합니다.
         const userId = window.localStorage.getItem('user_id'); // 실제 사용자 ID로 교체하세요.
-        const newsId = articleId; // 데이터 구조에 따라 news ID를 조정하세요.
+        const newsId = articleId;
 
         // 상태를 업데이트합니다.
         setScrapped((prev) => ({ ...prev, [articleId]: !prev[articleId] }));
@@ -177,15 +173,6 @@ const handleKeywordClick = (clickedKeyword) => {
             <div className="flex-1 text-center">     
                 {/* <h1 className='Test'> 키워드 : </h1> */}
                 <h2 className="text-2xl font-bold mb-4">{responseData.search_keyword}</h2>
-                <input
-                 className=""
-                 id="keyword"
-                 type="text"
-                 value={inputkeyword}
-                 onChange={handleKeywordChange}
-                 onKeyDown={handleKeyPress}
-                 placeholder=""
-                ></input>
                 <div className="search-related-keywords">
                     <p>
                     연관 검색어 : {responseData.related_keyword.map((related_keyword, index) => (
@@ -217,6 +204,7 @@ const handleKeywordClick = (clickedKeyword) => {
                     <div className="bar-container mb-2" style={{ width: '100%' }}>
                         <div className="positive-bar" style={{ width: positiveWidth }}>{positiveWidth}</div>
                         <div className="negative-bar" style={{ width: negativeWidth }}>{negativeWidth}</div>
+                        <div className="neutral-bar" style={{ width: neutralWidth }}>{neutralWidth}</div>
                     </div>
                 </div>
                 <div className="list-container md:flex" style={{ width: '100%' }}>
@@ -266,6 +254,28 @@ const handleKeywordClick = (clickedKeyword) => {
                         </div>
                     </div>
                 </div>
+                <div className={`list-box ${neutralBoxShadowClass}`} style={{ width: '100%', backgroundImage: `url(${article})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+                    <h3 className="list-title">neutral</h3>
+                    <p className="article-count">{responseData.article.중립.length}개</p>
+                      <hr />
+                        <div className="article-list">
+                          {responseData.article.중립.slice().reverse().map((articleData) => (
+                              <div className="article-item" key={articleData.id}>
+                                  <img src={articleData.img || people6} className='article-img' alt="Article" />
+                                   <div className="article-content">
+                                    <a href={articleData.link} className="article-link">{truncateTitle(articleData.title)}</a>
+                                    <p className="write-dt">
+                                        {articleData.write_dt.split('T')[0]} {((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[0]}:{((articleData.write_dt.split('T')[1]).split('.')[0]).split(':')[1]}</p>
+                                         </div>
+                                         {user_id && (
+                                            <button className="scrap-button" onClick={() => toggleScrap(articleData.id)}>
+                                         <img src={scrapped[articleData.id] ? scrapcomp : scrap} style={{ width: '20px', height: '20px' }} alt="Scrap" />
+                                        </button>
+                                    )}
+                            </div>
+                        ))}
+                    </div>
+                 </div>
             </div>
             
         </div>
