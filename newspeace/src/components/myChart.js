@@ -289,7 +289,7 @@ const LineChart = () => {
         </div>
           <div className='price-info-box'>
            <div className='stock-price'>현재가: <strong>{currentPrice ? currentPrice.toLocaleString() : '로딩 중...'}</strong></div>
-           <div className='price-change'>전일대비: <pan className={change >= 0 ? 'up' : 'down'}>{change ? `${Math.abs(change)}` : '...'}</span></div>
+           {/* <div className='price-change'>전일대비: <pan className={change >= 0 ? 'up' : 'down'}>{change ? `${Math.abs(change)}` : '...'}</span></div> */}
            <div className='stock-info'>등락률: <span className={changePercent >= 0 ? 'rate-up' : 'rate-down'}>{changePercent ? `${changePercent.toFixed(2)}%` : '...'}</span></div>
            <div className='stock-info'>시가: <span className='open-price'>{openPrice ? `${parseInt(openPrice, 10).toLocaleString()}` : '...'}</span></div>
            <div className='stock-info'>고가: <span className='high-price'>{highPrice ? `${parseInt(highPrice, 10).toLocaleString()}` : '...'}</span></div>
