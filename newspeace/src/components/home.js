@@ -42,7 +42,7 @@ const Home=()=>{
   const itemsPerPage = 10;
   const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
   const featuresRef = useRef(null);
-
+  const scrollRef = useRef(null);
   //// 스크롤
   useEffect(() => {
     const handleScroll = () => {
@@ -369,6 +369,61 @@ const Home=()=>{
       });
     }
   };
+
+  useEffect(() => {
+    const handleScroll = (event) => {
+      event.preventDefault();
+      let delta = 0;
+      if (!event) event = window.event;
+      if (event.wheelDelta) {
+        delta = event.wheelDelta / 120;
+        if (window.opera) delta = -delta;
+      } else if (event.detail) delta = -event.detail / 3;
+
+      let moveTop = window.scrollY;
+      const elm = document.querySelectorAll("section");
+      const elmCount = elm.length;
+      const currentIndex = Array.from(elm).findIndex(el => el.getBoundingClientRect().top >= 0);
+
+      // currentIndex가 올바른 범위 내에 있는지 확인
+      if (currentIndex >= 0 && currentIndex < elmCount) {
+        const currentSection = elm[currentIndex];
+        // currentSection이 정상적으로 선택되었는지 확인
+        if (currentSection) {
+          // wheel down : move to next section
+          if (delta < 0) {
+            if (currentIndex !== elmCount - 1) {
+              try {
+                moveTop = window.pageYOffset + currentSection.nextElementSibling.getBoundingClientRect().top;
+              } catch (e) {}
+            }
+          }
+          // wheel up : move to previous section
+          else {
+            if (currentIndex !== 0) {
+              try {
+                // If the current section is not the 'home' section, move to the previous section
+                if (currentSection.id !== "home") {
+                  moveTop = window.pageYOffset + currentSection.previousElementSibling.getBoundingClientRect().top;
+                } else {
+                  // If the current section is the 'home' section, move to the top of the page
+                  moveTop = 0;
+                }
+              } catch (e) {}
+            }
+          }
+
+          window.scrollTo({ top: moveTop, left: 0, behavior: "smooth" });
+        }
+      }
+    };
+
+    window.addEventListener('wheel', handleScroll);
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, []);
     return (  
       <>
 
@@ -482,8 +537,8 @@ const Home=()=>{
             left: mousePosition.x - 60,
           }}
         ></div>
-        
         <div className="ani-size"> 
+        <section id="home">
           <header className="masthead" >
             <div className="container position-relative">
               <div className="row justify-content-center">
@@ -551,7 +606,8 @@ const Home=()=>{
               </div>
             </div>
           </header>
-
+          </section>
+          <section id="home">
           <section ref={featuresRef} className="features-icons bg-light text-center">
             {/* <div className="hothot" style={{width:'70%'}}> */}
             <div className='hotkeywordsDiv'>
@@ -627,7 +683,9 @@ const Home=()=>{
               </div>
             {/* </div> */}
           </section>
-          <button
+
+          </section>
+          {/* <button
             onClick={scrollToFeaturesSection}
             className="scroll-to-features-button"
             style={{
@@ -638,11 +696,13 @@ const Home=()=>{
             }}
           >
             Scroll to Features Section
-          </button>
-        
+          </button> */}
           <div className="showcase"   style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
             <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr>
+            <section id="home">
+
             <div className="container-fluid p-0" style={{ width: '90%', margin: '0 auto', display: 'flex' }}>
+              
               <div className="col-lg-6" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img src={Service} style={{ width: '70%', height: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)'}} alt="Service" />
               </div>
@@ -667,10 +727,11 @@ const Home=()=>{
                 </div>
               </div>
             </div>
+          </section>
           </div>
           
-
           <div className="chatbot text-center" style={{width:'70%', margin: '0 auto', paddingTop:'2rem', paddingBottom:'11rem'}}>
+          <section id="home">
             <div className="image-and-heading"><hr></hr>
               <h2><img src={chatbot} style={{ width: '5%', height: '10%'}} alt="chatbot" />
               챗봇 서비스
@@ -690,8 +751,9 @@ const Home=()=>{
               <img src={first} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="first"
                 className="enlarge-on-hover"/>
             </div>
-          </div>
+          </section>
 
+          </div>
         
         {/* <section className="testimonials text-center bg-light">
           <div className="container"  ><hr></hr>
