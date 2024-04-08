@@ -127,7 +127,7 @@ useEffect(() => {
       // time /// 날짜만
       stock_Date(data.result_time_date);
 
-      console.log("ㅁㅈ;ㅑㅐㅗㅇㅁ지ㅑㅕㅀㅈ미ㅐ려재재", data);
+      console.log("기본 데이터", data);
 
       // console.log("시간", data.result_time_date);
       // console.log("전일대비", data.result_dod_date);
@@ -250,6 +250,8 @@ const generateAdditionalInfo = (dateIndex) => {
             s_Open[index],
             s_Close[index],
             s_Low[index],
+            
+            
             s_High[index],
           ]),
           barWidth: '60%',
@@ -263,6 +265,7 @@ const generateAdditionalInfo = (dateIndex) => {
     return () => {
       echart.off('click');
       echart.dispose();
+      window.scrollTo(0,0);
     };
   }, [s_Date, s_Open, s_Close, s_Low, s_High, s_dod]); // s_Date가 변경될 때마다 실행
   
