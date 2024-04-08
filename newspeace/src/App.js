@@ -51,10 +51,12 @@ function App() {
   return (
     <AllWrapper>
       <ContentWrapper>
-        <Header login={login}/>
         <Router>
+        <Header login={login}/>
+
           <Routes>
               <Route exact path="/" element={<Home login={login}/>} />
+              {/* <Route exact path="/header" element={<Header/>}/> */}
               <Route exact path="/login" element={<Login/>} />
               <Route exact path="/result" element={<Result/>} />
               <Route exact path="/signup" element={<Signup/>} />

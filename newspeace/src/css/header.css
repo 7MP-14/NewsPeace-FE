@@ -10973,54 +10973,8 @@ footer.footer {
 }
 
 
-.categorybtn{
-  width:100%;
-  display: flex;
-  gap:10px;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.categorybtn button {
-  background-color: rgba(256, 256, 256, 0.7); /* Sky blue color with 0.7 opacity */
-  color: #000;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 0 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
-}
-
-.categorybtn button:hover,
-.categorybtn button:active {
-    background-color: rgba(135, 206, 235, 0.9); /* Increase opacity on hover and click */
-}
 
 
-.hottopic {
-  display: flex;
-  /* align-items: center; */
-  width:80%;
-  margin:0 auto;
-  margin-top:50px;
- 
-}
-
-.hottopic p {
-  /* margin: 0; */
-  margin:0 auto;
-  /* margin-left:70px; */
-  font-size: 1.3rem;
-  color:black;
-
-}
-
-.hottopic .keyword {
-  margin-left:-50px;
-  margin-top: 15px;
-
-
-}
 
 
 .navbar_overlay {
@@ -11103,36 +11057,7 @@ footer.footer {
   background-color: rgba(135, 206, 235, 0.9); /* Increase opacity on hover and click */
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.keyword-animation-enter {
-  animation: slideDown 0.5s ease-in;
-}
-.hottopic {
-  position: relative;
-}
-
-.label-container {
-  display: inline-block;
-  margin-right: 10px; /* 라벨과 키워드 사이의 간격 조절 */
-}
-
-.keyword-container {
-  display: inline-block;
-  position: absolute;
-  top: 30%;
-  left: 70%;
-  transform: translate(-50%, -50%);
-}
 
 .blurred-background {
   filter: blur(180px); /* 필요에 따라 블러 정도 조절 */
@@ -11319,26 +11244,7 @@ footer.footer {
 .all-keywords .keyword:last-child {
   border-bottom: none;
 }
-.col-input {
-  display: flex;
-  align-items: center;
-  width: 140%;
-  margin: 0 auto;
-  margin-top: -10%;
-  margin-left: -10%;
 
-}
-
-.col-input input {
-  flex: 1; /* 확장 가능한 영역을 설정하여 남은 공간을 모두 차지합니다. */
-  margin-right: 30px; /* 입력란과 버튼 사이의 간격을 조절합니다. */
-}
-
-.col-input img {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
 
 .scroll-to-top-button {
   width: 3.5rem;
@@ -11498,6 +11404,13 @@ footer.footer {
 .navibtn{
   font-size: 1.3rem;
   margin-right: 1%;
+}
+.navibtn2{
+  font-size: 1.3rem;
+  background-color: white;
+  color:#000;
+  margin-left: 1%;
+
 }
 .mainfuncbtn{
   margin-left: 3%;

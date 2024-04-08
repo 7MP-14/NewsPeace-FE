@@ -1,45 +1,188 @@
 .navbar_container{
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
-    height: 2.3%;
+    height: 18%;
     width: 100%;
     /* margin: 0 auto; */
     position: fixed;
     top:0px;
     z-index: 1;
-    padding-top: 2.4rem;
+    padding-top: 1.5rem;
     /* margin-left:6rem; */
     background-color: white;
-    padding-bottom: 2.4rem;
+    /* padding-bottom: 1em; */
+    border-bottom: 1px solid #CCCCCC;
 
 }
 .navbarbrand{
     color: black;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     padding-left: 6rem;
+    margin-top:-3.5%;
 }
 
 .mainfuncbtn a{
     font-size: 1.1rem;    
-    margin-left: 40px; /* 원하는 여백 값으로 조정 */
-    color:black;
+    margin-left: 10px; 
+    color:gray;
     font-weight: bold;
     
 }
 .loginbtn a{
     font-size: 1.1rem;    
-    color:black;
+    color:gray;
+    margin-left: 10px; 
     font-weight: bold;
-    margin-left: 40px;
+    /* margin-left: 30px; */
 }
 
 
   .navigatebar_menu {
     white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
-    padding-right:9rem
+    height: auto;
+    /* padding-right:9rem */
   }
 
-  .col-input{
+  /* .col-input{
     margin-left: -10%;
+  } */
+  .inputDiv {
+    display: flex; /* Flexbox 레이아웃 사용 */
+    /* justify-content: space-between;  */
+    align-items: center; /* 요소들을 수직 가운데 정렬 */
   }
+
+  .input-control{
+    height: 56px;
+    width:552px;
+    /* width:auto; */
+    border-color: #146DF0;
+    border-radius: 1rem;
+
+    left: calc(50% - 553px/2 - 171.5px);
+    border-width: 3px; /* 원하는 굵기로 설정 */
+    /* flex: 1;  */
+    margin-right: 30px; /* 입력란과 버튼 사이의 간격을 조절합니다. */
+  }
+  .input-control::placeholder {
+    padding-left: 20px; /* 왼쪽 여백 조정 */
+  }
+.firstDiv{
+  /* align-items: center; */
+  justify-content: flex-start; /* 요소들을 오른쪽으로 정렬합니다. */
+  display: flex;
+  flex-direction: column; /* 수평 방향으로 요소들을 배치합니다. */
+  width:1200px;
+  margin-left: 50px;
+  /* left:-30%; */
+}
+
+
+.inputDiv img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin-left:-230%;
+}
+
+.categorybtn{
+  /* width:100%; */
+  display: flex;
+  gap:15px;
+  /* justify-content: center; */
+  margin-top: 15px;
+  justify-content: flex-start; /* 요소들을 오른쪽으로 정렬합니다. */
+  
+}
+
+.categorybtn button {
+  font-size: 20px;
+  background: rgba(20, 109, 240, 0.13);
+  color: #146DF0;
+  /* border: 1px solid black; */
+  border-radius: 8px;
+  padding: 0 10px;
+  cursor: pointer;
+  /* width: 69px; */
+  height: 35px;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.categorybtn button:hover,
+.categorybtn button:active {
+  background: #146DF0;
+  border-radius: 8px;
+  color:white;
+}
+.navibtn{
+  /* position: absolute; */
+  width: 97px;
+  height: 48px;
+  padding:10px 20px;
+  color:gray;
+  /* left: 1371px; */
+  top: 35px;
+
+  background: rgba(242, 242, 242, 0.8);
+  border-radius: 8px;
+}
+.secondDiv{
+  margin-top:10px;
+  /* align-items: right; */
+  display: flex;
+  flex-direction: column; /* 수평 방향으로 요소들을 배치합니다. */
+  margin-right:5%;
+  justify-content: flex-end; /* 요소들을 오른쪽으로 정렬합니다. */
+}
+.hottopic {
+  display: flex;
+  /* align-items: center; */
+  /* width:80%; */
+  /* margin:0 auto; */
+  margin-top:35px;
+  align-items: center; /* 요소들을 수직 가운데 정렬 */
+  position: relative;
+  margin-left: auto; /* 요소를 오른쪽으로 이동시킵니다. */
+}
+
+.hottopic p {
+  /* margin: 0; */
+  /* margin:0 auto; */
+  /* margin-left:70px; */
+  font-size: 1.3rem;
+  color:black;
+  margin-right:10px;
+
+}
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.keyword-animation-enter {
+  animation: slideDown 0.5s ease-in;
+}
+
+
+.label-container {
+  display: inline-block;
+  margin-right: 10px; /* 라벨과 키워드 사이의 간격 조절 */
+}
+
+.keyword-container {
+  /* display: inline-block; */
+  /* position: absolute; */
+  top: 30%;
+  left: 60%;
+  width:150px;
+  /* transform: translate(-50%, -50%); */
+}
