@@ -125,7 +125,7 @@ const allkeywordsubmit=(keyword)=>{
       window.alert('해당하는 검색어에 대한 결과가 없습니다.');
       setinputKeyword('');
     } else {
-      // navigate('/result', { state: { responseData: res } });
+      navigate('/result', { state: { responseData: res } });
     }
   })
   .catch((error) => {
@@ -218,7 +218,7 @@ useEffect(() => {
                   <a className="navibtn" href="/notice">공지사항</a>
                   <a className="navibtn" href="/notice">뉴스피스 소개</a>
                   <a className="navibtn" href="/notice">뉴스보기</a>
-                  <a className="navibtn" href="/scrap">즐겨찾기</a>
+                  {/* <a className="navibtn" href="/scrap">즐겨찾기</a> */}
                   <a className="navibtn" href="/mypage">마이페이지</a>
                   <a className="navibtn" href="/logout">로그아웃</a>
                 </span>
@@ -230,7 +230,7 @@ useEffect(() => {
                     <a className="navibtn" href="/notice">뉴스피스 소개</a>
                   </span>
                   <span className="loginbtn">
-                    <a className="navibtn" onClick={openLoginModal}>로그인</a>
+                    <a className="navibtn" style={{cursor:"pointer"}} onClick={openLoginModal}>로그인</a>
                   </span>
                 </span>
               )
@@ -238,9 +238,7 @@ useEffect(() => {
           </div>
             
           <div className="hottopic">
-            {/* <div className="label-container"> */}
-              <p className="label">인기 검색어:</p>
-            {/* </div> */}
+            <p className="label">인기 검색어:</p>
             <div className="keyword-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
               {hotKeywords.length > 0 && (
                 <p

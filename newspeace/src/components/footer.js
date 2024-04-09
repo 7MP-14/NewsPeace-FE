@@ -3,14 +3,13 @@ import React from "react";
 import '../css/header.css';
 
 const StyledFooter = styled.footer`
-  background-color: #F0F0F0;
-  border-top-left-radius: 5rem; 
-  border-top-right-radius: 5rem; 
+  border-top: 1px solid #CCCCCC;
+  color:gray;
   `;
 
 export default function Footer(props) {
   return (
-    <StyledFooter className="footer" style={{ backgroundColor: '#F0F0F0' }}>
+    <StyledFooter className="footer" >
       <div className="container">
         <div className="row">
           <div className="col-lg-6 h-100 text-center text-lg-start my-auto">

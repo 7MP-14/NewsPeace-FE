@@ -2,15 +2,14 @@ import {React, useEffect, useState, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import first from '../img/first.png';
 import second from '../img/second.png';
-import chatbot from '../img/chatbot.png';
 import qr from '../img/qr.png';
 import left from '../img/left.png';
 import right from '../img/right.png';
 import kospi_close from '../img/kospi_close.png';
-import icon1 from '../img/돋보기.png';
 import arrow from '../img/화살표.png';
 import kpilogo from '../img/kpilogo.png';
 import Service from '../img/Service.png';
+import News1 from '../img/경향신문.jpeg';
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
 import people3 from '../img/people3.jpg';
@@ -29,11 +28,11 @@ const Home=()=>{
   const [kpi, setkpi_list] = useState([]);
   const [hot5Keywords, setHot5Keywords]=useState([]);
   const [hot5KeywordsInfo, setHot5KeywordsInfo]=useState([]);
-  const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
+  // const [currentHotKeywordIndex, setCurrentHotKeywordIndex] = useState(0);
   const [currentHot5KeywordIndex, setCurrentHot5KeywordIndex] = useState(0);
-  const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
+  // const [animationClass, setAnimationClass] = useState('keyword-animation-enter');
   const [loading, setLoading] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const [hoveredKeyword, setHoveredKeyword] = useState(null);
@@ -145,91 +144,26 @@ const Home=()=>{
       console.error('에러:', error);
     });
   }
-
-  useEffect(() => {
-    getHotKeyword();
-  }, []);
-
-  //인기검색어 GET FETCH 함수
-  const getHotKeyword=()=>{
-    fetch(`${apiUrl}/hot/`, {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log('성공');
-        console.log(res);
-        setHotKeywords(res.hot_search_keyword);
-        setHot5Keywords(res.hot_5_keyword);
-        setHot5KeywordsInfo(res.hot_5_keyword_info);
-      })
-      .catch((error) => {
-        console.error('에러:', error);
-      });
-  }
-
- //인기검색어 애니메이션 함수
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // 먼저 애니메이션 클래스를 제거
-      setAnimationClass('');
-      // 약간의 지연 후에 애니메이션 클래스를 다시 적용
-      setTimeout(() => {
-        setAnimationClass('keyword-animation-enter');
-        setCurrentHotKeywordIndex(prevIndex => (prevIndex + 1) % 10);
-        // 다음 키워드로 이동, 4일 경우 0으로 초기화
-        // setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
-      }, 100);
-    }, 2000); // 4초마다 키워드 업데이트
-
-    return () => clearInterval(intervalId);
-  }, [hotKeywords.length, currentHotKeywordIndex]);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     // 먼저 애니메이션 클래스를 제거
-  //     setAnimationClass('');
-  //     // 약간의 지연 후에 애니메이션 클래스를 다시 적용
-  //     setTimeout(() => {
-  //       setAnimationClass('keyword-animation-enter');
-  //       setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % 5);
-  //       // 마우스를 떼면 hoveredKeyword를 null로 설정
-  //       setHoveredKeyword(null);
-  //     }, 100);
-  //   }, 2000); // 4초마다 키워드 업데이트
-  
-  //   return () => clearInterval(intervalId);
-  // }, [hot5Keywords.length, currentHot5KeywordIndex]);
-
-  //인기 검색어 FETCH 함수
-  const hotkeywordsubmit=()=>{
-    setLoading(true);
-
-    fetch(`${apiUrl}/news/search/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify({
-        keyword: hotKeywords[currentHotKeywordIndex], // 선택된 핫 키워드 사용
-      }),
-    })
+//인기검색어 GET FETCH 함수
+const getHotKeyword=()=>{
+  fetch(`${apiUrl}/hot/`, {
+    method: 'GET',
+  })
     .then((res) => res.json())
     .then((res) => {
-      setLoading(false);
-
-      if (res.reply === false) {
-        window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-        setinputKeyword('');
-      } else {
-        navigate('/result', { state: { responseData: res } });
-      }
+      console.log('실시간 검색어 가져오기 성공');
+      console.log(res);
+      setHotKeywords(res.hot_search_keyword);
+      setHot5Keywords(res.hot_5_keyword);
+      setHot5KeywordsInfo(res.hot_5_keyword_info);
     })
     .catch((error) => {
-      setLoading(false);
       console.error('에러:', error);
     });
-  }
+}
+useEffect(() => {
+  getHotKeyword();
+}, []);
 
   //// KPI
   useEffect(() => {
@@ -265,17 +199,21 @@ const Home=()=>{
   };
   ///
 
-  //인기 검색어 전체 보여주는 함수
-  const allkeywordsubmit=(keyword)=>{
+  
+
+  //실시간 키워드 검색 FETCH 함수
+  const handleMainKeywordClick = (keyword) => {
+    setHoveredKeyword(keyword);
+
     setLoading(true);
 
     fetch(`${apiUrl}/news/search/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
-        keyword: keyword,
+        keyword:keyword,
       }),
     })
     .then((res) => res.json())
@@ -293,38 +231,6 @@ const Home=()=>{
       setLoading(false);
       console.error('에러:', error);
     });
-  }
-
-  //실시간 키워드 검색 FETCH 함수
-  const handleMainKeywordClick = (keyword) => {
-    setHoveredKeyword(keyword);
-
-    // setLoading(true);
-
-    // fetch(`${apiUrl}/news/search/`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json; charset=utf-8',
-    //   },
-    //   body: JSON.stringify({
-    //     keyword:keyword,
-    //   }),
-    // })
-    // .then((res) => res.json())
-    // .then((res) => {
-    //   setLoading(false);
-
-    //   if (res.reply === false) {
-    //     window.alert('해당하는 검색어에 대한 결과가 없습니다.');
-    //     setinputKeyword('');
-    //   } else {
-    //     navigate('/result', { state: { responseData: res } });
-    //   }
-    // })
-    // .catch((error) => {
-    //   setLoading(false);
-    //   console.error('에러:', error);
-    // });
   };
 
   const handleKeywordClick = (keywordText) => {
@@ -441,23 +347,27 @@ const Home=()=>{
           style={{
             opacity: showScrollToTop ? 1 : 0,
             backgroundColor: 'transparent',
-            border: '2px solid lightgrey'
+            border: '2px solid rgba(10, 88, 202, 0.8)'
           }}
         >
         <img src={arrow} style={{width:'70%', height:'70%'}} alt="arrow" />
         </button>
 
-        <button
+        <button className='stockButton'
           onClick={toggleHelpBox}
           style={{
-            width: '95px',
+            width: '60px',
+            height:'80px',
             position: 'fixed',
-            bottom: '2rem',
-            right: '1.5rem',
+            bottom: '0.5rem',
+            right: '2.5rem',
             zIndex: '9999',
             cursor: 'pointer',
-            borderRadius: '10rem',
-            backgroundColor: 'rgba(155, 176, 216, 1)',
+            borderRadius: '78px',
+            background: 'rgba(255, 255, 255, 0.6)',
+            border: '2px solid rgba(10, 88, 202, 0.8)',
+            font_weight: '800',
+            color: '#146DF0',
           }}
         >
           주가 정보
@@ -529,161 +439,163 @@ const Home=()=>{
             isHelpBoxOpen ? 'blurred-background-help-visible' : ''
           }`}
         ></div>
-
-
         <div className="blurred-background"
           style={{
             top: mousePosition.y - 40,
             left: mousePosition.x - 60,
           }}
         ></div>
-        <div className="ani-size"> 
-          <section id="home">
-          <section ref={featuresRef} className="features-icons bg-light text-center">
-            {/* <div className="hothot" style={{width:'70%'}}> */}
-            <div className='hotkeywordsDiv'>
-              <div className="titlediv">
-                <p style={{font:"1.4rem"}}>뉴스피스 실시간 키워드</p>
-              </div>
-              <div className="hotkeyword" >
-                
-               {/* 주요 키워드 표시 */}
-                {hot5Keywords.map((keyword, index) => (
-                  <p
-                    key={index}
-                    style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal', cursor: 'pointer'}}
-                    onClick={() => {
-                      setCurrentHot5KeywordIndex(index);
-                      handleMainKeywordClick(keyword);
-                    }}
-                    // onMouseEnter={() => handleKeywordMouseEnter(keyword)}
-                  >
-                    {index + 1}. {keyword}
-                  </p>
-                ))}
-              </div>
-              </div>
-              <div className="hotnews">
-                {/* 왼쪽에 이미지와 제목 출력 */}
-                <div className="left-panel">
-                  {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
-                    hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
-                      <div key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
-                        {index === 0 ? (
-                          <div>
-                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                              <img src={item.img} alt={item.title} />
-                            </a>
-                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                              <p style={{ fontWeight: 'bold' }} className='newstitle'>{item.title}</p>
-                            </a>
-                          </div>
-                        ) : null}
-                      </div>
-                    ))
-                  ) : (
-                    <p>해당 키워드에 대한 뉴스가 없습니다.</p>
-                  )}
-                </div>
-                
-                {/* 오른쪽에 제목만 4개 출력 */}
-                <div className="right-panel">
-                  {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
-                    hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
-                      index > 0 ? (
-                        <div key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
-                          <p
-                            style={{ cursor: 'pointer', fontWeight: 'normal' }}
-                            onMouseOver={(e) => {
-                              e.target.style.fontWeight = 'bold';
-                            }}
-                            onMouseOut={(e) => {
-                              e.target.style.fontWeight = 'normal';
-                            }}
-                            className='newstitle'
-                          >
-                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                              {item.title}
-                            </a>
-                          </p>
-                        </div>
-                      ) : null
-                    ))
-                  ) : null}
-                </div>
-              </div>
-            {/* </div> */}
-          </section>
-
-          </section>
-          {/* <button
-            onClick={scrollToFeaturesSection}
-            className="scroll-to-features-button"
-            style={{
-              position: 'fixed',
-              bottom: '20px',
-              right: '20px',
-              zIndex: '999',
-            }}
-          >
-            Scroll to Features Section
-          </button> */}
-          <div className="showcase"   style={{paddingTop:'2rem', paddingBottom:'2rem'}}>
-            <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr>
+        <div className='mainFirstDiv'>
+          <div className='mediaCompany'>
+            <p>언론사</p>
+            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
+            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
+            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
+            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
+            <img src={News1} style={{width:"110px", height:"46px", marginRight:"30px"}}></img>
+          </div>
+          <div className="ani-size"> 
             <section id="home">
+            <section ref={featuresRef} className="hotNewDiv">
+              {/* <div className="hothot" style={{width:'70%'}}> */}
+              <div className='hotkeywordsDiv'>
+                <div className="titlediv">
+                  <p >실시간 키워드</p>
+                </div>
+                <div className="hotkeyword" >
+                  {/* 주요 키워드 표시 */}
+                  {hot5Keywords.map((keyword, index) => (
+                    <p
+                      key={index}
+                      style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal', cursor: 'pointer'}}
+                      onClick={() => {
+                        setCurrentHot5KeywordIndex(index);
+                        handleMainKeywordClick(keyword);
+                      }}
+                      // onMouseEnter={() => handleKeywordMouseEnter(keyword)}
+                    >
+                      {index + 1}. {keyword}
+                    </p>
+                  ))}
+                </div>
+                
+              </div>
+                {/* <hr style={{width:"364px", transform: "rotate(-90deg)", top:"1000px"}}></hr> */}
 
+                <div className="hotnews">
+                  {/* 왼쪽에 이미지와 제목 출력 */}
+                  <div className='hotNewsTitle'>
+                    <p>실시간 "{hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]}" 뉴스</p>
+                  </div>
+                  <div className='newsDIv'>
+                    <div className="left-panel">
+                      {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
+                        hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                          <div key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                            {index === 0 ? (
+                              <div>
+                                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                                  <img src={item.img} alt={item.title} />
+                                </a>
+                                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                                  <p style={{ fontWeight: 'bold' }} className='newstitle'>{item.title}</p>
+                                </a>
+                              </div>
+                            ) : null}
+                          </div>
+                        ))
+                      ) : (
+                        <p>해당 키워드에 대한 뉴스가 없습니다.</p>
+                      )}
+                    </div>
+                    
+                    {/* 오른쪽에 제목만 4개 출력 */}
+                    <div className="right-panel">
+                      {hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]] ? (
+                        hot5KeywordsInfo[hoveredKeyword || hot5Keywords[currentHot5KeywordIndex]].map((item, index) => (
+                          index > 0 ? (
+                            <div key={index} className={`keyword ${index === 0 ? 'bold' : ''}`}>
+                              <p
+                                style={{ cursor: 'pointer', fontWeight: 'normal' }}
+                                onMouseOver={(e) => {
+                                  e.target.style.fontWeight = 'bold';
+                                }}
+                                onMouseOut={(e) => {
+                                  e.target.style.fontWeight = 'normal';
+                                }}
+                                className='newstitle'
+                              >
+                                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                                  {item.title}
+                                </a>
+                              </p>
+                            </div>
+                          ) : null
+                        ))
+                      ) : null}
+                    </div>
+                  </div>
+                  </div>
+                  
+              {/* </div> */}
+            </section>
+
+            </section>
+          </div>
+
+          <div className="showcase"   style={{paddingTop:'2rem', paddingBottom:'2rem', height:"900px"}}>
+            {/* <hr style={{marginRight:'15%', marginLeft:'15%', marginBottom:'5rem'}}></hr> */}
+            <h2><b>Newspeace</b>는 어떤 서비스인가요 ? </h2>
             <div className="container-fluid p-0" style={{ width: '90%', margin: '0 auto', display: 'flex' }}>
               
               <div className="col-lg-6" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img src={Service} style={{ width: '70%', height: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)'}} alt="Service" />
               </div>
 
-              <div className="col-lg-6" id='aboutus'>
+              <div className="col-lg-6" id='aboutus' style={{width:"569px"}}>
                 <div className="showcase-text" style={{ width: '100%', height: 'auto' }}>
-                  <h2><b>Newspeace</b>는 어떤 서비스인가요 ? </h2>  
-                  <div className="feature" style={{ marginTop: '5rem' }}>
-                    <h3>일주일 단위 기사 데이터 수집</h3>
-                    <p style={{ fontSize: '1.07rem' }}>최근 일주일 동안의 뉴스기사를 수집하여 검색한 키워드에 대한 기사를 분석합니다.</p>
+                    
+                  <div className="feature">
+                    <p className='smalltitle'>키워드 분석</p>
+                    <p style={{ fontSize: '1.07rem',color: "#333333" }}>최근 일주일 동안의 뉴스기사를 수집하여 검색한 키워드에 대한 기사를 분석합니다.</p>
                   </div>
 
-                  <div className="feature" style={{ marginTop: '3rem' }}>
-                    <h3>뉴스기사 별 여론 분석</h3>
-                    <p style={{ fontSize: '1.07rem' }}>AI 모델을 활용하여 각 기사의 감정분석을 수행하고 긍정과 부정의 비율을 제공합니다.</p>
+                  <div className="feature" >
+                    <p className='smalltitle'>여론 분석</p>
+                    <p style={{ fontSize: '1.07rem',color: "#333333" }}>AI 모델을 활용하여 각 기사의 감정분석을 수행하고 긍정과 부정의 비율을 제공합니다.</p>
                   </div>
 
-                  <div className="feature" style={{ marginTop: '3rem' }}>
-                    <h3>실시간 주가 정보 확인</h3>
-                    <p style={{ fontSize: '1.07rem' }}>증권정보를 실시간으로 반영해서 분석 결과에 따른 주가 파악에 도움이 될 수 있습니다.</p>
+                  <div className="feature" >
+                    <p className='smalltitle'>주가 확인</p>
+                    <p style={{ fontSize: '1.07rem', color: "#333333"}}>증권정보를 실시간으로 반영해서 분석 결과에 따른 주가 파악에 도움이 될 수 있습니다.</p>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
           </div>
           
-          <div className="chatbot text-center" style={{width:'70%', margin: '0 auto', paddingTop:'2rem', paddingBottom:'11rem'}}>
-          <section id="home">
-            <div className="image-and-heading"><hr></hr>
-              <h2><img src={chatbot} style={{ width: '5%', height: '10%'}} alt="chatbot" />
-              챗봇 서비스
-              </h2>
-            </div>
-            <p style={{ fontSize: '1.5rem' }}>카카오톡 ➡️ <b>"뉴스피스(Newspeace)"</b> 채널 등록 후 서비스를 이용해보세요!</p>
-            <p style={{ fontSize: '1.2rem' }}>🐶사진을 확대하려면 마우스를 올려주세요.🐶</p>
-            <div className="showphone" style={{ display: 'flex', justifyContent: 'center', marginTop:'3rem'}}>
-              <img src={second} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="second"
+          <div className="chatbot text-center" style={{width:'1200px', margin: '0 auto', marginTop:"60px"}}>
+            <div className="showphone" style={{width:"630px"}} >
+              <img src={second} style={{ width: '30%', height: '100%', transition: 'transform 0.3s' }} alt="second"
                 className="enlarge-on-hover"/>
+              
+              <img src={first} style={{ width: '30%', height: '100%', transition: 'transform 0.3s' }} alt="first"
+                className="enlarge-on-hover"/>
+            </div>
 
-              <div style={{ flexDirection: 'column', alignItems: 'bottom', marginTop: '10rem' }}>
-                <img src={qr} style={{ width: '20%', height: 'auto'}} alt="qr" className="qr-hover" />
+            <div className="image-and-heading" style={{width:"570px"}}>
+              <h2 style={{marginBottom:"40px"}}>챗봇 서비스</h2>
+              <p style={{ fontSize: '1.3rem' }}>카카오톡에서 <b>"뉴스피스(Newspeace)"</b> 채널 등록 후 서비스를 이용해보세요!</p>
+              <p style={{ fontSize: '1rem',color: "#999999" }}>*사진을 확대하려면 마우스를 올려주세요.</p>
+              <div style={{ flexDirection: 'column', alignItems: 'bottom', marginTop: '4rem' }}>
+                <img src={qr} style={{ width: '15%', height: 'auto'}} alt="qr" className="qr-hover" />
                 <p style={{ fontSize: '1rem'}}><b>[Newspeace 채널]</b></p>
               </div>
-              
-              <img src={first} style={{ width: '17%', height: '23%', transition: 'transform 0.3s' }} alt="first"
-                className="enlarge-on-hover"/>
             </div>
-          </section>
-
           </div>
         
         {/* <section className="testimonials text-center bg-light">
