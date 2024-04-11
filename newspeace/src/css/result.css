@@ -8,7 +8,8 @@
     margin-top: 30px;
     margin-bottom: 30px;
     width: 85%;
-    background-color: rgb(227, 227, 227);
+    /* background-color: rgb(227, 227, 227); */
+    margin-top: 10%;
     
 }
 
@@ -42,34 +43,75 @@
 .mb-4 {
     margin-bottom: 1rem;
 }
-
+.box {
+    margin: 2rem;
+}
 .bar-container {
-    display: flex;
+    /* display: flex; */
     max-width: 100%;
     overflow: hidden;
     font-weight: bold;
+    border: solid 2px #d8d8d8;
+    border-radius: 1rem;
     
 }
 
 .positive-bar,
-.negative-bar {
-    height: 2.5rem;
-    border-radius: 0.25rem;
+.negative-bar,
+.neutral-bar {
+    height: 2rem;
+    border-radius: 1rem;
     text-align: center;
     padding-top: 7px;
+    margin: 30px;
+    /* background-color: #ececec; */
+    
 }
 
 .positive-bar {
-    background: linear-gradient(to right,#2ecc71, #16a085 ); /* 그라데이션 효과 */
-    width: 30%;
+    background: linear-gradient(to right,rgba(20, 109, 240, 0.25), #146DF0 ); /* 그라데이션 효과 */
+    width: 100%;
     animation: 2s ease-out 0s 1 slideInFromLeft;
 }
 
 .negative-bar {
-    background: linear-gradient(to right, #ff3333, #ff6666);
+    background: linear-gradient(to right, rgba(237, 63, 126, 0.25), #ED3F7E);
     width: 70%;
-    animation: 2s ease-out 0s 1 slideInFromRight;
+    animation: 2s ease-out 0s 1 slideInFromLeft;
 }
+/* 중립 바에 대한 스타일 */
+.neutral-bar {
+    background: linear-gradient(to right, rgba(66, 205, 17, 0.25), #42CD11); /* 중립 바의 그라데이션 색상 */
+    animation: 2s ease-out 0s 1 slideInFromLeft; /* 애니메이션 효과 */
+}
+
+.npn {
+    display: flex;
+    justify-content: space-around;
+    width: 25%;
+    font-size: 1.5rem;
+    margin-left: 2rem;
+    text-align: left;
+    
+
+}
+
+.npn-search {
+    margin-top: 1.5rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+   
+    
+}
+
+.npn-info {
+    border: solid 2px #d8d8d8;
+    border-radius: 1rem;
+    align-items: center;
+}
+
 
 @keyframes slideInFromLeft {
     from {
@@ -90,7 +132,7 @@
 }
 
 .list-container {
-    display: flex;
+    
     width: 100%;
     gap: 10px;
     margin-top: 40px;
@@ -100,12 +142,12 @@
 .list-box,
 .list-box_ng {
     background-color: #f9f9f9;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     height: 600px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.18); */
 }
 
 /*긍,부정도 따라 색 변화 */
@@ -116,14 +158,10 @@
     box-shadow: 0 0 10px rgba(255, 78, 78, 1.0); /* 빨간색 그림자 */
 }
 
-.list-title {
-    text-align: center;
-    font-size: 2rem;
-}
 
 .article-list {
     overflow-y: auto;
-    max-height: 600px;
+    max-height: 800px;
     padding-right: 10px;
 }
 
@@ -131,9 +169,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 15px 0;
     border-bottom: 1px solid #e1e1e1;
     /* margin-bottom: 10px;  */
+    /* margin-top: -1%; */
 }
 
 .article-link {
@@ -168,8 +207,8 @@
 
 .article-img{
     margin-right: 10px;
-    width:80px;
-    height:60px;
+    width:120px;
+    height:80px;
     border-radius: 5px;
 }
 .article-content {
@@ -190,50 +229,38 @@
   }
   .article-count {
     text-align: right;
-    margin-bottom: -3%;
+    margin-top: -1%;
   }
   .relatedKeywordDiv{
     align-items: left;
   }
 
-/* styles.css */
-
-.search-related-keywords {
-    text-align: left;
-}
-  
-.search-related-keywords p {
-font-size: 1.2rem;
-font-weight:1000;
-margin-bottom: 10px;
-padding-left: 10px;
-
+.search-related-keywords{
+    height: 80%; /* 세로 선의 높이를 조정합니다 */
+    border-left: 2px solid #ccc; /* 세로 선의 스타일 및 색상 설정 */
+    text-align: center;
 }
 
 .search-related-keywords span {
 /* 추가적인 스타일링이 필요하다면 여기에 추가 */
-font-size: 1rem;
-font-weight: lighter;
-margin-left: 2%;
-
+    font-size: 1.2rem;
+    font-weight: lighter;
+    margin-left: 2%;
+    font-weight:500;
+    
+   
+    
 }
-.search-related-keywords .related_keyword {
+
+.related_keyword {
     /* 키워드에 대한 추가적인 스타일링을 여기에 추가 */
-    margin-right: 20px; /* 각 키워드 사이 간격 조절 */
+    margin-right: 20px;  /* 각 키워드 사이 간격 조절 */
     cursor: pointer;
-}
-/* 중립 바에 대한 스타일 */
-.neutral-bar {
-    background: linear-gradient(to right, #3498db, #2980b9); /* 중립 바의 그라데이션 색상 */
-    height: 2.5rem; /* 높이 설정 */
-    border-radius: 0.25rem; /* 둥근 모서리 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    padding-top: 7px; /* 텍스트와 상단 간격 */
-    animation: 2s ease-out 0s 1 slideInFromLeft; /* 애니메이션 효과 */
+
+    
+    border-radius: 0.5rem;
+    background-color: #e2e2e2;
 }
 
-/* 중립 의견이 높을 때 적용할 테두리 스타일 */
-.blue-shadow {
-    box-shadow: 0 0 10px rgba(52, 152, 219, 1.0); /* 파란색 그림자 */
-}
+
 
