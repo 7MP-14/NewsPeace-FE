@@ -11129,6 +11129,7 @@ footer.footer {
   align-items: center; /* 요소들을 수직 가운데로 정렬합니다. */
   justify-content: space-between; /* 요소들 사이의 간격을 균등하게 배치합니다. */
   text-align: center;
+  background-color: white;
 }
 .mediaCompany p{
   font-weight: 800;
@@ -11159,6 +11160,8 @@ footer.footer {
   margin-bottom: 50px;
   display: flex;
   padding-bottom: 20px;
+  background-color: white;
+
 
 }
 .hotkeywordsDiv{
@@ -11171,6 +11174,7 @@ footer.footer {
   margin-left:20px;
   margin-top: 20px;
   border-right:2px solid rgba(204, 204, 204, 0.6);
+
 }
 .hotkeywordsDiv p{
   font-weight: 600;

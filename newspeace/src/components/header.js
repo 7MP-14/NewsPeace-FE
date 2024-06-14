@@ -216,8 +216,8 @@ useEffect(() => {
               (
                 <span className="mainfuncbtn">
                   <a className="navibtn" href="/notice">공지사항</a>
-                  <a className="navibtn" href="/notice">뉴스피스 소개</a>
-                  <a className="navibtn" href="/notice">뉴스보기</a>
+                  {/* <a className="navibtn" href="/notice">뉴스피스 소개</a> */}
+                  {/* <a className="navibtn" href="/notice">뉴스보기</a> */}
                   {/* <a className="navibtn" href="/scrap">즐겨찾기</a> */}
                   <a className="navibtn" href="/mypage">마이페이지</a>
                   <a className="navibtn" href="/logout">로그아웃</a>
@@ -227,7 +227,7 @@ useEffect(() => {
                 <span>
                   <span className="mainfuncbtn">
                     <a className="navibtn" href="/notice">공지사항</a>
-                    <a className="navibtn" href="/notice">뉴스피스 소개</a>
+                    {/* <a className="navibtn" href="/notice">뉴스피스 소개</a> */}
                   </span>
                   <span className="loginbtn">
                     <a className="navibtn" style={{cursor:"pointer"}} onClick={openLoginModal}>로그인</a>

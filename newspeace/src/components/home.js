@@ -10,6 +10,11 @@ import arrow from '../img/화살표.png';
 import kpilogo from '../img/kpilogo.png';
 import Service from '../img/Service.png';
 import News1 from '../img/경향신문.jpeg';
+import News2 from '../img/매일경제.jpeg';
+import News3 from '../img/kbs.jpeg';
+import News4 from '../img/sbs.jpeg';
+import News5 from '../img/mbc.jpeg';
+
 import people1 from '../img/people1.png';
 import people2 from '../img/people2.jpg';
 import people3 from '../img/people3.jpg';
@@ -42,6 +47,7 @@ const Home=()=>{
   const totalTabs = Math.ceil(Object.keys(kpi).length / itemsPerPage);
   const featuresRef = useRef(null);
   const scrollRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
   //// 스크롤
   useEffect(() => {
     const handleScroll = () => {
@@ -198,7 +204,15 @@ useEffect(() => {
     setCurrentTab((prevTab) => (prevTab === totalTabs - 1 ? 0 : prevTab + 1));
   };
   ///
-
+  useEffect(() => {
+    let interval;
+    if (!isHovered) {
+      interval = setInterval(() => {
+        setCurrentHot5KeywordIndex((prevIndex) => (prevIndex + 1) % hot5Keywords.length);
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, hot5Keywords.length]);
   
 
   //실시간 키워드 검색 FETCH 함수
@@ -329,6 +343,7 @@ useEffect(() => {
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
+    
   }, []);
     return (  
       <>
@@ -448,15 +463,25 @@ useEffect(() => {
         <div className='mainFirstDiv'>
           <div className='mediaCompany'>
             <p>언론사</p>
-            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <a href="https://www.khan.co.kr/">
+              <img src={News1} style={{width:"110px", height:"46px", cursor:"pointer"}}></img>
+            </a>
             <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
-            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <a href="https://www.mk.co.kr/">
+              <img src={News2} style={{width:"110px", height:"46px", cursor:"pointer"}}></img>
+            </a>
             <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
-            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <a href="https://news.kbs.co.kr/news/pc/main/main.html">
+              <img src={News3} style={{width:"110px", height:"46px", cursor:"pointer"}}></img>
+            </a>
             <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
-            <img src={News1} style={{width:"110px", height:"46px"}}></img>
+            <a href="https://news.sbs.co.kr/news/newsMain.do">
+              <img src={News4} style={{width:"110px", height:"46px", cursor:"pointer"}}></img>
+            </a>
             <hr style={{width:"46px", transform: "rotate(-90deg)"}}></hr>
-            <img src={News1} style={{width:"110px", height:"46px", marginRight:"30px"}}></img>
+            <a href="https://imnews.imbc.com/pc_main.html">
+              <img src={News5} style={{width:"110px", height:"46px", marginRight:"30px", cursor:"pointer"}}></img>
+            </a>
           </div>
           <div className="ani-size"> 
             <section id="home">
@@ -464,26 +489,36 @@ useEffect(() => {
               {/* <div className="hothot" style={{width:'70%'}}> */}
               <div className='hotkeywordsDiv'>
                 <div className="titlediv">
-                  <p >실시간 키워드</p>
+                  <p>실시간 키워드</p>
                 </div>
-                <div className="hotkeyword" >
-                  {/* 주요 키워드 표시 */}
+                <div className="hotkeyword">
                   {hot5Keywords.map((keyword, index) => (
                     <p
                       key={index}
-                      style={{ fontWeight: index === currentHot5KeywordIndex ? 'bold' : 'normal', cursor: 'pointer'}}
+                      style={{
+                        fontWeight: index === currentHot5KeywordIndex || keyword === hoveredKeyword ? 'bold' : 'normal',
+                        cursor: 'pointer'
+                      }}
                       onClick={() => {
                         setCurrentHot5KeywordIndex(index);
                         handleMainKeywordClick(keyword);
                       }}
-                      // onMouseEnter={() => handleKeywordMouseEnter(keyword)}
+                      onMouseEnter={() => {
+                        setHoveredKeyword(keyword);
+                        setIsHovered(true);
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredKeyword(null);
+                        setIsHovered(false);
+                      }}
                     >
                       {index + 1}. {keyword}
                     </p>
                   ))}
                 </div>
+                </div>
                 
-              </div>
+              
                 {/* <hr style={{width:"364px", transform: "rotate(-90deg)", top:"1000px"}}></hr> */}
 
                 <div className="hotnews">
